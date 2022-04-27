@@ -28,13 +28,12 @@ import javax.swing.border.LineBorder;
 import java.awt.SystemColor;
 import javax.swing.UIManager;
 
-import controlador.ChangeSport;
+import controlador.ChangeWindow;
 
 public class InterfazPrincipal {
 
 	private JFrame frame;
-	public static ChangeSport newSport = new ChangeSport("");
-	
+	public static ChangeWindow change = new ChangeWindow("");
 	/**
 	 * Launch the application.
 	 */
@@ -153,7 +152,7 @@ public class InterfazPrincipal {
 		lblFecha.setBounds(1330, 63, 139, 25);
 		mainPanel.add(lblFecha);
 		
-		String hora = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
+		String hora = new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime());
 		JLabel lblHora = new JLabel(hora);
 		lblHora.setFont(new Font("Calibri", Font.BOLD, 16));
 		lblHora.setForeground(new Color(102, 0, 153));
@@ -208,8 +207,7 @@ public class InterfazPrincipal {
 		btnPadel.setBounds(153, 46, 213, 137);
 		btnPadel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				newSport.alegria("padel");
+				change.newWindowApp("padel",frame);
 			}
 		});
 		ImageIcon imagePadel = new ImageIcon(new ImageIcon(InterfazPrincipal.class.getResource("/images/padel.jpg")).getImage().getScaledInstance(213,137,Image.SCALE_DEFAULT));
