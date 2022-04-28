@@ -8,9 +8,11 @@ public class ChangePanelHours {
 	}
 
 	public void newPanelHours(String day, JPanel[] panel) {
+		
 		for (int i=0;i<panel.length;i++) {
 			panel[i].setVisible(false);
 		}
+		
 		if (day == "LUNES")
 			panel[0].setVisible(true);
 		else if (day == "MARTES")
