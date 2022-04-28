@@ -6,7 +6,10 @@ public class PadelBooking {
 	private final double firstHour = 7.5;
 	private final double bookingTime = 1.5;
 	private final int totalSchedules = 2;
-
+	
+	// Cuantos usuarios pueden llegar a usar una hora en padel
+	private final int totalUsers = 4;
+	
 	// Constructor
 	public PadelBooking() {
 		padelWeek = new WeekBtn(totalSchedules,totalHours,firstHour,bookingTime);

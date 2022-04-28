@@ -37,7 +37,7 @@ public class ReservaPadel implements ActionListener {
 	private JButton[] btnHoursArray = new JButton[10];
 
 	private JFrame frame;
-
+	
 	public ReservaPadel() {
 		initialize();
 	}
@@ -94,6 +94,9 @@ public class ReservaPadel implements ActionListener {
 		// --------- DIAS SEMANA ----------
 		getDayBtns(mainPanel);
 
+		// ---------- HORARIOS  ----------
+		getHourBtns();
+				
 		// ---------- PANEL SUPERIOR ----------
 		JPanel panelSup = new JPanel();
 		panelSup.setBackground(new Color(255, 255, 255));
@@ -189,9 +192,6 @@ public class ReservaPadel implements ActionListener {
 		mainPanel.add(lblTitulo);
 		lblTitulo.setForeground(new Color(71, 0, 100));
 		lblTitulo.setFont(new Font("Calibri", Font.BOLD, 45));
-
-		// ---------- HORARIOS LUNES PANEL 1 ----------
-		getHourBtns();
 		
 	}
 
@@ -241,22 +241,8 @@ public class ReservaPadel implements ActionListener {
 	private void getDayBtns(JPanel panel) {
 		for (int i = 0; i < 7; i++) {
 
-			/*if (i == 0)
-				btnDaysArray[i] = new JButton("LUNES");
-			else if (i == 1)
-				btnDaysArray[i] = new JButton("MARTES");
-			else if (i == 2)
-				btnDaysArray[i] = new JButton("MIERCOLES");
-			else if (i == 3)
-				btnDaysArray[i] = new JButton("JUEVES");
-			else if (i == 4)
-				btnDaysArray[i] = new JButton("VIERNES");
-			else if (i == 5)
-				btnDaysArray[i] = new JButton("SABADO");
-			else if (i == 6)
-				btnDaysArray[i] = new JButton("DOMINGO");*/
 			btnDaysArray[i] = new JButton();
-			btnDaysArray[i].setText(padel.getPadelWeek().getWeek().get(i).getDayName().toUpperCase());
+			btnDaysArray[i].setText(padel.getPadelWeek().getDayBtn(i).getDayName().toUpperCase());
 			btnDaysArray[i].addActionListener(this);
 			btnDaysArray[i].setBackground(new Color(248, 248, 255));
 			btnDaysArray[i].setForeground(new Color(71, 0, 100));
@@ -271,10 +257,12 @@ public class ReservaPadel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		String button = ((AbstractButton) e.getSource()).getText();
-		System.out.println(button);
-		if (button == "LUNES" || button == "MARTES" || button == "MIERCOLES" || button == "JUEVES"
-				|| button == "VIERNES" || button == "SABADO" || button == "DOMINGO")
+
+		if (button.equals("LUNES") || button.equals("MARTES")|| button.equals("MIERCOLES")
+				|| button.equals("JUEVES")|| button.equals("VIERNES")|| button.equals("SABADO")
+				|| button.equals("DOMINGO")) {			 
 			panelHours.newPanelHours(button, panelDaysArray);
+		}
 		else {
 			evaluateHourBtn(((AbstractButton) e.getSource()));
 		}
@@ -284,5 +272,4 @@ public class ReservaPadel implements ActionListener {
 	private void evaluateHourBtn(AbstractButton source) {
 		System.out.println(source.getName());
 	}
-
 }

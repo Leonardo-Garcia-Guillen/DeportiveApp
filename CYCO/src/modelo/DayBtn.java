@@ -38,6 +38,8 @@ public class DayBtn {
 	private int newDayNumber() {
 		staticDayNumber++;
 
+		if (staticDayNumber >= 7)
+			staticDayNumber = 0;
 		return staticDayNumber;
 	}
 

@@ -13,19 +13,19 @@ public class ChangePanelHours {
 			panel[i].setVisible(false);
 		}
 		
-		if (day == "LUNES")
+		if (day.equals("LUNES"))
 			panel[0].setVisible(true);
-		else if (day == "MARTES")
+		else if (day.equals("MARTES"))
 			panel[1].setVisible(true);
-		else if (day == "MIERCOLES")
+		else if (day.equals("MIERCOLES"))
 			panel[2].setVisible(true);
-		else if (day == "JUEVES")
+		else if (day.equals("JUEVES"))
 			panel[3].setVisible(true);
-		else if (day == "VIERNES")
+		else if (day.equals("VIERNES"))
 			panel[4].setVisible(true);
-		else if (day == "SABADO")
+		else if (day.equals("SABADO"))
 			panel[5].setVisible(true);
-		else if (day == "DOMINGO")
+		else if (day.equals("DOMINGO"))
 			panel[6].setVisible(true);
 
 	}
