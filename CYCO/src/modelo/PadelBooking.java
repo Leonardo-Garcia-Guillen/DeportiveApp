@@ -16,6 +16,10 @@ public class PadelBooking {
 		
 	}
 
+	public int getAvailableHour() {
+		return 0;
+	}
+	
 	public int getTotalHours() {
 		return totalHours;
 	}
@@ -39,6 +43,12 @@ public class PadelBooking {
 	public void setPadelWeek(WeekBtn padelWeek) {
 		this.padelWeek = padelWeek;
 	}
+
+	public int getTotalUsers() {
+		return totalUsers;
+	}
+
+	
 
 	
 

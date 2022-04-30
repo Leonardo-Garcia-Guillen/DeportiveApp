@@ -11,12 +11,12 @@ public class BANCO_PRUEBAS {
 		try {
 			// Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = (Connection) DriverManager.getConnection("jdbc:mysql://192.168.50.27:3306/cy&co", "Leo", "CYCO");
-			System.out.println("¡¡ Conectado con la base Cy&Co !!");
+			System.out.println("Â¡Â¡ Conectado con la base Cy&Co !!");
 			java.sql.Statement stmt = conn.createStatement();
 			String query1 = "INSERT INTO usuarios " + "VALUES ('lgargui', 'garcia', 'guillen','AA','leonardo')";
 			stmt.executeUpdate(query1);
 			System.out
-					.println("Los datos han sido añadido a la base de datos..... \nAhora una cerveza para celebrarlo");
+					.println("Los datos han sido aÃ±adido a la base de datos..... \nAhora una cerveza para celebrarlo");
 			conn.close();
 
 		} catch (Exception e) {

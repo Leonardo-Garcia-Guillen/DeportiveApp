@@ -6,6 +6,7 @@ public class HourBtn {
 	private static String staticHourStr = "";
 	public HourBtn(double firstHour, double bookingTime) {
 		hourStr = newHourStr(firstHour,bookingTime);
+		
 	}
 	
 	public String newHourStr(double firstHour, double bookingTime) {

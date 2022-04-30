@@ -114,22 +114,15 @@ public class InterfazPrincipal {
 		btnAyuda.setFont(new Font("Calibri", Font.BOLD, 16));
 		btnAyuda.setForeground(new Color(255, 255, 255));
 		btnAyuda.setBackground(new Color(153, 51, 204));
-		btnAyuda.setBounds(701, 0, 95, 44);
+		btnAyuda.setBounds(851, 0, 95, 44);
 		panel_1.add(btnAyuda);
 		
 		JButton btnContacto = new JButton("Contacto");
 		btnContacto.setFont(new Font("Calibri", Font.BOLD, 16));
 		btnContacto.setForeground(new Color(255, 255, 255));
 		btnContacto.setBackground(new Color(153, 51, 204));
-		btnContacto.setBounds(824, 0, 95, 44);
+		btnContacto.setBounds(975, 0, 95, 44);
 		panel_1.add(btnContacto);
-		
-		JButton btnCalendario = new JButton("Calendario");
-		btnCalendario.setFont(new Font("Calibri", Font.BOLD, 16));
-		btnCalendario.setForeground(new Color(255, 255, 255));
-		btnCalendario.setBackground(new Color(153, 51, 204));
-		btnCalendario.setBounds(946, 0, 121, 44);
-		panel_1.add(btnCalendario);
 		
 		JButton btnMiPerfil = new JButton("Mi perfil");
 		btnMiPerfil.setFont(new Font("Calibri", Font.BOLD, 16));

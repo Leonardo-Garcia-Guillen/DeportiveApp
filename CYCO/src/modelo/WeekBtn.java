@@ -1,8 +1,5 @@
 package modelo;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.LinkedList;
 
 public class WeekBtn {

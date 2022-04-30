@@ -25,6 +25,7 @@ import controlador.ChangePanelHours;
 import controlador.ChangeWindow;
 import modelo.PadelBooking;
 import modelo.WeekBtn;
+import javax.swing.JRadioButton;
 
 public class ReservaPadel implements ActionListener {
 	// STATIC
@@ -37,6 +38,8 @@ public class ReservaPadel implements ActionListener {
 	private JButton[] btnHoursArray = new JButton[10];
 
 	private JFrame frame;
+	
+	private int availableHour;
 	
 	public ReservaPadel() {
 		initialize();
@@ -122,15 +125,8 @@ public class ReservaPadel implements ActionListener {
 		btnAyuda.setFont(new Font("Calibri", Font.BOLD, 16));
 		btnAyuda.setForeground(new Color(255, 255, 255));
 		btnAyuda.setBackground(new Color(100, 0, 140));
-		btnAyuda.setBounds(826, 0, 95, 44);
+		btnAyuda.setBounds(973, 0, 95, 44);
 		panelSup.add(btnAyuda);
-
-		JButton btnCalendario = new JButton("Calendario");
-		btnCalendario.setFont(new Font("Calibri", Font.BOLD, 16));
-		btnCalendario.setForeground(new Color(255, 255, 255));
-		btnCalendario.setBackground(new Color(100, 0, 140));
-		btnCalendario.setBounds(946, 0, 121, 44);
-		panelSup.add(btnCalendario);
 
 		JButton btnMiPerfil = new JButton("Mi perfil");
 		btnMiPerfil.setFont(new Font("Calibri", Font.BOLD, 16));
@@ -148,7 +144,7 @@ public class ReservaPadel implements ActionListener {
 		btnInicio.setFont(new Font("Calibri", Font.BOLD, 16));
 		btnInicio.setForeground(new Color(255, 255, 255));
 		btnInicio.setBackground(new Color(71, 0, 100));
-		btnInicio.setBounds(705, 0, 95, 44);
+		btnInicio.setBounds(853, 0, 95, 44);
 		panelSup.add(btnInicio);
 
 		// ---------- FECHA Y HORA ----------
@@ -200,13 +196,16 @@ public class ReservaPadel implements ActionListener {
 		int y = 0;
 		int schedulesTotal = padel.getTotalSchedules();
 		int hoursTotal = padel.getTotalHours();
-
+		int weekYear; 
+		
 		for (int day = 0; day < 7; day++) {
+			weekYear = padel.getPadelWeek().getDayBtn(day).getWeekYear();
 			for (int schedule = 0; schedule < schedulesTotal; schedule++) {
 				for (int hour = 0; hour < hoursTotal; hour++) {
 					btnHoursArray[hour] = new JButton(padel.getPadelWeek().getDayBtn(day).getSchedules().get(schedule)
 							.getSchedule().get(hour).getHourStr());
-					btnHoursArray[hour].setName(""+day+schedule+hour);
+					// Nombre: 0 (padel) + nº de la semana respecto del año + dia + pista + hora 
+					btnHoursArray[hour].setName("0-"+weekYear+"-"+day+"-"+schedule+"-"+hour);
 					btnHoursArray[hour].addActionListener(this);
 					panelDaysArray[day].add(btnHoursArray[hour]);
 					btnHoursArray[hour].setForeground(new Color(71, 0, 100));
@@ -266,10 +265,10 @@ public class ReservaPadel implements ActionListener {
 		else {
 			evaluateHourBtn(((AbstractButton) e.getSource()));
 		}
-
 	}
 
 	private void evaluateHourBtn(AbstractButton source) {
 		System.out.println(source.getName());
+		availableHour = 4 - padel.getAvailableHour();
 	}
 }
