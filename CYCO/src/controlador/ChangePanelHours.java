@@ -1,13 +1,13 @@
 package controlador;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class ChangePanelHours {
 	public ChangePanelHours() {
 
 	}
-
-	public void newPanelHours(String day, JPanel[] panel) {
+public void newPanelHours(String day, JPanel[] panel) {
 		
 		for (int i=0;i<panel.length;i++) {
 			panel[i].setVisible(false);
@@ -29,5 +29,38 @@ public class ChangePanelHours {
 			panel[6].setVisible(true);
 
 	}
+
+	
+/*
+	public void newPanelHours(String day, JButton[] btns,int totalBtns) {
+		int dayN=0;
+		int init = dayN*totalBtns-1;
+		if (day.equals("LUNES")) {
+			dayN = 0;
+			init = dayN*totalBtns;
+		}			
+		else if (day.equals("MARTES"))
+			dayN = 1;
+		else if (day.equals("MIERCOLES"))
+			dayN = 2;
+		else if (day.equals("JUEVES"))
+			dayN = 3;
+		else if (day.equals("VIERNES"))
+			dayN = 4;
+		else if (day.equals("SABADO"))
+			dayN = 5;
+		else if (day.equals("DOMINGO"))
+			dayN = 6;
+		
+		for (int i=0;i<btns.length;i++) {
+			btns[i].setVisible(false);
+		}
+		
+		for (int i=init;i<dayN*totalBtns;i++) {
+			btns[i].setVisible(true);
+		}
+
+	}*/
+	
 
 }
