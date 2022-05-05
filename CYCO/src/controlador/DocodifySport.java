@@ -1,16 +1,18 @@
 package controlador;
 
 public class DocodifySport {
-	private String sport;
+	private int sport;
 	private int weekYear;
 	private String day;
 	private int schedule;
 	private String hour;
 	private int users;
 	
+	private int availableUsers;
+	
 	private static int pointer = 0;
 	
-	private static String staticSport = "";
+	private static int staticSport = 0;
 	private static int staticWeekYear = 0;
 	private static String staticDay = "";
 	private static int staticSchedule = 0;
@@ -86,14 +88,15 @@ public class DocodifySport {
 		return staticWeekYear;
 	}
 
-	public String decodeSport(String sportCodify) {
+	public int decodeSport(String sportCodify) {
 		int index, sportNumber;
 		
 		index = sportCodify.indexOf("-", 0);
 		pointer = index+1;
 
 		sportNumber = Integer.parseInt(sportCodify.substring(0, index));
-		
+		staticSport = sportNumber;
+		/*
 		if (sportNumber == 0)
 			staticSport = "padel";
 		else  if (sportNumber == 1)
@@ -118,7 +121,7 @@ public class DocodifySport {
 			staticSport = "futbol 7";
 		else 
 			staticSport = "atletismo";
-		
+		*/
 		return staticSport;
 	}
 	
@@ -127,17 +130,27 @@ public class DocodifySport {
 		return sport + "; "+weekYear+"; " + day+"; " + schedule+"; " +users + "; "+ hour;
 	}
 
-	public void sendBBDD(String booking) {
+	public void sendBBDD(String booking, int totalUsers) {
 		System.out.println("Enviar a BBDD");
 		System.out.println(booking);
-		JavaToBBDD sending = new JavaToBBDD(sport, weekYear, day, schedule, hour, users);
+		System.getProperty("user.name");
+		JavaToBBDD sending = new JavaToBBDD(sport, weekYear, day, schedule, hour, users, totalUsers);
+		availableUsers = sending.countHourBooking();
 	}
 	
-	public String getSport() {
+	public int getAvailableUsers() {
+		return availableUsers;
+	}
+
+	public void setAvailableUsers(int availableUsers) {
+		this.availableUsers = availableUsers;
+	}
+
+	public int getSport() {
 		return sport;
 	}
 
-	public void setSport(String sport) {
+	public void setSport(int sport) {
 		this.sport = sport;
 	}
 

@@ -32,6 +32,8 @@ import modelo.DayHourList;
 import modelo.PadelBooking;
 import modelo.WeekBtn;
 import controlador.DocodifySport;
+import controlador.JavaToBBDD;
+
 import javax.swing.JRadioButton;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
@@ -67,7 +69,7 @@ public class ReservaPadel implements ActionListener {
 	private JPanel bookingPanel;
 	private JPanel mainPanel;
 	
-	private int availableHour = totalUsers;
+	private int availableUsers = totalUsers;
 	private int scheduleSelected = 0;
 	private String lastHour = "";
 	private String booking = "";
@@ -159,7 +161,7 @@ public class ReservaPadel implements ActionListener {
 		// ---------- PANEL SUPERIOR ----------
 		JPanel panelSup = new JPanel();
 		panelSup.setBackground(new Color(255, 255, 255));
-		panelSup.setBounds(206, 10, 1293, 44);
+		panelSup.setBounds(206, 10, 1275, 44);
 		mainPanel.add(panelSup);
 		panelSup.setLayout(null);
 
@@ -174,21 +176,21 @@ public class ReservaPadel implements ActionListener {
 
 		btnSalir.setForeground(new Color(255, 255, 255));
 		btnSalir.setBackground(new Color(71, 0, 100));
-		btnSalir.setBounds(1217, 0, 66, 44);
+		btnSalir.setBounds(1183, 0, 66, 44);
 		panelSup.add(btnSalir);
 
 		JButton btnAyuda = new JButton("Ayuda");
 		btnAyuda.setFont(new Font("Calibri", Font.BOLD, 16));
 		btnAyuda.setForeground(new Color(255, 255, 255));
 		btnAyuda.setBackground(new Color(100, 0, 140));
-		btnAyuda.setBounds(973, 0, 95, 44);
+		btnAyuda.setBounds(949, 0, 95, 44);
 		panelSup.add(btnAyuda);
 
 		JButton btnMiPerfil = new JButton("Mi perfil");
 		btnMiPerfil.setFont(new Font("Calibri", Font.BOLD, 16));
 		btnMiPerfil.setForeground(new Color(255, 255, 255));
 		btnMiPerfil.setBackground(new Color(100, 0, 140));
-		btnMiPerfil.setBounds(1095, 0, 95, 44);
+		btnMiPerfil.setBounds(1067, 0, 95, 44);
 		panelSup.add(btnMiPerfil);
 
 		JButton btnInicio = new JButton("Inicio");
@@ -200,7 +202,7 @@ public class ReservaPadel implements ActionListener {
 		btnInicio.setFont(new Font("Calibri", Font.BOLD, 16));
 		btnInicio.setForeground(new Color(255, 255, 255));
 		btnInicio.setBackground(new Color(71, 0, 100));
-		btnInicio.setBounds(853, 0, 95, 44);
+		btnInicio.setBounds(838, 0, 95, 44);
 		panelSup.add(btnInicio);
 
 		// ---------- FECHA Y HORA ----------
@@ -248,18 +250,8 @@ public class ReservaPadel implements ActionListener {
 		
 	}
 
-	private void getColorHourBtns() {
-		int availableUsers = totalUsers;
-		for (int day = 0; day < 7; day++) 
-			for (int schedule = 0; schedule < totalSchedules; schedule++) 
-				for (int hour = 0; hour < totalHours; hour++) {
-					//availableUsers = getAvailableHour();
-					changeHourColor(btnHoursArray[day][schedule][hour], 4);
-				}
-					
-		
-	}
-
+	
+	// ------------- CREATE BUTTONS & PANELS -------------
 	private void getHourBtns() {
 		int cont = 0;
 		int x = 0;
@@ -292,7 +284,6 @@ public class ReservaPadel implements ActionListener {
 					y++;
 					
 					cont++;
-					System.out.println(cont);
 				}
 				
 				x = 0;
@@ -302,7 +293,7 @@ public class ReservaPadel implements ActionListener {
 	}
 
 	private void getBookingRadioBtn(JPanel panel) {
-		for (int i = 0; i < availableHour; i++) {
+		for (int i = 0; i < availableUsers; i++) {
 			int j = i + 1;
 			bookingRadioButtonArray[i] = new JRadioButton();
 			bookingRadioButtonArray[i].setText("" + j);
@@ -341,6 +332,69 @@ public class ReservaPadel implements ActionListener {
 
 	}
 
+	// ---------- CHANGE COLORS -----------
+
+	private void changeBtnColor(ActionEvent e) {
+			((JComponent) e.getSource()).setBackground(new Color(229, 165, 255));
+		
+	}
+	
+	private void changeHourColor(JButton btn, int availableUsers) {
+		
+			if (availableUsers == totalUsers) {
+				btn.setBorder(new LineBorder(new Color (50,205,50),5));
+			}
+			else if(availableUsers == 0) {
+				btn.setBorder(new LineBorder(Color.RED,5));
+			}
+			else {
+				btn.setBorder(new LineBorder(Color.ORANGE,5));
+			}		
+	}
+	
+	private void getColorHourBtns() {
+		
+		
+		for (int day = 0; day < 7; day++) 
+			for (int schedule = 0; schedule < totalSchedules; schedule++) 
+				for (int hour = 0; hour < totalHours; hour++) {
+					changeHourColor(btnHoursArray[day][schedule][hour], availableUsers);
+				}
+	}
+
+	// ------------ RESET BTNS ------------
+	
+	private void resetHourBtns() {
+		for (int day = 0; day < 7; day++) 
+			for (int schedule = 0; schedule < totalSchedules; schedule++) 
+				for (int hour = 0; hour < totalHours; hour++) 
+					btnHoursArray[day][schedule][hour].setBackground(new Color(248, 248, 255));
+						
+	}
+
+	private void resetDayBtns() {
+		for (int i = 0; i < totalDays; i++) {
+			btnDaysArray[i].setBackground(new Color(248, 248, 255));
+		}
+		
+	}
+
+	
+	// ------------ BOOKING --------------
+	private void evaluateHourBtn(AbstractButton source) {
+		//availableUsers = 4; // - padel.getavailableUsers();	
+		
+		bookingPanel.setVisible(true);
+		booking = source.getName();
+		
+		decode = new DocodifySport(booking,0);
+		availableUsers = 4 - decode.getAvailableUsers();
+		scheduleSelected = decode.getSchedule();
+		lastHour = decode.getHour();
+		
+	}
+	
+	// ------------ ACTION PERFORMANCE ------------
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String textDialog = "";
@@ -358,7 +412,7 @@ public class ReservaPadel implements ActionListener {
 			//panelHours.newPanelHours(button, btnHoursArray, totalHours*totalSchedules*totalUsers);
 		} else if (button.equals("Confirmar")) {
 			// Muestra la reserva que el usuario ha realizado
-			for (int i = 1; i < availableHour + 1; i++)
+			for (int i = 1; i < availableUsers + 1; i++)
 				if (bookingRadioButtonArray[i - 1].isSelected()) {
 					users = i;
 					textDialog = "" + i;
@@ -376,7 +430,7 @@ public class ReservaPadel implements ActionListener {
 
 				if (res == 0) {
 					decode = new DocodifySport(booking,users);
-					decode.sendBBDD(decode.toString());
+					decode.sendBBDD(decode.toString(),totalUsers);
 				}
 				else 
 					System.out.println("Reserva cancelada");
@@ -390,52 +444,6 @@ public class ReservaPadel implements ActionListener {
 			evaluateHourBtn(((AbstractButton) e.getSource()));
 			
 		}
-		
-	}
-
-	private void changeBtnColor(ActionEvent e) {
-			((JComponent) e.getSource()).setBackground(new Color(229, 165, 255));
-		
-	}
-	
-	private void changeHourColor(JButton btn, int availableUsers) {
-		
-			if (availableUsers == totalUsers) {
-				btn.setBorder(new LineBorder(new Color (50,205,50)));
-			}
-			else if(availableUsers == 0) {
-				btn.setBorder(new LineBorder(Color.RED));
-			}
-			else {
-				btn.setBorder(new LineBorder(Color.ORANGE));
-			}
-		
-		
-	}
-
-	private void resetHourBtns() {
-		for (int day = 0; day < 7; day++) 
-			for (int schedule = 0; schedule < totalSchedules; schedule++) 
-				for (int hour = 0; hour < totalHours; hour++) 
-					btnHoursArray[day][schedule][hour].setBackground(new Color(248, 248, 255));
-						
-	}
-
-	private void resetDayBtns() {
-		for (int i = 0; i < totalDays; i++) {
-			btnDaysArray[i].setBackground(new Color(248, 248, 255));
-		}
-		
-	}
-
-	private void evaluateHourBtn(AbstractButton source) {
-		availableHour = 4; // - padel.getAvailableHour();		
-		bookingPanel.setVisible(true);
-		booking = source.getName();
-		
-		decode = new DocodifySport(booking,0);
-		scheduleSelected = decode.getSchedule();
-		lastHour = decode.getHour();
 		
 	}
 }
