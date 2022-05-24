@@ -6,6 +6,8 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -31,7 +33,8 @@ import javax.swing.UIManager;
 import controlador.ChangeWindow;
 
 public class InterfazPrincipal {
-
+	
+	
 	private JFrame frame;
 	public static ChangeWindow change = new ChangeWindow("");
 	/**
@@ -47,9 +50,12 @@ public class InterfazPrincipal {
 	}
 	
 	/**
+	 * @param statment 
+	 * @param connect 
 	 * @wbp.parser.entryPoint
 	 */
 	public void newPrincipalInterface() {
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -125,6 +131,11 @@ public class InterfazPrincipal {
 		panel_1.add(btnContacto);
 		
 		JButton btnMiPerfil = new JButton("Mi perfil");
+		btnMiPerfil.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				change.newWindowApp("miPerfil",frame);
+			}
+		});
 		btnMiPerfil.setFont(new Font("Calibri", Font.BOLD, 16));
 		btnMiPerfil.setForeground(new Color(255, 255, 255));
 		btnMiPerfil.setBackground(new Color(153, 51, 204));

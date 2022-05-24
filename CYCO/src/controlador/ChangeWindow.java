@@ -1,14 +1,19 @@
 package controlador;
 
+import java.sql.Connection;
+import java.sql.Statement;
+
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 import vista.InterfazPrincipal;
+import vista.MiPerfil;
 import vista.ReservaPadel;
 
 public class ChangeWindow {
 	public static InterfazPrincipal principal = new InterfazPrincipal();
 	public static ReservaPadel padel = new ReservaPadel();
+	public static MiPerfil miPerfil = new MiPerfil();
 	
 	public ChangeWindow(String sport) {
 		
@@ -19,6 +24,10 @@ public class ChangeWindow {
 		switch (windowName) {
 		case "padel": {
 			padel.newPadelInterface();
+			break;
+		}
+		case "miPerfil" : {
+			miPerfil.newMiPerfil();
 			break;
 		}
 		case "principal": {
@@ -68,5 +77,7 @@ public class ChangeWindow {
 	}
 		
 	}
+
+
 
 }

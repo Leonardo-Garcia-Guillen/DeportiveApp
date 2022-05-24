@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import javax.swing.JOptionPane;
 
 public class JavaToBBDD {
@@ -27,13 +26,18 @@ public class JavaToBBDD {
 	private static String staticHour = "";
 	private static int staticUsers = 0;
 
-	Connection conn;
-	Statement stmt;
+	// BBDD
+	private static String conectionBBDD = "jdbc:mysql://192.168.50.27:3306/cy&co";
+	private static String userBBDD = "Leo";
+	private static String pswdBBDD = "CYCO";
+	private Connection conn;
+	private Statement stmt;
 
-	public JavaToBBDD(int sportOK, int weekYearOK, String dayOK, int scheduleOK, String hourOK, int usersOK, int totalUsers) {
-		
+	public JavaToBBDD(int sportOK, int weekYearOK, String dayOK, int scheduleOK, String hourOK, int usersOK,
+			int totalUsers) {
+
 		// Nombre + nº de la semana respecto del año + dia + schedule + hora
-		acronym = "arenassss";
+		acronym = System.getProperty("user.name");
 		sport = sportOK;
 		weekYear = weekYearOK;
 		day = dayOK;
@@ -43,7 +47,7 @@ public class JavaToBBDD {
 
 		// Abrir conexion con BD
 		try {
-			conn = (Connection) DriverManager.getConnection("jdbc:mysql://192.168.88.247:3306/cy&co", "Leo", "CYCO");
+			conn = (Connection) DriverManager.getConnection(conectionBBDD, userBBDD, pswdBBDD);
 			System.out.println("¡¡ Conectado con la base Cy&Co !!");
 			stmt = conn.createStatement();
 
@@ -51,8 +55,9 @@ public class JavaToBBDD {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 		int counter = countHourBooking();
-		
+
 		// Comprueba si el usuario ya esta registrado en la BD
 		if (checkUser() == false) {
 			// En caso de que no, lo inserta
@@ -60,9 +65,9 @@ public class JavaToBBDD {
 			System.out.println("Usuario nuevo");
 		} else
 			System.out.println("Que hay de nuevo viejo");
-		
+
 		// Si hay plazas disponibles, hacer la reserva
-		System.out.println("Totales: "+totalUsers+"Counter: "+counter+"users: "+users);
+		System.out.println("Totales: " + totalUsers + "Counter: " + counter + "users: " + users);
 		if (counter == totalUsers)
 			JOptionPane.showMessageDialog(null, "Pista completa");
 		else if (users > totalUsers - counter)
@@ -72,17 +77,6 @@ public class JavaToBBDD {
 			// Introducir datos de reserva
 			insertIntoReserva();
 		}
-			
-		
-/*
-		// Cerrar conexion con BD
-		try {
-			conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-*/
 	}
 
 	// Contar cuantas reservas hay en total
@@ -101,9 +95,8 @@ public class JavaToBBDD {
 				id = rs.getInt(1);
 				System.out.println(id);
 			}
-				
 
-			//stmt.close();
+			// stmt.close();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -114,12 +107,13 @@ public class JavaToBBDD {
 
 	// Contar cuantas reservas hay de un usuario en un deporte a una hora específica
 	public int countHourBooking() {
-		
+
 		int hoursCounter = 0;
 		int aux = 0;
 		try {
 			// Select statement
-			String query = "SELECT plazas FROM reservas WHERE id_deporte="+sport+" AND dia='"+day+"' AND pista="+schedule+" AND hora='"+hour+"'";
+			String query = "SELECT plazas FROM reservas WHERE id_deporte=" + sport + " AND dia='" + day + "' AND pista="
+					+ schedule + " AND hora='" + hour + "'" + " AND semana='" + weekYear + "'";
 			java.sql.Statement stmt = conn.createStatement();
 
 			// Gets the result
@@ -128,11 +122,11 @@ public class JavaToBBDD {
 			// Take the value
 			while (rs.next()) {
 				aux = aux + rs.getInt(1);
-				
+
 			}
 			hoursCounter = aux;
 
-			//stmt.close();
+			// stmt.close();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -161,7 +155,7 @@ public class JavaToBBDD {
 				// print the results
 				System.out.format("%s\n", user);
 			}
-			//stmt.close();
+			// stmt.close();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -196,12 +190,11 @@ public class JavaToBBDD {
 			stmt.executeUpdate(query1);
 			System.out
 					.println("Los datos han sido añadido a la base de datos..... \nAhora una cerveza para celebrarlo");
-			//conn.close();
+			// conn.close();
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
 
 }

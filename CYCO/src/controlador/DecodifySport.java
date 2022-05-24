@@ -1,6 +1,9 @@
 package controlador;
 
-public class DocodifySport {
+import java.sql.Connection;
+import java.sql.Statement;
+
+public class DecodifySport {
 	private int sport;
 	private int weekYear;
 	private String day;
@@ -8,7 +11,6 @@ public class DocodifySport {
 	private String hour;
 	private int users;
 	
-	private int availableUsers;
 	
 	private static int pointer = 0;
 	
@@ -19,7 +21,10 @@ public class DocodifySport {
 	private static String staticHour = "";
 	private static int staticUsers = 0;
 	
-	public DocodifySport(String sportCodify,int people) {
+	
+	
+	public DecodifySport(String sportCodify,int people) {
+	
 		// Nombre + nº de la semana respecto del año + dia + schedule + hora 
 		sport = decodeSport(sportCodify);
 		weekYear = decodeWeekYear(sportCodify);
@@ -96,32 +101,7 @@ public class DocodifySport {
 
 		sportNumber = Integer.parseInt(sportCodify.substring(0, index));
 		staticSport = sportNumber;
-		/*
-		if (sportNumber == 0)
-			staticSport = "padel";
-		else  if (sportNumber == 1)
-			staticSport = "tenis";
-		else  if (sportNumber == 2)
-			staticSport = "piscina";
-		else  if (sportNumber == 3)
-			staticSport = "baloncesto";
-		else  if (sportNumber == 4)
-			staticSport = "gimnasio";
-		else  if (sportNumber == 5)
-			staticSport = "crossfit";
-		else  if (sportNumber == 6)
-			staticSport = "tiro";
-		else  if (sportNumber == 7)
-			staticSport = "esgrima";
-		else  if (sportNumber == 8)
-			staticSport = "voley";
-		else  if (sportNumber == 9)
-			staticSport = "futbol sala";
-		else  if (sportNumber == 10)
-			staticSport = "futbol 7";
-		else 
-			staticSport = "atletismo";
-		*/
+		
 		return staticSport;
 	}
 	
@@ -135,16 +115,8 @@ public class DocodifySport {
 		System.out.println(booking);
 		System.getProperty("user.name");
 		JavaToBBDD sending = new JavaToBBDD(sport, weekYear, day, schedule, hour, users, totalUsers);
-		availableUsers = sending.countHourBooking();
 	}
 	
-	public int getAvailableUsers() {
-		return availableUsers;
-	}
-
-	public void setAvailableUsers(int availableUsers) {
-		this.availableUsers = availableUsers;
-	}
 
 	public int getSport() {
 		return sport;
@@ -184,6 +156,14 @@ public class DocodifySport {
 
 	public void setHour(String hour) {
 		this.hour = hour;
+	}
+
+	public int getUsers() {
+		return users;
+	}
+
+	public void setUsers(int users) {
+		this.users = users;
 	}
 	
 }

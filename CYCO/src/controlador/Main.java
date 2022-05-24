@@ -2,8 +2,11 @@ package controlador;
 
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-
+import controlador.ConnectServerBBDD;
 import vista.InterfazPrincipal;
+import java.sql.Connection;
+import java.sql.Statement;
+
 
 public class Main {
 	public static InterfazPrincipal principal = new InterfazPrincipal();
@@ -17,6 +20,9 @@ public class Main {
 			e.printStackTrace();
 		}
 		*/
+		/*ConnectServerBBDD conectionJavaBBDD = new ConnectServerBBDD();
+		Connection conn = conectionJavaBBDD.getConn();
+		Statement stmt = conectionJavaBBDD.getStmt();*/
 		principal.newPrincipalInterface();
 
 	}
