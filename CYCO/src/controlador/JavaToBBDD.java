@@ -28,7 +28,7 @@ public class JavaToBBDD {
 	private static int staticUsers = 0;
 
 	// BBDD
-	private static String conectionBBDD = "jdbc:mysql://192.168.50.27:3306/cy&co";
+	private static String conectionBBDD = "jdbc:mysql://192.168.43.228:3306/cy&co";
 	private static String userBBDD = "Leo";
 	private static String pswdBBDD = "CYCO";
 	private Connection conn;
@@ -77,11 +77,46 @@ public class JavaToBBDD {
 			JOptionPane.showMessageDialog(null, "Número de plazas sugeridas excede las que quedan disponibles");
 		else {
 			// Introducir datos de reserva
-			insertIntoReserva();
-			JOptionPane.showMessageDialog(null, "Reserva realizada con éxito");
+			if (countTotalDayBookings())
+				JOptionPane.showMessageDialog(null, "Nº de reservas diarias excede del límite (2 por día)");
+			else {
+				insertIntoReserva();
+				JOptionPane.showMessageDialog(null, "Reserva realizada con éxito");
+			}
+			
 		}
 	}
+	// Cuenta si hay más de 2 horas reservadas al día por el mismo usuario para que no se pueda introducir otra nueva reserva
+	public Boolean countTotalDayBookings() {
 
+		int aux = 0;
+		Boolean check = false;
+		try {
+			// Select statement
+
+						
+			String query = "SELECT plazas FROM reservas WHERE acrónimo='"+acronym+"' AND id_deporte=" + sport + " AND dia='"	+day + "' AND semana=" + weekYear;
+			
+			
+			java.sql.Statement stmt = conn.createStatement();
+
+			// Gets the result
+			ResultSet rs = stmt.executeQuery(query);
+
+			// Take the value
+			while (rs.next()) {
+				aux++;
+
+			}
+			if (aux >= 2)
+				check = true;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return check;
+	}
+	
 	// Contar cuantas reservas hay en total
 	public int countTotalBooking() {
 		Integer id = 0;
@@ -96,7 +131,6 @@ public class JavaToBBDD {
 			// Take the value
 			while (rs.next()) {
 				id = rs.getInt(1);
-				
 			}
 			if (id==null) 
 				id = 0;

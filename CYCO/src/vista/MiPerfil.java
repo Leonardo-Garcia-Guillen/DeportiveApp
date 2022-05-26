@@ -59,7 +59,7 @@ public class MiPerfil implements ActionListener {
 	public static ChangeWindow change = new ChangeWindow("");
 
 	// BBDD
-	private static String conectionBBDD = "jdbc:mysql://192.168.50.27:3306/cy&co";
+	private static String conectionBBDD = "jdbc:mysql://192.168.43.228:3306/cy&co";
 	private static String userBBDD = "Leo";
 	private static String pswdBBDD = "CYCO";
 
@@ -120,11 +120,11 @@ public class MiPerfil implements ActionListener {
 		cycoLabel.setBackground(new Color(218, 112, 214));
 		mainPanel.add(cycoLabel);
 
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(255, 255, 255));
-		panel_1.setBounds(206, 10, 1293, 44);
-		mainPanel.add(panel_1);
-		panel_1.setLayout(null);
+		JPanel panelSup = new JPanel();
+		panelSup.setBackground(new Color(255, 255, 255));
+		panelSup.setBounds(206, 10, 1293, 44);
+		mainPanel.add(panelSup);
+		panelSup.setLayout(null);
 
 		JButton btnNewButton = new JButton("Salir");
 		btnNewButton.setFont(new Font("Calibri", Font.BOLD, 16));
@@ -136,24 +136,17 @@ public class MiPerfil implements ActionListener {
 		});
 
 		btnNewButton.setForeground(new Color(255, 255, 255));
-		btnNewButton.setBackground(new Color(153, 51, 204));
+		btnNewButton.setBackground(new Color(71, 0, 100));
 		btnNewButton.setBounds(1217, 0, 66, 44);
-		panel_1.add(btnNewButton);
+		panelSup.add(btnNewButton);
 
 		JButton btnAyuda = new JButton("Ayuda");
 		btnAyuda.setFont(new Font("Calibri", Font.BOLD, 16));
 		btnAyuda.setForeground(new Color(255, 255, 255));
-		btnAyuda.setBackground(new Color(153, 51, 204));
-		btnAyuda.setBounds(981, 0, 95, 44);
-		panel_1.add(btnAyuda);
-
-		JButton btnContacto = new JButton("Contacto");
-		btnContacto.setFont(new Font("Calibri", Font.BOLD, 16));
-		btnContacto.setForeground(new Color(255, 255, 255));
-		btnContacto.setBackground(new Color(153, 51, 204));
-		btnContacto.setBounds(1099, 0, 95, 44);
-		panel_1.add(btnContacto);
-
+		btnAyuda.setBackground(new Color(100, 0, 140));
+		btnAyuda.setBounds(884, 0, 95, 44);
+		panelSup.add(btnAyuda);
+		
 		JButton btnInicio = new JButton("Inicio");
 		btnInicio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -163,12 +156,31 @@ public class MiPerfil implements ActionListener {
 		btnInicio.setFont(new Font("Calibri", Font.BOLD, 16));
 		btnInicio.setForeground(new Color(255, 255, 255));
 		btnInicio.setBackground(new Color(71, 0, 100));
-		btnInicio.setBounds(865, 0, 95, 44);
-		panel_1.add(btnInicio);
+		btnInicio.setBounds(779, 0, 95, 44);
+		panelSup.add(btnInicio);
+		
+		JButton btnContacto = new JButton("Contacto");
+		btnContacto.setForeground(Color.WHITE);
+		btnContacto.setFont(new Font("Calibri", Font.BOLD, 16));
+		btnContacto.setBackground(new Color(153, 51, 204));
+		btnContacto.setBounds(989, 0, 95, 44);
+		panelSup.add(btnContacto);
+		
+		JButton btnMiPerfil = new JButton("Mi perfil");
+		btnMiPerfil.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				change.newWindowApp("miPerfil", frame);
+			}
+		});
+		btnMiPerfil.setFont(new Font("Calibri", Font.BOLD, 16));
+		btnMiPerfil.setForeground(new Color(255, 255, 255));
+		btnMiPerfil.setBackground(new Color(100, 0, 140));
+		btnMiPerfil.setBounds(1094, 0, 95, 44);
+		panelSup.add(btnMiPerfil);
 
 		JLabel lblAGA = new JLabel("ACADEMIA GENERAL DEL AIRE");
 		lblAGA.setBounds(10, 0, 658, 56);
-		panel_1.add(lblAGA);
+		panelSup.add(lblAGA);
 		lblAGA.setForeground(new Color(153, 0, 204));
 		lblAGA.setFont(new Font("Calibri", Font.BOLD, 45));
 
@@ -190,18 +202,18 @@ public class MiPerfil implements ActionListener {
 
 		panelReservas = new JPanel();
 		// panelReservas.setBorder(null);
-		// panelReservas.setBackground(new Color(255, 255, 255));
-		panelReservas.setBounds(159, 121, 1500, 1000);
+		panelReservas.setBackground(new Color(255, 255, 255));
+		panelReservas.setBounds(300, 121, 1000, 1000);
 		mainPanel.add(panelReservas);
 		panelReservas.setLayout(new FlowLayout()); // Una debajo de otra
 		JLabel lblReservasRealizadas = new JLabel("Reservas realizadas:");
 		lblReservasRealizadas.setFont(new Font("Calibri", Font.BOLD, 16));
-		lblReservasRealizadas.setBounds(10, 10, 864, 26);
-		panelReservas.add(lblReservasRealizadas);
+		lblReservasRealizadas.setBounds(100, 133, 864, 26);
+		mainPanel.add(lblReservasRealizadas);
 
 		// Creo una lista de reservas
 		JList<String> list = new JList<String>(array);
-		list.setVisibleRowCount(6); // Muestra hasta 15 reservas
+		list.setVisibleRowCount(20); // Muestra hasta 15 reservas
 		list.setFont(new Font("Calibri", Font.BOLD, 22));
 
 		listModel = new DefaultListModel<String>();
@@ -246,7 +258,7 @@ public class MiPerfil implements ActionListener {
 	private void getBooking() {
 		int thisWeek = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
 		int thisWeekMinus30Days = thisWeek - 5;
-		
+
 		String booking = "";
 		int i = 0;
 		int j = 0;
@@ -262,9 +274,11 @@ public class MiPerfil implements ActionListener {
 			e.printStackTrace();
 		}
 		try {
+			
+			
 			// Select statement
-			String query = "SELECT * FROM reservas r JOIN deportes d ON d.id_deporte = r.id_deporte WHERE r.acrónimo='"
-					+ acronym + "' AND semana <="+thisWeek+" AND semana >="+thisWeekMinus30Days+" ORDER BY r.semana,d.id_deporte,r.dia";
+			String query = "SELECT * FROM reservas r JOIN deportes d ON d.id_deporte = r.id_deporte JOIN semana s ON s.dia=r.dia WHERE semana <=" + thisWeek + " AND semana >=" + thisWeekMinus30Days
+					+ " AND r.acrónimo='"+ acronym + "' ORDER BY r.semana,d.id_deporte,s.int_dia";
 			java.sql.Statement stmt = conn.createStatement();
 
 			// Gets the result
@@ -318,13 +332,13 @@ public class MiPerfil implements ActionListener {
 		// String button = ((AbstractButton) e.getSource()).getText();
 
 		if (bookingToCancel == null) {
-			JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna reserva",
-	                "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
-	 
+			JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna reserva", "ERROR_MESSAGE",
+					JOptionPane.ERROR_MESSAGE);
+
 		} else {
 			int res = JOptionPane.showConfirmDialog(null, "¿Desea cancelar la reserva?", "Eliminar reserva",
 					JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
-			
+
 			if (res == 0) {
 				// Abrir conexion con BD
 				try {
@@ -336,7 +350,7 @@ public class MiPerfil implements ActionListener {
 					// TODO Auto-generated catch block
 					error.printStackTrace();
 				}
-				
+
 				DecodifySportCancelation cancel = new DecodifySportCancelation(bookingToCancel);
 				System.out.println(bookingToCancel);
 				System.out.println(cancel.toString());

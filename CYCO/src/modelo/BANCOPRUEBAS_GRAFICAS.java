@@ -28,6 +28,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ListModel;
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
+import javax.swing.JPasswordField;
 
 public class BANCOPRUEBAS_GRAFICAS {
 	
@@ -39,6 +40,11 @@ public class BANCOPRUEBAS_GRAFICAS {
 	private static JList reservas;
 	private String[] array= {};
 	DefaultListModel listModel;
+	private JButton btnNewButton;
+	
+	JPasswordField passwordField = new JPasswordField(10);
+	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -70,6 +76,9 @@ public class BANCOPRUEBAS_GRAFICAS {
 		double width = screenSize.getWidth();
 		double height = screenSize.getHeight();
 
+		passwordField.setActionCommand(OK);
+		passwordField.addActionListener(this);
+		
 		frame = new JFrame();
 		frame.setBounds(0, 0, (int) width, (int) height);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -85,46 +94,45 @@ public class BANCOPRUEBAS_GRAFICAS {
 		frame.getContentPane().add(mainPanel);
 		
 		panelReservas = new JPanel();
-		//panelReservas.setBorder(null);
-		//panelReservas.setBackground(new Color(255, 0, 0));
+		panelReservas.setBorder(null);
+		panelReservas.setBackground(new Color(255, 0, 0));
 		panelReservas.setBounds(159, 121, 500, 500);
 		mainPanel.add(panelReservas);
-		panelReservas.setLayout(new BorderLayout());
+		panelReservas.setLayout(null);
 		
-		JList<String> list = new JList<String>(array);
-		//list.setBounds(378, 35, 500, 250);
-		list.setVisibleRowCount(10);
+		btnNewButton = new JButton("New button");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				
+			}
+		});
+		btnNewButton.setBounds(118, 10, 183, 40);
+		panelReservas.add(btnNewButton);
 		
-		listModel = new DefaultListModel<String>();
-		creaBotones();
-		list.setModel(listModel);
-		panelReservas.add(list,BorderLayout.CENTER);
-		
-		list.setFont(new Font("Calibri", Font.BOLD, 25));
-		
-		JScrollPane scroll = new JScrollPane(list);
-		panelReservas.add(scroll);
-		
-		JButton btn = new JButton();
-		btn.setText("Cancelar reserva");
-		btn.addActionListener(null);
-		panelReservas.add(btn,BorderLayout.NORTH);
-		//	list.add(scroll);
 	}
 
-	private void creaBotones() {
-		for (int i = 0; i<100; i++) {	
-			listModel.addElement(""+i);
-			/*btnArray[i] = new JButton();
-			btnArray[i].setText(""+i);
-			btnArray[i].setBackground(new Color(248, 248, 255));
-			btnArray[i].setForeground(new Color(71, 0, 100));
-			btnArray[i].setFont(new Font("Calibri", Font.BOLD, 16));
-			btnArray[i].setBounds(482, 28 + i* 36, 570, 32);
-			panelReservas.add(btnArray[i]);
-			*/
-		}
-		
-				
+	public void actionPerformed(ActionEvent e) {
+	    String cmd = e.getActionCommand();
+
+	    if (OK.equals(cmd)) { //Process the password.
+	        char[] input = passwordField.getPassword();
+	        if (isPasswordCorrect(input)) {
+	            JOptionPane.showMessageDialog(controllingFrame,
+	                "Success! You typed the right password.");
+	        } else {
+	            JOptionPane.showMessageDialog(controllingFrame,
+	                "Invalid password. Try again.",
+	                "Error Message",
+	                JOptionPane.ERROR_MESSAGE);
+	        }
+
+	        //Zero out the possible password, for security.
+	        Arrays.fill(input, '0');
+
+	        passwordField.selectAll();
+	        resetFocus();
+	    } else ...//handle the Help button...
 	}
 }

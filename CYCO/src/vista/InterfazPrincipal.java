@@ -18,6 +18,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTabbedPane;
@@ -112,22 +113,44 @@ public class InterfazPrincipal {
 		});
 		
 		btnNewButton.setForeground(new Color(255, 255, 255));
-		btnNewButton.setBackground(new Color(153, 51, 204));
+		btnNewButton.setBackground(new Color(71, 0, 100));
 		btnNewButton.setBounds(1217, 0, 66, 44);
 		panel_1.add(btnNewButton);
 		
+		String help = "-¿Cómo puedo reservar un deporte?\r\n"
+				+ "Para reservar un doporte, seleccione el deporte que desee y, a continuación, se le mostrarán los horarios disponibles\n\n"
+				+ "-¿Puedo ver quién ha reservado a una determinada hora?\r\n"
+				+ ""
+				+ "-¿Cuántas reservas puedo hacer al día?\r\n"
+				+ ""
+				+ "Puede reservar un máximo de 2 periodos por día\n\n"
+				+ "-¿Cómo se si una hora está completa?\r\n"
+				+ "-¿Cómo veo mis reservas?\r\n"
+				+ ""
+				+ "-¿Cómo cancelo mis reservas?"
+				+ "";
 		JButton btnAyuda = new JButton("Ayuda");
 		btnAyuda.setFont(new Font("Calibri", Font.BOLD, 16));
 		btnAyuda.setForeground(new Color(255, 255, 255));
-		btnAyuda.setBackground(new Color(153, 51, 204));
-		btnAyuda.setBounds(851, 0, 95, 44);
+		btnAyuda.setBackground(new Color(100, 0, 140));
+		btnAyuda.setBounds(902, 0, 95, 44);
 		panel_1.add(btnAyuda);
 		
+		String contact = "Correo electrónico: cyco.sigesdep@gmail.com \n\nTeléfono de contacto: 662 62 62 62";
+		
 		JButton btnContacto = new JButton("Contacto");
+		btnContacto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, contact, "Contacto", JOptionPane.WARNING_MESSAGE);
+				
+				
+				
+			}
+		});
 		btnContacto.setFont(new Font("Calibri", Font.BOLD, 16));
 		btnContacto.setForeground(new Color(255, 255, 255));
-		btnContacto.setBackground(new Color(153, 51, 204));
-		btnContacto.setBounds(975, 0, 95, 44);
+		btnContacto.setBackground(new Color(100, 0, 140));
+		btnContacto.setBounds(1007, 0, 95, 44);
 		panel_1.add(btnContacto);
 		
 		JButton btnMiPerfil = new JButton("Mi perfil");
@@ -138,8 +161,8 @@ public class InterfazPrincipal {
 		});
 		btnMiPerfil.setFont(new Font("Calibri", Font.BOLD, 16));
 		btnMiPerfil.setForeground(new Color(255, 255, 255));
-		btnMiPerfil.setBackground(new Color(153, 51, 204));
-		btnMiPerfil.setBounds(1095, 0, 95, 44);
+		btnMiPerfil.setBackground(new Color(100, 0, 140));
+		btnMiPerfil.setBounds(1112, 0, 95, 44);
 		panel_1.add(btnMiPerfil);
 		
 		JLabel lblAGA = new JLabel("ACADEMIA GENERAL DEL AIRE");
@@ -147,6 +170,13 @@ public class InterfazPrincipal {
 		panel_1.add(lblAGA);
 		lblAGA.setForeground(new Color(153, 0, 204));
 		lblAGA.setFont(new Font("Calibri", Font.BOLD, 45));
+		
+		JButton btnAdmin = new JButton("Administrador");
+		btnAdmin.setForeground(Color.WHITE);
+		btnAdmin.setFont(new Font("Calibri", Font.BOLD, 16));
+		btnAdmin.setBackground(new Color(153, 51, 204));
+		btnAdmin.setBounds(749, 0, 143, 44);
+		panel_1.add(btnAdmin);
 		
 		String fecha = new SimpleDateFormat("dd/MM/yy").format(Calendar.getInstance().getTime());
 		JLabel lblFecha = new JLabel("Fecha:   " + fecha);
@@ -334,7 +364,6 @@ public class InterfazPrincipal {
 	public void setFrame(JFrame frame) {
 		this.frame = frame;
 	}
-	
 }
 
 

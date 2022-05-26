@@ -78,7 +78,7 @@ public class ReservaPadel implements ActionListener {
 	private String lastHourSelected = "";
 
 	// BBDD
-	private static final String conectionBBDD = "jdbc:mysql://192.168.50.27:3306/cy&co";
+	private static final String conectionBBDD = "jdbc:mysql://192.168.43.228:3306/cy&co";
 	private static final String userBBDD = "Leo";
 	private static final String pswdBBDD = "CYCO";
 	Connection conn;
@@ -193,15 +193,8 @@ public class ReservaPadel implements ActionListener {
 
 		btnSalir.setForeground(new Color(255, 255, 255));
 		btnSalir.setBackground(new Color(71, 0, 100));
-		btnSalir.setBounds(1183, 0, 66, 44);
+		btnSalir.setBounds(1199, 0, 66, 44);
 		panelSup.add(btnSalir);
-
-		JButton btnAyuda = new JButton("Ayuda");
-		btnAyuda.setFont(new Font("Calibri", Font.BOLD, 16));
-		btnAyuda.setForeground(new Color(255, 255, 255));
-		btnAyuda.setBackground(new Color(100, 0, 140));
-		btnAyuda.setBounds(949, 0, 95, 44);
-		panelSup.add(btnAyuda);
 
 		JButton btnMiPerfil = new JButton("Mi perfil");
 		btnMiPerfil.addActionListener(new ActionListener() {
@@ -212,9 +205,16 @@ public class ReservaPadel implements ActionListener {
 		btnMiPerfil.setFont(new Font("Calibri", Font.BOLD, 16));
 		btnMiPerfil.setForeground(new Color(255, 255, 255));
 		btnMiPerfil.setBackground(new Color(100, 0, 140));
-		btnMiPerfil.setBounds(1067, 0, 95, 44);
+		btnMiPerfil.setBounds(1094, 0, 95, 44);
 		panelSup.add(btnMiPerfil);
 
+		JButton btnAyuda = new JButton("Ayuda");
+		btnAyuda.setFont(new Font("Calibri", Font.BOLD, 16));
+		btnAyuda.setForeground(new Color(255, 255, 255));
+		btnAyuda.setBackground(new Color(100, 0, 140));
+		btnAyuda.setBounds(884, 0, 95, 44);
+		panelSup.add(btnAyuda);
+		
 		JButton btnInicio = new JButton("Inicio");
 		btnInicio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -224,8 +224,15 @@ public class ReservaPadel implements ActionListener {
 		btnInicio.setFont(new Font("Calibri", Font.BOLD, 16));
 		btnInicio.setForeground(new Color(255, 255, 255));
 		btnInicio.setBackground(new Color(71, 0, 100));
-		btnInicio.setBounds(838, 0, 95, 44);
+		btnInicio.setBounds(779, 0, 95, 44);
 		panelSup.add(btnInicio);
+		
+		JButton btnContacto = new JButton("Contacto");
+		btnContacto.setForeground(Color.WHITE);
+		btnContacto.setFont(new Font("Calibri", Font.BOLD, 16));
+		btnContacto.setBackground(new Color(153, 51, 204));
+		btnContacto.setBounds(989, 0, 95, 44);
+		panelSup.add(btnContacto);
 
 		// ---------- FECHA Y HORA ----------
 		String fecha = new SimpleDateFormat("dd/MM/yy").format(Calendar.getInstance().getTime());
