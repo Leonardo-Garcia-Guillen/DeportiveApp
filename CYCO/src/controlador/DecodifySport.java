@@ -110,11 +110,10 @@ public class DecodifySport {
 		return sport + "; "+weekYear+"; " + day+"; " + schedule+"; " +users + "; "+ hour;
 	}
 
-	public void sendBBDD(String booking, int totalUsers) {
+	public void sendBBDD(String booking, int totalUsers, String userComment) {
 		System.out.println("Enviar a BBDD");
-		System.out.println(booking);
-		System.getProperty("user.name");
-		JavaToBBDD sending = new JavaToBBDD(sport, weekYear, day, schedule, hour, users, totalUsers);
+		System.out.println("Reserva: "+booking+".\nComentario a la reserva: " + userComment);
+		JavaToBBDD sending = new JavaToBBDD(sport, weekYear, day, schedule, hour, users, totalUsers, userComment);
 	}
 	
 

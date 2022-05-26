@@ -1,6 +1,7 @@
 package vista;
 
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
@@ -21,8 +22,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.AbstractButton;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTabbedPane;
@@ -32,6 +35,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import java.awt.Font;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import java.awt.SystemColor;
 import javax.swing.UIManager;
 
@@ -46,13 +52,17 @@ public class MiPerfil implements ActionListener {
 	private JPanel panelReservas;
 	private String acronym = System.getProperty("user.name");
 	private JButton[] btnBookingArray = new JButton[100];
+	private String[] array = {};
+	private String bookingToCancel;
+	DefaultListModel<String> listModel;
 
 	public static ChangeWindow change = new ChangeWindow("");
-	
+
 	// BBDD
 	private static String conectionBBDD = "jdbc:mysql://192.168.50.27:3306/cy&co";
 	private static String userBBDD = "Leo";
 	private static String pswdBBDD = "CYCO";
+
 	/**
 	 * Launch the application.
 	 */
@@ -179,32 +189,63 @@ public class MiPerfil implements ActionListener {
 		mainPanel.add(lblHora);
 
 		panelReservas = new JPanel();
-		panelReservas.setBorder(null);
-		panelReservas.setBackground(new Color(255, 255, 255));
-		panelReservas.setBounds(159, 121, 1535, 655);
+		// panelReservas.setBorder(null);
+		// panelReservas.setBackground(new Color(255, 255, 255));
+		panelReservas.setBounds(159, 121, 1500, 1000);
 		mainPanel.add(panelReservas);
-		panelReservas.setLayout(null);
-
-		getBooking();
+		panelReservas.setLayout(new FlowLayout()); // Una debajo de otra
 		JLabel lblReservasRealizadas = new JLabel("Reservas realizadas:");
 		lblReservasRealizadas.setFont(new Font("Calibri", Font.BOLD, 16));
 		lblReservasRealizadas.setBounds(10, 10, 864, 26);
 		panelReservas.add(lblReservasRealizadas);
-		
+
+		// Creo una lista de reservas
+		JList<String> list = new JList<String>(array);
+		list.setVisibleRowCount(6); // Muestra hasta 15 reservas
+		list.setFont(new Font("Calibri", Font.BOLD, 22));
+
+		listModel = new DefaultListModel<String>();
+
+		// Busca reservas una a una
+		getBooking();
+
+		// Modificamos el modelo de la lista para poder ir añadiendo más y más elementos
+		list.setModel(listModel);
+		list.addListSelectionListener(new ListSelectionListener() {
+
+			@Override
+			public void valueChanged(ListSelectionEvent arg) {
+				bookingToCancel = list.getSelectedValue();
+			}
+
+		});
+		panelReservas.add(list);
+
+		// Crea un JScroll para buscar aquellas reservas que no caben en el panel
+		JScrollPane scroll = new JScrollPane(list);
+		panelReservas.add(scroll);
+
+		// Botón para cancelar reserva
+		JButton btn = new JButton();
+		btn.setText("Cancelar reserva");
+		btn.addActionListener(this);
+		panelReservas.add(btn);
+
 		JLabel lblSistemaDeGestin = new JLabel("Mi Perfil");
 		lblSistemaDeGestin.setForeground(new Color(153, 0, 204));
 		lblSistemaDeGestin.setFont(new Font("Calibri", Font.BOLD, 35));
 		lblSistemaDeGestin.setBounds(216, 67, 658, 56);
 		mainPanel.add(lblSistemaDeGestin);
-		
-		
-		JLabel lblNewUser = new JLabel("<html>Nombre usuario: <br/>"+acronym);
+
+		JLabel lblNewUser = new JLabel("<html>Nombre usuario: <br/>" + acronym);
 		lblNewUser.setBounds(10, 133, 118, 40);
 		mainPanel.add(lblNewUser);
 		lblNewUser.setFont(new Font("Calibri", Font.BOLD, 16));
 	}
 
 	private void getBooking() {
+		int thisWeek = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
+		int thisWeekMinus30Days = thisWeek - 5;
 		
 		String booking = "";
 		int i = 0;
@@ -212,7 +253,7 @@ public class MiPerfil implements ActionListener {
 
 		// Abrir conexion con BD
 		try {
-			conn = (Connection) DriverManager.getConnection(conectionBBDD,userBBDD, pswdBBDD);
+			conn = (Connection) DriverManager.getConnection(conectionBBDD, userBBDD, pswdBBDD);
 			System.out.println("¡¡ Conectado con la base Cy&Co !!");
 			stmt = conn.createStatement();
 
@@ -223,7 +264,7 @@ public class MiPerfil implements ActionListener {
 		try {
 			// Select statement
 			String query = "SELECT * FROM reservas r JOIN deportes d ON d.id_deporte = r.id_deporte WHERE r.acrónimo='"
-					+ acronym + "'";
+					+ acronym + "' AND semana <="+thisWeek+" AND semana >="+thisWeekMinus30Days+" ORDER BY r.semana,d.id_deporte,r.dia";
 			java.sql.Statement stmt = conn.createStatement();
 
 			// Gets the result
@@ -231,29 +272,32 @@ public class MiPerfil implements ActionListener {
 
 			// Take the value
 			while (rs.next()) {
+
 				String nDeporte = rs.getString("nombre_deporte");
 				String dia = rs.getString("dia");
 				int pista = rs.getInt("pista");
 				int plazas = rs.getInt("plazas");
 				String hora = rs.getString("hora");
 				int weekYear = rs.getInt("semana");
-				
-				booking = "Deporte: " + nDeporte + ". Nº semana: " + weekYear + ". Día: " + dia + ". Hora: " + hora+ ". Pista: " + pista + ". Nº plazas: " + plazas;
-				if (i > 16) {
-					i = 0;
-					j = 1;
-				}
-				// Crea el botón con la reserva, con la idea de cancelarla
-				btnBookingArray[i] = new JButton();
-				btnBookingArray[i].setText(booking);
-				btnBookingArray[i].addActionListener(this);
-				btnBookingArray[i].setBackground(new Color(248, 248, 255));
-				btnBookingArray[i].setForeground(new Color(71, 0, 100));
-				btnBookingArray[i].setFont(new Font("Calibri", Font.BOLD, 16));
-				btnBookingArray[i].setBounds(10 + j*662, 36 + i * 36, 630, 26);
-				panelReservas.add(btnBookingArray[i]);
 
-				i++;
+				booking = "Deporte: " + nDeporte + ". Nº semana: " + weekYear + ". Día: " + dia + ". Hora: " + hora
+						+ ". Pista: " + pista + ". Nº plazas: " + plazas;
+				listModel.addElement(booking);
+				/*
+				 * 
+				 * if (i > 16) { i = 0; j = 1; }
+				 * 
+				 * // Crea el botón con la reserva, con la idea de cancelarla btnBookingArray[i]
+				 * = new JButton(); btnBookingArray[i].setText(booking);
+				 * btnBookingArray[i].addActionListener(this);
+				 * btnBookingArray[i].setBackground(new Color(248, 248, 255));
+				 * btnBookingArray[i].setForeground(new Color(71, 0, 100));
+				 * btnBookingArray[i].setFont(new Font("Calibri", Font.BOLD, 16));
+				 * btnBookingArray[i].setBounds(10 + j*662, 36 + i * 36, 630, 26);
+				 * panelReservas.add(btnBookingArray[i]);
+				 * 
+				 * i++;
+				 */
 			}
 
 		} catch (Exception e) {
@@ -271,51 +315,59 @@ public class MiPerfil implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String button = ((AbstractButton) e.getSource()).getText();
-		
-		int res = JOptionPane.showConfirmDialog(null, "¿Desea cancelar la reserva?","Eliminar reserva",
-				JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
-		
-		if (res == 0) {
-			// Abrir conexion con BD
-			try {
-				conn = (Connection) DriverManager.getConnection(conectionBBDD, userBBDD, pswdBBDD);
-				System.out.println("¡¡ Conectado con la base Cy&Co !!");
-				stmt = conn.createStatement();
+		// String button = ((AbstractButton) e.getSource()).getText();
 
-			} catch (SQLException error) {
-				// TODO Auto-generated catch block
-				error.printStackTrace();
-			}
+		if (bookingToCancel == null) {
+			JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna reserva",
+	                "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
+	 
+		} else {
+			int res = JOptionPane.showConfirmDialog(null, "¿Desea cancelar la reserva?", "Eliminar reserva",
+					JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
 			
-			DecodifySportCancelation cancel = new DecodifySportCancelation(button);
-			System.out.println(button);
-			System.out.println(cancel.toString());
-			String sport = cancel.getSport();
-			int weekYear = cancel.getWeekYear();
-			String day = cancel.getDay();
-			String hour = cancel.getHour();
-			int schedule = cancel.getSchedule();
-			int users = cancel.getUsers();
-			
-			// Borrar fila seleccionada
-			try {
-				// Select statement
-				String query = "DELETE r FROM reservas r JOIN deportes d ON d.id_deporte = r.id_deporte WHERE d.nombre_deporte='" + sport + "' AND r.dia='" + day + "' AND r.pista="
-						+ schedule + " AND r.hora='" + hour + "'" + " AND r.semana='" + weekYear + "'" + " AND r.plazas='" + users + "' AND r.acrónimo='" + acronym +"'";
-				java.sql.Statement stmt = conn.createStatement();
-				// Gets the result
-				stmt.executeUpdate(query);
+			if (res == 0) {
+				// Abrir conexion con BD
+				try {
+					conn = (Connection) DriverManager.getConnection(conectionBBDD, userBBDD, pswdBBDD);
+					System.out.println("¡¡ Conectado con la base Cy&Co !!");
+					stmt = conn.createStatement();
 
-				change.newWindowApp("miPerfil", frame);
-				System.out.println("eliminada la fila");
+				} catch (SQLException error) {
+					// TODO Auto-generated catch block
+					error.printStackTrace();
+				}
+				
+				DecodifySportCancelation cancel = new DecodifySportCancelation(bookingToCancel);
+				System.out.println(bookingToCancel);
+				System.out.println(cancel.toString());
+				String sport = cancel.getSport();
+				int weekYear = cancel.getWeekYear();
+				String day = cancel.getDay();
+				String hour = cancel.getHour();
+				int schedule = cancel.getSchedule();
+				int users = cancel.getUsers();
 
-			} catch (Exception error) {
-				error.printStackTrace();
-			}
-			
-		} else
-			System.out.println("Reserva cancelada");
-		
+				// Borrar fila seleccionada
+				try {
+					// Select statement
+					String query = "DELETE r FROM reservas r JOIN deportes d ON d.id_deporte = r.id_deporte WHERE d.nombre_deporte='"
+							+ sport + "' AND r.dia='" + day + "' AND r.pista=" + schedule + " AND r.hora='" + hour + "'"
+							+ " AND r.semana='" + weekYear + "'" + " AND r.plazas='" + users + "' AND r.acrónimo='"
+							+ acronym + "'";
+					java.sql.Statement stmt = conn.createStatement();
+					// Gets the result
+					stmt.executeUpdate(query);
+
+					change.newWindowApp("miPerfil", frame);
+					System.out.println("eliminada la fila");
+
+				} catch (Exception error) {
+					error.printStackTrace();
+				}
+
+			} else
+				System.out.println("Reserva cancelada");
+		}
+
 	}
 }

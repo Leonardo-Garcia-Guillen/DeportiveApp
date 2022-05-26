@@ -1,0 +1,7 @@
+- Crear más o menos radioButtons en base a los availableUsers
+
+- Mostrar todos los usuarios cuando pulsamos un botón horario
+
+- Creo el método openConnectionBBDD() para abrir conexión en ReservaPadel: getUsers, getAvailableUsers.
+
+- Crea tantos botones como plazas disponibles

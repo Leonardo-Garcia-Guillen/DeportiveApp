@@ -62,7 +62,7 @@ public class ReservaPadel implements ActionListener {
 	private JRadioButton[] bookingRadioButtonArray = new JRadioButton[totalUsers];
 
 	private JLabel lblUsersList;
-	
+
 	private DecodifySport decode;
 	private ButtonGroup bookingGroup;
 	private String text = "";
@@ -76,7 +76,7 @@ public class ReservaPadel implements ActionListener {
 	private String lastHour = "";
 	private String booking = "";
 	private String lastHourSelected = "";
-	
+
 	// BBDD
 	private static final String conectionBBDD = "jdbc:mysql://192.168.50.27:3306/cy&co";
 	private static final String userBBDD = "Leo";
@@ -138,14 +138,13 @@ public class ReservaPadel implements ActionListener {
 		mainPanel.add(cycoLabel);
 
 		// RESERVAS HORARIAS
-		// getBookingPanels(mainPanel);
-		bookingGroup = new ButtonGroup();
+		bookingGroup = new ButtonGroup(); // Donde guardaremos los bookingRadio
 		bookingPanel = new JPanel();
 		bookingPanel.setBounds(627, 386, 272, 362);
 		mainPanel.add(bookingPanel);
 		bookingPanel.setLayout(null);
 		bookingPanel.setVisible(false);
-		getBookingRadioBtn(bookingPanel,lastHourSelected);
+		getBookingRadioBtn();
 
 		JLabel lblBooking = new JLabel("Indique cuántas plazas desea reservar");
 		lblBooking.setBounds(17, 46, 237, 18);
@@ -159,14 +158,9 @@ public class ReservaPadel implements ActionListener {
 		btnBooking.setBounds(163, 94, 91, 71);
 		bookingPanel.add(btnBooking);
 
-		JLabel lblUsers = new JLabel();
-		lblUsers.setText("Reservas realizadas por: ");
-		lblUsers.setBounds(121, 192, 133, 18);
-		bookingPanel.add(lblUsers);
-		
 		lblUsersList = new JLabel();
-		lblUsersList.setText("<html>");
-		lblUsersList.setBounds(121, 220, 113, 132);
+		lblUsersList.setText("");
+		lblUsersList.setBounds(121, 220, 113, 64);
 		bookingPanel.add(lblUsersList);
 
 		// --------- PANELES HORARIOS SEMANALES ---------
@@ -277,40 +271,6 @@ public class ReservaPadel implements ActionListener {
 
 	}
 
-	private String getUsers(int sport, String day, int schedule, String hour, int weekYear) {
-		String user = "<html>";
-		// Abrir conexion con BD
-		try {
-			conn = (Connection) DriverManager.getConnection(conectionBBDD, userBBDD, pswdBBDD);
-			stmt = conn.createStatement();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		try {
-			// Select statement
-			String query = "SELECT acrónimo FROM reservas WHERE id_deporte=" + sport + " AND dia='" + day
-					+ "' AND pista=" + schedule + " AND hora='" + hour + "'" + " AND semana=" + weekYear;
-			java.sql.Statement stmt = conn.createStatement();
-
-			// Gets the result
-			ResultSet rs = stmt.executeQuery(query);
-
-			// Take the value
-			while (rs.next()) {
-				user = user + "<br/>" + rs.getString(1);
-			}
-
-			stmt.close();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return null;
-	}
-
 	// ------------- CREATE BUTTONS & PANELS -------------
 	private void getHourBtns() {
 		int cont = 0;
@@ -353,27 +313,19 @@ public class ReservaPadel implements ActionListener {
 		}
 	}
 
-	private void getBookingRadioBtn(JPanel panel, String codifyHour) {
+	// Crea los JRadioButton: botones circulares para selección del número de plazas
+	private void getBookingRadioBtn() {
 
-		DecodifySport decodeHour = new DecodifySport(codifyHour, 0);
-		int sport = decodeHour.getSport();
-		int weekYear = decodeHour.getWeekYear();
-		String day = decodeHour.getDay();
-		int schedule = decodeHour.getSchedule();
-		String hour = decodeHour.getHour();
-
-		availableUsers = getAvailableUsers(sport, day, schedule, hour, weekYear);
-		
-		for (int i = 0; i < availableUsers; i++) {
+		for (int i = 0; i < totalUsers; i++) {
 			int j = i + 1;
 			bookingRadioButtonArray[i] = new JRadioButton();
 			bookingRadioButtonArray[i].setText("" + j);
-			// bookingPanelArray[i].setBackground(new Color(250));
-			bookingRadioButtonArray[i].setBounds(45, 85 + i * 50, 103, 21);
-			panel.add(bookingRadioButtonArray[i]);
+			bookingRadioButtonArray[i].setBounds(45, 85 + i * 50, 50, 21);
+			bookingPanel.add(bookingRadioButtonArray[i]);
 			bookingGroup.add(bookingRadioButtonArray[i]);
 			bookingRadioButtonArray[i].setLayout(null);
 			bookingRadioButtonArray[i].setVisible(true);
+
 		}
 	}
 
@@ -435,7 +387,7 @@ public class ReservaPadel implements ActionListener {
 					DecodifySport decodeColor = new DecodifySport(decodification, 0);
 					// System.out.println(decodeColor.toString());
 					changeHourColor(btnHoursArray[day][schedule][hour], getAvailableUsers(sportNumber,
-							decodeColor.getDay(), schedule, decodeColor.getHour(), weekYear));
+							decodeColor.getDay(), schedule + 1, decodeColor.getHour(), weekYear));
 				}
 			}
 		}
@@ -459,11 +411,13 @@ public class ReservaPadel implements ActionListener {
 	}
 
 	// ------------ BOOKING --------------
+	// Estudiamos el caso en que se pulsa un botón horario
 	private void evaluateHourBtn(AbstractButton source) {
-
+		// Visibilizamos el panel con los botones respectivos
 		bookingPanel.setVisible(true);
-		booking = source.getName();
+		booking = source.getName(); // Tomamos el nombre del botón codificado
 
+		// Decodificamos el nombre y tomamos cada valor por separado
 		decode = new DecodifySport(booking, 0);
 		int sport = decode.getSport();
 		int weekYear = decode.getWeekYear();
@@ -472,17 +426,23 @@ public class ReservaPadel implements ActionListener {
 		String hour = decode.getHour();
 
 		// Muestra los usuarios que han reservado a esa hora
-		lblUsersList.setText(getUsers(sport, day, schedule, hour, weekYear));
-		
+		lblUsersList.setText("<html>Reservada por:<br/>" + getUsers(sport, day, schedule, hour, weekYear));
 
+		// Estudia si hay alguna plaza para reservar a esa hora
 		availableUsers = getAvailableUsers(sport, day, schedule, hour, weekYear);
+
+		// Muestra comentarios del usuario si los hay
+		showUserComments(sport, day, schedule, hour, weekYear);
+
+		// Guardamos la última hora y la pista seleccionadas
 		scheduleSelected = decode.getSchedule();
 		lastHour = decode.getHour();
 
 	}
 
-	private int getAvailableUsers(int sport, String day, int schedule, String hour, int weekYear) {
-		// Abrir conexion con BD
+	// ------------- LLAMADAS A LA BASE DE DATOS -------------
+	// Abre conexión con la Base de Datos
+	private void openConnectionBBDD() {
 		try {
 			conn = (Connection) DriverManager.getConnection(conectionBBDD, userBBDD, pswdBBDD);
 			stmt = conn.createStatement();
@@ -492,14 +452,54 @@ public class ReservaPadel implements ActionListener {
 			e.printStackTrace();
 		}
 
-		// Contar cuantas reservas hay de un usuario en un deporte a una hora específica
+	}
+
+	// Muestra los usuarios que han reservado en un deporte, un día a una hora
+	// específicas
+	private String getUsers(int sport, String day, int schedule, String hour, int weekYear) {
+		// Permite hacer .setText() en un JLabel con salto de línea
+		String user = "<html>";
+
+		openConnectionBBDD();
+
+		// Sentencia que se hace para conocer los nombres de los usuarios
+		try {
+			// Select statement
+			String query = "SELECT acrónimo FROM reservas WHERE id_deporte=" + sport + " AND dia='" + day
+					+ "' AND pista=" + schedule + " AND hora='" + hour + "'" + " AND semana=" + weekYear;
+			java.sql.Statement stmt = conn.createStatement();
+
+			// Toma el resultado
+			ResultSet rs = stmt.executeQuery(query);
+
+			// Cogemos nombre por nombre con saltos de línea
+			while (rs.next()) {
+				user = user + "<br/>- " + rs.getString(1);
+			}
+
+			// Cerramos el statement?
+			stmt.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return user;
+	}
+
+	// Estudia si queda alguna plaza disponible a una hora específica
+	private int getAvailableUsers(int sport, String day, int schedule, String hour, int weekYear) {
+
+		// Abrimos conexión con la BBDD
+		openConnectionBBDD();
+
+		// Contar cuantas reservas hay en un deporte a una hora específica
 		int hoursCounter = 0;
 		int aux = 0;
-		int scheduleP1 = schedule + 1;
 		try {
 			// Select statement
 			String query = "SELECT plazas FROM reservas WHERE id_deporte=" + sport + " AND dia='" + day + "' AND pista="
-					+ scheduleP1 + " AND hora='" + hour + "'" + " AND semana=" + weekYear;
+					+ schedule + " AND hora='" + hour + "'" + " AND semana=" + weekYear;
 			java.sql.Statement stmt = conn.createStatement();
 
 			// Gets the result
@@ -522,16 +522,76 @@ public class ReservaPadel implements ActionListener {
 		return hoursCounter;
 	}
 
+	private String getUserComment(int sport, String day, int schedule, String hour, int weekYear) {
+		String com = "";
+		String acronym = "";
+		String aux;
+		// Abrimos conexión con la BBDD
+		openConnectionBBDD();
+
+		// Busca el comentario que haya en una hora específica
+
+		try {
+			// Select statement
+			String query = "SELECT acrónimo FROM reservas WHERE id_deporte=" + sport + " AND dia='" + day
+					+ "' AND pista=" + schedule + " AND hora='" + hour + "'" + " AND semana=" + weekYear;
+			java.sql.Statement stmt = conn.createStatement();
+
+			// Gets the result
+			ResultSet rs = stmt.executeQuery(query);
+
+			// Take the value
+			while (rs.next()) {
+				// Para cada usuario, mostrar su comentario
+				acronym = rs.getString(1);
+				System.out.println(acronym);
+				String query2 = "SELECT comentario FROM reservas WHERE acrónimo='" + acronym + "' AND id_deporte="
+						+ sport + " AND dia='" + day + "' AND pista=" + schedule + " AND hora='" + hour + "'"
+						+ " AND semana=" + weekYear;
+				java.sql.Statement stmt2 = conn.createStatement();
+
+				// Gets the result
+				ResultSet rs2 = stmt2.executeQuery(query2);
+
+				// Take the value
+				aux = "";
+				while (rs2.next()) {
+					aux = aux + rs2.getString(1);
+				}
+
+				if (aux == null || aux.equals("") || aux.equals(" ") || aux.equals("  ") || aux.equals("   ") || aux.equals(null)
+						|| aux.equals("null") || aux.equals("nullnull")) {
+					System.out.println("comentario vacío");
+				} else {
+					com = com + "\n" + acronym + ": " + aux;
+				}
+
+			}
+
+			// stmt.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return com;
+	}
+
 	// ------------ ACTION PERFORMANCE ------------
+	// Se pulsa un botón: Acción
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String textDialog = "";
-		String button = ((AbstractButton) e.getSource()).getText();
 		int users = 0;
+		
+		// Tomamos el valor de ese botón
+		String button = ((AbstractButton) e.getSource()).getText();
 
+		// Evaluamos el texto del botón si es un día de la semana, un botón horario o
+		// confirmamos reserva
 		if (button.equals("LUNES") || button.equals("MARTES") || button.equals("MIERCOLES") || button.equals("JUEVES")
 				|| button.equals("VIERNES") || button.equals("SABADO") || button.equals("DOMINGO")) {
-			// Pongo el resto del color estandar, y el pulsado en otro color
+			// Pongo el resto del color estandar, y el botón pulsado en otro color
 			resetDayBtns();
 			changeBtnColor(e);
 
@@ -541,40 +601,87 @@ public class ReservaPadel implements ActionListener {
 
 		} else if (button.equals("Confirmar")) {
 			// Muestra la reserva que el usuario ha realizado
-			for (int i = 1; i < availableUsers + 1; i++)
-				if (bookingRadioButtonArray[i - 1].isSelected()) {
-					users = i;
-					textDialog = "" + i;
-				}
+			
+			for (int i = 0; i < totalUsers; i++) {
 
+				if (bookingRadioButtonArray[i].isSelected()) {
+					users = i + 1;
+					textDialog = "" + users;
+				}
+			}
+			
 			// Si hay confirmación sin asignación de plazas
 			if (users == 0) {
-				JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna plaza");
+				if (availableUsers == totalUsers)
+					JOptionPane.showMessageDialog(null, "Ninguna plaza ha sido seleccionada", "Ups!", JOptionPane.WARNING_MESSAGE);
+				else
+					JOptionPane.showMessageDialog(null, "No hay más plazas disponibles", "Ups!", JOptionPane.WARNING_MESSAGE);
 			} else {
 				// Muestra al usuario los datos de la reserva
-				textDialog = "Plazas: " + textDialog + "\nPista: " + scheduleSelected + "\nDía: " + text + "\nHora: "
-						+ lastHour;
+				textDialog = "¿Desea hacer la siguiente reserva?\n\nPlazas: " + textDialog + "\nPista: "
+						+ scheduleSelected + "\nDía: " + text + "\nHora: " + lastHour
+						+ "\n\nAñada un comentario si lo desea: ";
 
-				int res = JOptionPane.showConfirmDialog(null, textDialog, "Resumen de reserva",
-						JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+				ImageIcon icon = new ImageIcon(
+						new ImageIcon(InterfazPrincipal.class.getResource("/images/nueva reserva.png")).getImage()
+								.getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+				String userComment = (String) JOptionPane.showInputDialog(null, textDialog, "Datos de la reserva",
+						JOptionPane.INFORMATION_MESSAGE, icon, null, null);
 
-				if (res == 0) {
-					decode = new DecodifySport(booking, users);
-					decode.sendBBDD(decode.toString(), totalUsers);
-					change.newWindowApp("miPerfil", frame);
-
-				} else
+				if (userComment.equals(null))
 					System.out.println("Reserva cancelada");
+				else {
+					// Se envía la inforación de la reserva
+					decode = new DecodifySport(booking, users);
+					decode.sendBBDD(decode.toString(), totalUsers, userComment);
+
+					change.newWindowApp("miPerfil", frame);
+				}
 
 			}
 
 		} else {
-			// Cualquier botón horario
+			// Cualquier botón horario ha sido pulsado: se resalta el color de ese botón
 			resetHourBtns();
 			changeBtnColor(e);
+
+			// Se toma el nombre de dicho botón
 			lastHourSelected = ((AbstractButton) e.getSource()).getName();
+
+			// Evaluamos las opciones del botón pulsado
 			evaluateHourBtn(((AbstractButton) e.getSource()));
 
+			// Mostramos tantas opciones de reservas como plazas queden disponibles
+			bookingGroup.clearSelection();
+			for (int i = 0; i < totalUsers; i++) {
+				if (i >= availableUsers)
+					bookingRadioButtonArray[i].setEnabled(false);
+				else
+					bookingRadioButtonArray[i].setEnabled(true);
+			}
+		}
+
+	}
+
+	private void showUserComments(int sport, String day, int schedule, String hour, int weekYear) {
+		// Si hay alguna reserva realizada, muestra si hay algún comentario de algún
+		// usuario
+		String userHourComment = "";
+
+		if (availableUsers != totalUsers) {
+			// Vemos si hay algún comentario en esa hora
+			userHourComment = getUserComment(sport, day, schedule, hour, weekYear);
+			System.out.println("Veamos: " + userHourComment);
+			if (userHourComment.equals("") || userHourComment.equals(" ") || userHourComment.equals("  ")
+					|| userHourComment.equals("   ") || userHourComment == null) { // Comentario vacío no mostrarlo
+				System.out.println("No comentarios");
+			} else { // Muestro el comentario
+				ImageIcon icon = new ImageIcon(
+						new ImageIcon(InterfazPrincipal.class.getResource("/images/comentario.png")).getImage()
+								.getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+				JOptionPane.showMessageDialog(null, userHourComment, "Nuevo comentario",
+						JOptionPane.INFORMATION_MESSAGE, icon);
+			}
 		}
 
 	}
