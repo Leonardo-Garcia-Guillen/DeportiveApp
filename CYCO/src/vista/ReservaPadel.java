@@ -140,27 +140,32 @@ public class ReservaPadel implements ActionListener {
 		// RESERVAS HORARIAS
 		bookingGroup = new ButtonGroup(); // Donde guardaremos los bookingRadio
 		bookingPanel = new JPanel();
-		bookingPanel.setBounds(627, 386, 272, 362);
+		// bookingPanel.setBackground(new Color(255, 255, 255));
+		bookingPanel.setBounds(627, 386, 290, 380);
 		mainPanel.add(bookingPanel);
 		bookingPanel.setLayout(null);
 		bookingPanel.setVisible(false);
 		getBookingRadioBtn();
 
 		JLabel lblBooking = new JLabel("Indique cuántas plazas desea reservar");
-		lblBooking.setBounds(17, 46, 237, 18);
-		lblBooking.setForeground(new Color(100, 0, 140));
-		lblBooking.setFont(new Font("Calibri", Font.BOLD, 14));
+		lblBooking.setBounds(17, 24, 300, 18);
+		lblBooking.setForeground(new Color(0, 0, 0));
+		lblBooking.setFont(new Font("Calibri", Font.BOLD, 16));
 		bookingPanel.add(lblBooking);
 
 		JButton btnBooking = new JButton();
 		btnBooking.setText("Confirmar");
 		btnBooking.addActionListener(this);
-		btnBooking.setBounds(163, 94, 91, 71);
+		// btnBooking.setBackground(new Color(255, 255, 255));
+		btnBooking.setFont(new Font("Calibri", Font.BOLD, 18));
+		btnBooking.setBorder(new LineBorder(Color.BLACK, 2));
+		btnBooking.setBounds(138, 128, 117, 71);
 		bookingPanel.add(btnBooking);
 
 		lblUsersList = new JLabel();
+		lblUsersList.setFont(new Font("Calibri", Font.BOLD, 16));
 		lblUsersList.setText("");
-		lblUsersList.setBounds(121, 220, 113, 64);
+		lblUsersList.setBounds(86, 250, 113, 100);
 		bookingPanel.add(lblUsersList);
 
 		// --------- PANELES HORARIOS SEMANALES ---------
@@ -186,8 +191,12 @@ public class ReservaPadel implements ActionListener {
 		btnSalir.setFont(new Font("Calibri", Font.BOLD, 16));
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int res = JOptionPane.showConfirmDialog(null, "¿Desea salir de la aplicación?", "Salir",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 
-				System.exit(0);
+				if (res == 0) {
+					System.exit(0);
+				}
 			}
 		});
 
@@ -208,13 +217,28 @@ public class ReservaPadel implements ActionListener {
 		btnMiPerfil.setBounds(1094, 0, 95, 44);
 		panelSup.add(btnMiPerfil);
 
+		String help = "-¿Cómo puedo reservar un deporte?\r\n"
+				+ "  Para reservar un deporte, seleccione en la imagen del deporte que desee y, a continuación, se le mostrarán los horarios disponibles para cada día de la semana\n\n"
+				+ "-¿Puedo ver quién ha reservado a una determinada hora?\r\n"
+				+ "  Al realizar una reserva, aparecen los nombres de los usuarios que ya hayan reservado en ese mismo horario\n\n"
+				+ "-¿Cuántas reservas puedo hacer al día?\r\n" + "  Puede reservar un máximo de 2 periodos por día\n\n"
+				+ "-¿Cómo sé si una hora está completa?\r\n"
+				+ "  Cada horario de reserva tiene un código de colores que nos indica el nivel de ocupación: \n  Verde: Totalmente desocupado\n  Naranja: Parcialmente ocupado\n  Rojo: Totalmente ocupado\n\n"
+				+ "-¿Cómo veo mis reservas?\r\n" + "  En la opción \"Mi Perfil\"\n\n" + "-¿Cómo cancelo mis reservas?\n"
+				+ "  En \"Mi perfil\" salen todas las reservas realizadas por el usuario y la opción de cancelar cada una de ellas";
 		JButton btnAyuda = new JButton("Ayuda");
+		btnAyuda.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, help, "Preguntas frecuentes", JOptionPane.QUESTION_MESSAGE);
+
+			}
+		});
 		btnAyuda.setFont(new Font("Calibri", Font.BOLD, 16));
 		btnAyuda.setForeground(new Color(255, 255, 255));
 		btnAyuda.setBackground(new Color(100, 0, 140));
 		btnAyuda.setBounds(884, 0, 95, 44);
 		panelSup.add(btnAyuda);
-		
+
 		JButton btnInicio = new JButton("Inicio");
 		btnInicio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -223,14 +247,26 @@ public class ReservaPadel implements ActionListener {
 		});
 		btnInicio.setFont(new Font("Calibri", Font.BOLD, 16));
 		btnInicio.setForeground(new Color(255, 255, 255));
-		btnInicio.setBackground(new Color(71, 0, 100));
+		btnInicio.setBackground(new Color(100, 0, 140));
 		btnInicio.setBounds(779, 0, 95, 44);
 		panelSup.add(btnInicio);
-		
+
+		String contact = "Correo electrónico: cyco.sigesdep@gmail.com \n\nTeléfono de contacto: 662 62 62 62";
+
 		JButton btnContacto = new JButton("Contacto");
-		btnContacto.setForeground(Color.WHITE);
+		btnContacto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// JOptionPane.showMessageDialog(null, contact, "Contacto",
+				// JOptionPane.WARNING_MESSAGE);
+				ImageIcon icon = new ImageIcon(new ImageIcon(InterfazPrincipal.class.getResource("/images/tlf.png"))
+						.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+				JOptionPane.showMessageDialog(null, contact, "Contacto", JOptionPane.INFORMATION_MESSAGE, icon);
+
+			}
+		});
 		btnContacto.setFont(new Font("Calibri", Font.BOLD, 16));
-		btnContacto.setBackground(new Color(153, 51, 204));
+		btnContacto.setForeground(new Color(255, 255, 255));
+		btnContacto.setBackground(new Color(100, 0, 140));
 		btnContacto.setBounds(989, 0, 95, 44);
 		panelSup.add(btnContacto);
 
@@ -252,11 +288,6 @@ public class ReservaPadel implements ActionListener {
 		mainPanel.add(lblHora);
 
 		// ---------- PISTAS DISPONIBLES ---------
-		JLabel lblPistasDisponibles = new JLabel("Pistas disponibles:  ");
-		lblPistasDisponibles.setForeground(new Color(100, 0, 140));
-		lblPistasDisponibles.setFont(new Font("Calibri", Font.BOLD, 30));
-		lblPistasDisponibles.setBounds(1102, 149, 319, 44);
-		mainPanel.add(lblPistasDisponibles);
 
 		JLabel lblPista = new JLabel("Pista 1");
 		lblPista.setForeground(new Color(100, 0, 140));
@@ -275,6 +306,46 @@ public class ReservaPadel implements ActionListener {
 		mainPanel.add(lblTitulo);
 		lblTitulo.setForeground(new Color(71, 0, 100));
 		lblTitulo.setFont(new Font("Calibri", Font.BOLD, 45));
+
+		// Ayudas de colores
+		JLabel lblHelpGreen = new JLabel("Borde verde: pista libre");
+		lblHelpGreen.setBounds(1132, 81, 313, 32);
+		lblHelpGreen.setForeground(new Color(71, 0, 100));
+		lblHelpGreen.setFont(new Font("Calibri", Font.BOLD, 17));
+		mainPanel.add(lblHelpGreen);
+
+		JLabel lblHelpRed = new JLabel("Borde rojo: pista totalmente ocupada");
+		lblHelpRed.setBounds(1132, 165, 313, 30);
+		lblHelpRed.setForeground(new Color(71, 0, 100));
+		lblHelpRed.setFont(new Font("Calibri", Font.BOLD, 17));
+		mainPanel.add(lblHelpRed);
+
+		JLabel lblHelpOrange = new JLabel("Borde naranja: pista parcialmente ocupada");
+		lblHelpOrange.setBounds(1132, 123, 313, 32);
+		lblHelpOrange.setForeground(new Color(71, 0, 100));
+		lblHelpOrange.setFont(new Font("Calibri", Font.BOLD, 17));
+		mainPanel.add(lblHelpOrange);
+
+		JLabel lblGreen = new JLabel("");
+		lblGreen.setForeground(new Color(71, 0, 100));
+		lblGreen.setFont(new Font("Calibri", Font.BOLD, 17));
+		lblGreen.setBorder(new LineBorder(new Color(50, 205, 50), 3));
+		lblGreen.setBounds(1090, 81, 32, 32);
+		mainPanel.add(lblGreen);
+
+		JLabel lblOrange = new JLabel("");
+		lblOrange.setForeground(new Color(71, 0, 100));
+		lblOrange.setFont(new Font("Calibri", Font.BOLD, 17));
+		lblOrange.setBorder(new LineBorder(Color.ORANGE, 3));
+		lblOrange.setBounds(1090, 123, 32, 32);
+		mainPanel.add(lblOrange);
+
+		JLabel lblRed = new JLabel("");
+		lblRed.setForeground(new Color(71, 0, 100));
+		lblRed.setFont(new Font("Calibri", Font.BOLD, 17));
+		lblRed.setBorder(new LineBorder(Color.RED, 3));
+		lblRed.setBounds(1090, 163, 32, 32);
+		mainPanel.add(lblRed);
 
 	}
 
@@ -327,7 +398,9 @@ public class ReservaPadel implements ActionListener {
 			int j = i + 1;
 			bookingRadioButtonArray[i] = new JRadioButton();
 			bookingRadioButtonArray[i].setText("" + j);
-			bookingRadioButtonArray[i].setBounds(45, 85 + i * 50, 50, 21);
+			bookingRadioButtonArray[i].setBounds(45, 75 + i * 50, 50, 21);
+			// bookingRadioButtonArray[i].setColor(new Color(255,255,255));
+			bookingRadioButtonArray[i].setFont(new Font("Calibri", Font.BOLD, 16));
 			bookingPanel.add(bookingRadioButtonArray[i]);
 			bookingGroup.add(bookingRadioButtonArray[i]);
 			bookingRadioButtonArray[i].setLayout(null);
@@ -365,18 +438,18 @@ public class ReservaPadel implements ActionListener {
 	// ---------- CHANGE COLORS -----------
 
 	private void changeBtnColor(ActionEvent e) {
-		((JComponent) e.getSource()).setBackground(new Color(229, 165, 255));
+		((JComponent) e.getSource()).setBackground(new Color(220, 220, 220));
 
 	}
 
 	private void changeHourColor(JButton btn, int availableUsers) {
 
 		if (availableUsers == totalUsers) {
-			btn.setBorder(new LineBorder(new Color(50, 205, 50), 5));
+			btn.setBorder(new LineBorder(new Color(50, 205, 50), 3));
 		} else if (availableUsers == 0) {
-			btn.setBorder(new LineBorder(Color.RED, 5));
+			btn.setBorder(new LineBorder(Color.RED, 3));
 		} else {
-			btn.setBorder(new LineBorder(Color.ORANGE, 5));
+			btn.setBorder(new LineBorder(Color.ORANGE, 3));
 		}
 	}
 
@@ -433,13 +506,24 @@ public class ReservaPadel implements ActionListener {
 		String hour = decode.getHour();
 
 		// Muestra los usuarios que han reservado a esa hora
-		lblUsersList.setText("<html>Reservada por:<br/>" + getUsers(sport, day, schedule, hour, weekYear));
+		lblUsersList.setText("<html>Reservada por:" + getUsers(sport, day, schedule, hour, weekYear));
 
 		// Estudia si hay alguna plaza para reservar a esa hora
 		availableUsers = getAvailableUsers(sport, day, schedule, hour, weekYear);
-
-		// Muestra comentarios del usuario si los hay
-		showUserComments(sport, day, schedule, hour, weekYear);
+		
+		// Si hay alguna reserva, muestra las personas que la han reservado y su(s) comentario(s)
+		
+		if (availableUsers == totalUsers)
+			lblUsersList.setVisible(false);
+		else {
+			lblUsersList.setVisible(true);
+			
+			// Muestra comentarios del usuario si los hay
+			showUserComments(sport, day, schedule, hour, weekYear);
+		}
+			
+		
+		
 
 		// Guardamos la última hora y la pista seleccionadas
 		scheduleSelected = decode.getSchedule();
@@ -566,12 +650,14 @@ public class ReservaPadel implements ActionListener {
 					aux = aux + rs2.getString(1);
 				}
 
-				if (aux == null || aux.equals("") || aux.equals(" ") || aux.equals("  ") || aux.equals("   ") || aux.equals(null)
-						|| aux.equals("null") || aux.equals("nullnull")) {
-					System.out.println("comentario vacío");
+				if (aux == null || aux.equals("") || aux.equals(" ") || aux.equals("  ") || aux.equals("   ")
+						|| aux.equals(null) || aux.equals("null") || aux.equals("nullnull")) {
+					//System.out.println("comentario vacío");
 				} else {
 					com = com + "\n" + acronym + ": " + aux;
 				}
+				acronym = "";
+				
 
 			}
 
@@ -590,7 +676,7 @@ public class ReservaPadel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String textDialog = "";
 		int users = 0;
-		
+
 		// Tomamos el valor de ese botón
 		String button = ((AbstractButton) e.getSource()).getText();
 
@@ -608,7 +694,7 @@ public class ReservaPadel implements ActionListener {
 
 		} else if (button.equals("Confirmar")) {
 			// Muestra la reserva que el usuario ha realizado
-			
+
 			for (int i = 0; i < totalUsers; i++) {
 
 				if (bookingRadioButtonArray[i].isSelected()) {
@@ -616,13 +702,15 @@ public class ReservaPadel implements ActionListener {
 					textDialog = "" + users;
 				}
 			}
-			
+
 			// Si hay confirmación sin asignación de plazas
 			if (users == 0) {
 				if (availableUsers == totalUsers)
-					JOptionPane.showMessageDialog(null, "Ninguna plaza ha sido seleccionada", "Ups!", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Ninguna plaza ha sido seleccionada", "Ups!",
+							JOptionPane.WARNING_MESSAGE);
 				else
-					JOptionPane.showMessageDialog(null, "No hay más plazas disponibles", "Ups!", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No hay más plazas disponibles", "Ups!",
+							JOptionPane.WARNING_MESSAGE);
 			} else {
 				// Muestra al usuario los datos de la reserva
 				textDialog = "¿Desea hacer la siguiente reserva?\n\nPlazas: " + textDialog + "\nPista: "
@@ -678,7 +766,7 @@ public class ReservaPadel implements ActionListener {
 		if (availableUsers != totalUsers) {
 			// Vemos si hay algún comentario en esa hora
 			userHourComment = getUserComment(sport, day, schedule, hour, weekYear);
-			System.out.println("Veamos: " + userHourComment);
+			//System.out.println("Veamos: " + userHourComment);
 			if (userHourComment.equals("") || userHourComment.equals(" ") || userHourComment.equals("  ")
 					|| userHourComment.equals("   ") || userHourComment == null) { // Comentario vacío no mostrarlo
 				System.out.println("No comentarios");

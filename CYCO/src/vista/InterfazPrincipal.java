@@ -88,14 +88,17 @@ public class InterfazPrincipal {
 		frame.getContentPane().add(mainPanel);
 		
 		
-		
-		JLabel cycoLabel = new JLabel("");
-		cycoLabel.setBounds(10, 10, 186, 101);
-		ImageIcon imageIcon = new ImageIcon(new ImageIcon(InterfazPrincipal.class.getResource("/images/CYCO_LOGO.jpeg")).getImage().getScaledInstance(186, 101, Image.SCALE_DEFAULT));
+		JButton btnCYCO = new JButton();
+		btnCYCO.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				change.newWindowApp("principal", frame);
+			}
+		});
+		btnCYCO.setBounds(10, 12, 186, 99);
+		ImageIcon imageCyco = new ImageIcon(new ImageIcon(InterfazPrincipal.class.getResource("/images/CYCO_LOGO.jpeg")).getImage().getScaledInstance(213,137,Image.SCALE_DEFAULT));
 		mainPanel.setLayout(null);
-		cycoLabel.setIcon(imageIcon);
-		cycoLabel.setBackground(new Color(218, 112, 214));
-		mainPanel.add(cycoLabel);
+		btnCYCO.setIcon(imageCyco);
+		mainPanel.add(btnCYCO);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(255, 255, 255));
@@ -107,8 +110,12 @@ public class InterfazPrincipal {
 		btnNewButton.setFont(new Font("Calibri", Font.BOLD, 16));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				System.exit(0);
+				int res = JOptionPane.showConfirmDialog(null, "¿Desea salir de la aplicación?", "Salir",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+
+				if (res == 0) {
+					System.exit(0);
+				}
 			}
 		});
 		
@@ -118,18 +125,24 @@ public class InterfazPrincipal {
 		panel_1.add(btnNewButton);
 		
 		String help = "-¿Cómo puedo reservar un deporte?\r\n"
-				+ "Para reservar un doporte, seleccione el deporte que desee y, a continuación, se le mostrarán los horarios disponibles\n\n"
+				+ "  Para reservar un deporte, seleccione en la imagen del deporte que desee y, a continuación, se le mostrarán los horarios disponibles para \n\n"
 				+ "-¿Puedo ver quién ha reservado a una determinada hora?\r\n"
-				+ ""
+				+ "  Al realizar una reserva, aparecen los nombres de los usuarios que ya hayan reservado en ese mismo horario\n\n"
 				+ "-¿Cuántas reservas puedo hacer al día?\r\n"
-				+ ""
-				+ "Puede reservar un máximo de 2 periodos por día\n\n"
-				+ "-¿Cómo se si una hora está completa?\r\n"
+				+ "  Puede reservar un máximo de 2 periodos por día\n\n"
+				+ "-¿Cómo sé si una hora está completa?\r\n"
+				+ "  Cada horario de reserva tiene un código de colores que nos indica el nivel de ocupación: \n  Verde: Totalmente desocupado\n  Naranja: Parcialmente ocupado\n  Rojo: Totalmente ocupado\n\n"
 				+ "-¿Cómo veo mis reservas?\r\n"
-				+ ""
-				+ "-¿Cómo cancelo mis reservas?"
-				+ "";
+				+ "  En la opción \"Mi Perfil\"\n\n"
+				+ "-¿Cómo cancelo mis reservas?\n"
+				+ "  En \"Mi perfil\" salen todas las reservas realizadas por el usuario y la opción de cancelar cada una de ellas";
 		JButton btnAyuda = new JButton("Ayuda");
+		btnAyuda.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, help, "Preguntas frecuentes", JOptionPane.QUESTION_MESSAGE);
+				
+			}
+		});
 		btnAyuda.setFont(new Font("Calibri", Font.BOLD, 16));
 		btnAyuda.setForeground(new Color(255, 255, 255));
 		btnAyuda.setBackground(new Color(100, 0, 140));
@@ -141,8 +154,12 @@ public class InterfazPrincipal {
 		JButton btnContacto = new JButton("Contacto");
 		btnContacto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, contact, "Contacto", JOptionPane.WARNING_MESSAGE);
-				
+				//JOptionPane.showMessageDialog(null, contact, "Contacto", JOptionPane.WARNING_MESSAGE);
+				ImageIcon icon = new ImageIcon(
+						new ImageIcon(InterfazPrincipal.class.getResource("/images/tlf.png")).getImage()
+								.getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+				JOptionPane.showMessageDialog(null, contact, "Contacto",
+						JOptionPane.INFORMATION_MESSAGE, icon);
 				
 				
 			}
@@ -180,18 +197,18 @@ public class InterfazPrincipal {
 		
 		String fecha = new SimpleDateFormat("dd/MM/yy").format(Calendar.getInstance().getTime());
 		JLabel lblFecha = new JLabel("Fecha:   " + fecha);
-		lblFecha.setFont(new Font("Calibri", Font.BOLD, 16));
+		lblFecha.setFont(new Font("Calibri", Font.BOLD, 17));
 		lblFecha.setForeground(new Color(102, 0, 153));
 		lblFecha.setBackground(new Color(255, 255, 255));
-		lblFecha.setBounds(1330, 63, 139, 25);
+		lblFecha.setBounds(1330, 75, 139, 25);
 		mainPanel.add(lblFecha);
 		
 		String hora = new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime());
 		JLabel lblHora = new JLabel(hora);
-		lblHora.setFont(new Font("Calibri", Font.BOLD, 16));
+		lblHora.setFont(new Font("Calibri", Font.BOLD, 17));
 		lblHora.setForeground(new Color(102, 0, 153));
 		lblHora.setBackground(new Color(255, 255, 255));
-		lblHora.setBounds(1384, 86, 85, 25);
+		lblHora.setBounds(1384, 98, 85, 25);
 		mainPanel.add(lblHora);
 		
 		JPanel panelDeportes = new JPanel();

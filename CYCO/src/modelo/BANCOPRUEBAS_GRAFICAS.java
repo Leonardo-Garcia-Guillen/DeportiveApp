@@ -43,6 +43,8 @@ public class BANCOPRUEBAS_GRAFICAS {
 	private JButton btnNewButton;
 	
 	JPasswordField passwordField = new JPasswordField(10);
+	private JButton btnNewButton_1;
+	private JButton btnNewButton_2;
 	
 	
 	/**
@@ -76,9 +78,6 @@ public class BANCOPRUEBAS_GRAFICAS {
 		double width = screenSize.getWidth();
 		double height = screenSize.getHeight();
 
-		passwordField.setActionCommand(OK);
-		passwordField.addActionListener(this);
-		
 		frame = new JFrame();
 		frame.setBounds(0, 0, (int) width, (int) height);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -95,12 +94,13 @@ public class BANCOPRUEBAS_GRAFICAS {
 		
 		panelReservas = new JPanel();
 		panelReservas.setBorder(null);
-		panelReservas.setBackground(new Color(255, 0, 0));
+		panelReservas.setBackground(new Color(255, 255, 255));
 		panelReservas.setBounds(159, 121, 500, 500);
 		mainPanel.add(panelReservas);
 		panelReservas.setLayout(null);
 		
-		btnNewButton = new JButton("New button");
+		btnNewButton = new JButton("este");
+		btnNewButton.setBackground(new Color(220, 220, 220));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -111,28 +111,16 @@ public class BANCOPRUEBAS_GRAFICAS {
 		btnNewButton.setBounds(118, 10, 183, 40);
 		panelReservas.add(btnNewButton);
 		
+		btnNewButton_1 = new JButton("New button");
+		btnNewButton_1.setBackground(new Color(153, 204, 255));
+		btnNewButton_1.setBounds(118, 73, 207, 54);
+		panelReservas.add(btnNewButton_1);
+		
+		btnNewButton_2 = new JButton("New button");
+		btnNewButton_2.setBackground(new Color(248, 248, 255));
+		btnNewButton_2.setBounds(334, 41, 166, 40);
+		panelReservas.add(btnNewButton_2);
+		
 	}
 
-	public void actionPerformed(ActionEvent e) {
-	    String cmd = e.getActionCommand();
-
-	    if (OK.equals(cmd)) { //Process the password.
-	        char[] input = passwordField.getPassword();
-	        if (isPasswordCorrect(input)) {
-	            JOptionPane.showMessageDialog(controllingFrame,
-	                "Success! You typed the right password.");
-	        } else {
-	            JOptionPane.showMessageDialog(controllingFrame,
-	                "Invalid password. Try again.",
-	                "Error Message",
-	                JOptionPane.ERROR_MESSAGE);
-	        }
-
-	        //Zero out the possible password, for security.
-	        Arrays.fill(input, '0');
-
-	        passwordField.selectAll();
-	        resetFocus();
-	    } else ...//handle the Help button...
-	}
 }

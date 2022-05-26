@@ -44,6 +44,7 @@ import javax.swing.UIManager;
 import controlador.ChangeWindow;
 import controlador.DecodifySport;
 import controlador.DecodifySportCancelation;
+import javax.swing.SwingConstants;
 
 public class MiPerfil implements ActionListener {
 	Connection conn;
@@ -110,15 +111,9 @@ public class MiPerfil implements ActionListener {
 		mainPanel.setBackground(new Color(255, 255, 255));
 		mainPanel.setBounds(10, 0, 1526, 800);
 		frame.getContentPane().add(mainPanel);
-
-		JLabel cycoLabel = new JLabel("");
-		cycoLabel.setBounds(10, 10, 186, 101);
 		ImageIcon imageIcon = new ImageIcon(new ImageIcon(InterfazPrincipal.class.getResource("/images/CYCO_LOGO.jpeg"))
 				.getImage().getScaledInstance(186, 101, Image.SCALE_DEFAULT));
 		mainPanel.setLayout(null);
-		cycoLabel.setIcon(imageIcon);
-		cycoLabel.setBackground(new Color(218, 112, 214));
-		mainPanel.add(cycoLabel);
 
 		JPanel panelSup = new JPanel();
 		panelSup.setBackground(new Color(255, 255, 255));
@@ -130,8 +125,13 @@ public class MiPerfil implements ActionListener {
 		btnNewButton.setFont(new Font("Calibri", Font.BOLD, 16));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int res = JOptionPane.showConfirmDialog(null, "¿Desea salir de la aplicación?", "Salir",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 
-				System.exit(0);
+				if (res == 0) {
+					System.exit(0);
+				}
+
 			}
 		});
 
@@ -140,13 +140,28 @@ public class MiPerfil implements ActionListener {
 		btnNewButton.setBounds(1217, 0, 66, 44);
 		panelSup.add(btnNewButton);
 
+		String help = "-¿Cómo puedo reservar un deporte?\r\n"
+				+ "  Para reservar un deporte, seleccione en la imagen del deporte que desee y, a continuación, se le mostrarán los horarios disponibles para cada día de la semana\n\n"
+				+ "-¿Puedo ver quién ha reservado a una determinada hora?\r\n"
+				+ "  Al realizar una reserva, aparecen los nombres de los usuarios que ya hayan reservado en ese mismo horario\n\n"
+				+ "-¿Cuántas reservas puedo hacer al día?\r\n" + "  Puede reservar un máximo de 2 periodos por día\n\n"
+				+ "-¿Cómo sé si una hora está completa?\r\n"
+				+ "  Cada horario de reserva tiene un código de colores que nos indica el nivel de ocupación: \n  Verde: Totalmente desocupado\n  Naranja: Parcialmente ocupado\n  Rojo: Totalmente ocupado\n\n"
+				+ "-¿Cómo veo mis reservas?\r\n" + "  En la opción \"Mi Perfil\"\n\n" + "-¿Cómo cancelo mis reservas?\n"
+				+ "  En \"Mi perfil\" salen todas las reservas realizadas por el usuario y la opción de cancelar cada una de ellas";
 		JButton btnAyuda = new JButton("Ayuda");
+		btnAyuda.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, help, "Preguntas frecuentes", JOptionPane.QUESTION_MESSAGE);
+
+			}
+		});
 		btnAyuda.setFont(new Font("Calibri", Font.BOLD, 16));
 		btnAyuda.setForeground(new Color(255, 255, 255));
 		btnAyuda.setBackground(new Color(100, 0, 140));
-		btnAyuda.setBounds(884, 0, 95, 44);
+		btnAyuda.setBounds(902, 0, 95, 44);
 		panelSup.add(btnAyuda);
-		
+
 		JButton btnInicio = new JButton("Inicio");
 		btnInicio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -155,17 +170,29 @@ public class MiPerfil implements ActionListener {
 		});
 		btnInicio.setFont(new Font("Calibri", Font.BOLD, 16));
 		btnInicio.setForeground(new Color(255, 255, 255));
-		btnInicio.setBackground(new Color(71, 0, 100));
-		btnInicio.setBounds(779, 0, 95, 44);
+		btnInicio.setBackground(new Color(100, 0, 140));
+		btnInicio.setBounds(797, 0, 95, 44);
 		panelSup.add(btnInicio);
-		
+
+		String contact = "Correo electrónico: cyco.sigesdep@gmail.com \n\nTeléfono de contacto: 662 62 62 62";
+
 		JButton btnContacto = new JButton("Contacto");
-		btnContacto.setForeground(Color.WHITE);
+		btnContacto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// JOptionPane.showMessageDialog(null, contact, "Contacto",
+				// JOptionPane.WARNING_MESSAGE);
+				ImageIcon icon = new ImageIcon(new ImageIcon(InterfazPrincipal.class.getResource("/images/tlf.png"))
+						.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+				JOptionPane.showMessageDialog(null, contact, "Contacto", JOptionPane.INFORMATION_MESSAGE, icon);
+
+			}
+		});
 		btnContacto.setFont(new Font("Calibri", Font.BOLD, 16));
-		btnContacto.setBackground(new Color(153, 51, 204));
-		btnContacto.setBounds(989, 0, 95, 44);
+		btnContacto.setForeground(new Color(255, 255, 255));
+		btnContacto.setBackground(new Color(100, 0, 140));
+		btnContacto.setBounds(1007, 0, 95, 44);
 		panelSup.add(btnContacto);
-		
+
 		JButton btnMiPerfil = new JButton("Mi perfil");
 		btnMiPerfil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -175,7 +202,7 @@ public class MiPerfil implements ActionListener {
 		btnMiPerfil.setFont(new Font("Calibri", Font.BOLD, 16));
 		btnMiPerfil.setForeground(new Color(255, 255, 255));
 		btnMiPerfil.setBackground(new Color(100, 0, 140));
-		btnMiPerfil.setBounds(1094, 0, 95, 44);
+		btnMiPerfil.setBounds(1112, 0, 95, 44);
 		panelSup.add(btnMiPerfil);
 
 		JLabel lblAGA = new JLabel("ACADEMIA GENERAL DEL AIRE");
@@ -185,74 +212,95 @@ public class MiPerfil implements ActionListener {
 		lblAGA.setFont(new Font("Calibri", Font.BOLD, 45));
 
 		String fecha = new SimpleDateFormat("dd/MM/yy").format(Calendar.getInstance().getTime());
-		JLabel lblFecha = new JLabel("Fecha:   " + fecha);
-		lblFecha.setFont(new Font("Calibri", Font.BOLD, 16));
-		lblFecha.setForeground(new Color(102, 0, 153));
-		lblFecha.setBackground(new Color(255, 255, 255));
-		lblFecha.setBounds(1330, 63, 139, 25);
-		mainPanel.add(lblFecha);
 
 		String hora = new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime());
-		JLabel lblHora = new JLabel(hora);
-		lblHora.setFont(new Font("Calibri", Font.BOLD, 16));
-		lblHora.setForeground(new Color(102, 0, 153));
-		lblHora.setBackground(new Color(255, 255, 255));
-		lblHora.setBounds(1384, 86, 85, 25);
-		mainPanel.add(lblHora);
 
 		panelReservas = new JPanel();
 		// panelReservas.setBorder(null);
 		panelReservas.setBackground(new Color(255, 255, 255));
-		panelReservas.setBounds(300, 121, 1000, 1000);
+		panelReservas.setBounds(300, 121, 950, 1000);
 		mainPanel.add(panelReservas);
-		panelReservas.setLayout(new FlowLayout()); // Una debajo de otra
-		JLabel lblReservasRealizadas = new JLabel("Reservas realizadas:");
-		lblReservasRealizadas.setFont(new Font("Calibri", Font.BOLD, 16));
-		lblReservasRealizadas.setBounds(100, 133, 864, 26);
-		mainPanel.add(lblReservasRealizadas);
+		panelReservas.setLayout(new FlowLayout());
 
 		// Creo una lista de reservas
-		JList<String> list = new JList<String>(array);
-		list.setVisibleRowCount(20); // Muestra hasta 15 reservas
-		list.setFont(new Font("Calibri", Font.BOLD, 22));
+				JList<String> list = new JList<String>(array);
+				list.setVisibleRowCount(20); // Muestra hasta 15 reservas
+				list.setFont(new Font("Calibri", Font.BOLD, 22));
 
-		listModel = new DefaultListModel<String>();
+				listModel = new DefaultListModel<String>();
 
-		// Busca reservas una a una
-		getBooking();
+				// Busca reservas una a una
+				getBooking();
 
-		// Modificamos el modelo de la lista para poder ir añadiendo más y más elementos
-		list.setModel(listModel);
-		list.addListSelectionListener(new ListSelectionListener() {
+				// Modificamos el modelo de la lista para poder ir añadiendo más y más elementos
+				list.setModel(listModel);
+				list.addListSelectionListener(new ListSelectionListener() {
 
-			@Override
-			public void valueChanged(ListSelectionEvent arg) {
-				bookingToCancel = list.getSelectedValue();
-			}
+					@Override
+					public void valueChanged(ListSelectionEvent arg) {
+						bookingToCancel = list.getSelectedValue();
+					}
 
-		});
-		panelReservas.add(list);
+				});
+				panelReservas.add(list);
 
-		// Crea un JScroll para buscar aquellas reservas que no caben en el panel
-		JScrollPane scroll = new JScrollPane(list);
-		panelReservas.add(scroll);
+				// Crea un JScroll para buscar aquellas reservas que no caben en el panel
+				JScrollPane scroll = new JScrollPane(list);
+				panelReservas.add(scroll);
 
-		// Botón para cancelar reserva
-		JButton btn = new JButton();
-		btn.setText("Cancelar reserva");
-		btn.addActionListener(this);
-		panelReservas.add(btn);
-
-		JLabel lblSistemaDeGestin = new JLabel("Mi Perfil");
+		JLabel lblSistemaDeGestin = new JLabel("Mi Perfil - Historial de reservas");
 		lblSistemaDeGestin.setForeground(new Color(153, 0, 204));
 		lblSistemaDeGestin.setFont(new Font("Calibri", Font.BOLD, 35));
 		lblSistemaDeGestin.setBounds(216, 67, 658, 56);
 		mainPanel.add(lblSistemaDeGestin);
 
-		JLabel lblNewUser = new JLabel("<html>Nombre usuario: <br/>" + acronym);
-		lblNewUser.setBounds(10, 133, 118, 40);
-		mainPanel.add(lblNewUser);
-		lblNewUser.setFont(new Font("Calibri", Font.BOLD, 16));
+		JButton btnCYCO = new JButton();
+		btnCYCO.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				change.newWindowApp("principal", frame);
+			}
+		});
+		btnCYCO.setBounds(10, 12, 186, 99);
+		ImageIcon imageCyco = new ImageIcon(new ImageIcon(InterfazPrincipal.class.getResource("/images/CYCO_LOGO.jpeg"))
+				.getImage().getScaledInstance(213, 137, Image.SCALE_DEFAULT));
+		mainPanel.setLayout(null);
+		btnCYCO.setIcon(imageCyco);
+		mainPanel.add(btnCYCO);
+
+		// Botón para cancelar reserva
+		JButton btn = new JButton();
+		btn.setBounds(1254, 357, 117, 71);
+		btn.setFont(new Font("Calibri", Font.BOLD, 18));
+		btn.setBorder(new LineBorder(Color.BLACK, 2));
+		mainPanel.add(btn);
+		btn.setText("<html>Cancelar <br/>reserva");
+
+		JLabel lblFecha = new JLabel("Fecha:   26/05/22");
+		lblFecha.setForeground(new Color(102, 0, 153));
+		lblFecha.setFont(new Font("Calibri", Font.BOLD, 17));
+		lblFecha.setBackground(Color.WHITE);
+		lblFecha.setBounds(1328, 75, 139, 25);
+		mainPanel.add(lblFecha);
+
+		JLabel lblHora = new JLabel("19:50");
+		lblHora.setForeground(new Color(102, 0, 153));
+		lblHora.setFont(new Font("Calibri", Font.BOLD, 17));
+		lblHora.setBackground(Color.WHITE);
+		lblHora.setBounds(1382, 98, 85, 25);
+		mainPanel.add(lblHora);
+
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(230, 230, 250));
+		panel.setBounds(48, 121, 203, 108);
+		mainPanel.add(panel);
+		panel.setLayout(null);
+
+		JLabel lblNewUser = new JLabel("Nombre usuario: leona");
+		lblNewUser.setBounds(8, 42, 174, 23);
+		panel.add(lblNewUser);
+		lblNewUser.setBackground(new Color(128, 0, 128));
+		lblNewUser.setFont(new Font("Calibri", Font.BOLD, 18));
+		btn.addActionListener(this);
 	}
 
 	private void getBooking() {
@@ -274,11 +322,11 @@ public class MiPerfil implements ActionListener {
 			e.printStackTrace();
 		}
 		try {
-			
-			
+
 			// Select statement
-			String query = "SELECT * FROM reservas r JOIN deportes d ON d.id_deporte = r.id_deporte JOIN semana s ON s.dia=r.dia WHERE semana <=" + thisWeek + " AND semana >=" + thisWeekMinus30Days
-					+ " AND r.acrónimo='"+ acronym + "' ORDER BY r.semana,d.id_deporte,s.int_dia";
+			String query = "SELECT * FROM reservas r JOIN deportes d ON d.id_deporte = r.id_deporte JOIN semana s ON s.dia=r.dia WHERE semana <="
+					+ thisWeek + " AND semana >=" + thisWeekMinus30Days + " AND r.acrónimo='" + acronym
+					+ "' ORDER BY r.semana,d.id_deporte,s.int_dia";
 			java.sql.Statement stmt = conn.createStatement();
 
 			// Gets the result
