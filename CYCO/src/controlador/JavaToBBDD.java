@@ -16,7 +16,7 @@ public class JavaToBBDD {
 	private String hour;
 	private int users;
 	private String comment;
-	
+
 	private static int pointer = 0;
 
 	private static String staticAcronym = "";
@@ -28,7 +28,7 @@ public class JavaToBBDD {
 	private static int staticUsers = 0;
 
 	// BBDD
-	private static String conectionBBDD = "jdbc:mysql://192.168.43.228:3306/cy&co";
+	private static String conectionBBDD = "jdbc:mysql://192.168.50.27:3306/cy&co";
 	private static String userBBDD = "Leo";
 	private static String pswdBBDD = "CYCO";
 	private Connection conn;
@@ -38,7 +38,7 @@ public class JavaToBBDD {
 			int totalUsers, String userComment) {
 
 		// Nombre + nº de la semana respecto del año + dia + schedule + hora
-		acronym = System.getProperty("user.name");
+		acronym = "lgargui";// System.getProperty("user.name");
 		sport = sportOK;
 		weekYear = weekYearOK;
 		day = dayOK;
@@ -46,7 +46,7 @@ public class JavaToBBDD {
 		hour = hourOK;
 		users = usersOK;
 		comment = userComment;
-				
+
 		// Abrir conexion con BD
 		try {
 			conn = (Connection) DriverManager.getConnection(conectionBBDD, userBBDD, pswdBBDD);
@@ -70,7 +70,8 @@ public class JavaToBBDD {
 			System.out.println("Que hay de nuevo viejo...?");
 
 		// Si hay plazas disponibles, hacer la reserva
-		// System.out.println("Totales: " + totalUsers + "Counter: " + counter + "users: " + users);
+		// System.out.println("Totales: " + totalUsers + "Counter: " + counter + "users:
+		// " + users);
 		if (counter == totalUsers)
 			JOptionPane.showMessageDialog(null, "Pista completa");
 		else if (users > totalUsers - counter)
@@ -83,10 +84,12 @@ public class JavaToBBDD {
 				insertIntoReserva();
 				JOptionPane.showMessageDialog(null, "Reserva realizada con éxito");
 			}
-			
+
 		}
 	}
-	// Cuenta si hay más de 2 horas reservadas al día por el mismo usuario para que no se pueda introducir otra nueva reserva
+
+	// Cuenta si hay más de 2 horas reservadas al día por el mismo usuario para que
+	// no se pueda introducir otra nueva reserva
 	public Boolean countTotalDayBookings() {
 
 		int aux = 0;
@@ -94,10 +97,9 @@ public class JavaToBBDD {
 		try {
 			// Select statement
 
-						
-			String query = "SELECT plazas FROM reservas WHERE acrónimo='"+acronym+"' AND id_deporte=" + sport + " AND dia='"	+day + "' AND semana=" + weekYear;
-			
-			
+			String query = "SELECT plazas FROM reservas WHERE acrónimo='" + acronym + "' AND id_deporte=" + sport
+					+ " AND dia='" + day + "' AND semana=" + weekYear;
+
 			java.sql.Statement stmt = conn.createStatement();
 
 			// Gets the result
@@ -116,7 +118,7 @@ public class JavaToBBDD {
 		}
 		return check;
 	}
-	
+
 	// Contar cuantas reservas hay en total
 	public int countTotalBooking() {
 		Integer id = 0;
@@ -132,9 +134,9 @@ public class JavaToBBDD {
 			while (rs.next()) {
 				id = rs.getInt(1);
 			}
-			if (id==null) 
+			if (id == null)
 				id = 0;
-			
+
 			System.out.println(id);
 			// stmt.close();
 
@@ -211,7 +213,8 @@ public class JavaToBBDD {
 
 		try { // Inserts
 			String query1 = "INSERT INTO reservas " + "VALUES ('" + hoursBooked + "', '" + acronym + "', '" + sport
-					+ "', '" + weekYear + "', '" + day + "', '" + schedule + "', '" + users + "', '" + hour + "', '" + comment + "')";
+					+ "', '" + weekYear + "', '" + day + "', '" + schedule + "', '" + users + "', '" + hour + "', '"
+					+ comment + "')";
 			stmt.executeUpdate(query1);
 			System.out
 					.println("Los datos han sido añadido a la base de datos..... \nAhora una cerveza para celebrarlo");
@@ -226,7 +229,7 @@ public class JavaToBBDD {
 	public void insertIntoUsuarios() {
 		try {
 			// Inserts
-			String query1 = "INSERT INTO usuarios " + "VALUES ('" + acronym + "', 'garcia', 'guillen','AA','leonardo')";
+			String query1 = "INSERT INTO usuarios " + "VALUES ('" + acronym + "', '', '','','')";
 			stmt.executeUpdate(query1);
 			System.out
 					.println("Los datos han sido añadido a la base de datos..... \nAhora una cerveza para celebrarlo");

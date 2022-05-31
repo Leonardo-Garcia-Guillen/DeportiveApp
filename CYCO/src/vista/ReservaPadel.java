@@ -78,7 +78,8 @@ public class ReservaPadel implements ActionListener {
 	private String lastHourSelected = "";
 
 	// BBDD
-	private static final String conectionBBDD = "jdbc:mysql://192.168.43.228:3306/cy&co";
+	//private static final String conectionBBDD = "jdbc:mysql://192.168.50.27:3306/cy&co";
+	private static final String conectionBBDD = "jdbc:mysql://192.168.50.27:3306/cy&co";
 	private static final String userBBDD = "Leo";
 	private static final String pswdBBDD = "CYCO";
 	Connection conn;

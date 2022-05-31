@@ -13,12 +13,15 @@ import java.util.Calendar;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTabbedPane;
@@ -32,15 +35,28 @@ import java.awt.SystemColor;
 import javax.swing.UIManager;
 
 import controlador.ChangeWindow;
+import controlador.SportIsBlock;
 
-public class InterfazPrincipal {
+public class InterfazPrincipal implements ActionListener{
 	
 	
 	private JFrame frame;
+	private JButton btnPadel;
+	private JButton btnTenis;
+	private JButton btnGimnasio;
+	private JButton btnVoley;
+	private JButton btnBaloncesto;
+	private JButton btnCrossfit;
+	private JButton btnTiro;
+	private JButton btnEsgrima;
+	private JButton btnF7;
+	private JButton btnFSala;
+	private JButton btnNatacion;
+	private JButton btnAtletismo;
+	
+	
 	public static ChangeWindow change = new ChangeWindow("");
-	/**
-	 * Launch the application.
-	 */
+	
 	
 
 	/**
@@ -171,11 +187,7 @@ public class InterfazPrincipal {
 		panel_1.add(btnContacto);
 		
 		JButton btnMiPerfil = new JButton("Mi perfil");
-		btnMiPerfil.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				change.newWindowApp("miPerfil",frame);
-			}
-		});
+		btnMiPerfil.addActionListener(this);
 		btnMiPerfil.setFont(new Font("Calibri", Font.BOLD, 16));
 		btnMiPerfil.setForeground(new Color(255, 255, 255));
 		btnMiPerfil.setBackground(new Color(100, 0, 140));
@@ -189,6 +201,7 @@ public class InterfazPrincipal {
 		lblAGA.setFont(new Font("Calibri", Font.BOLD, 45));
 		
 		JButton btnAdmin = new JButton("Administrador");
+		btnAdmin.addActionListener(this);
 		btnAdmin.setForeground(Color.WHITE);
 		btnAdmin.setFont(new Font("Calibri", Font.BOLD, 16));
 		btnAdmin.setBackground(new Color(153, 51, 204));
@@ -217,80 +230,87 @@ public class InterfazPrincipal {
 		panelDeportes.setBounds(10, 121, 1489, 627);
 		mainPanel.add(panelDeportes);
 		
-		JButton btnBaloncesto = new JButton("");
+		btnBaloncesto = new JButton("");
 		btnBaloncesto.setBounds(1116, 46, 213, 137);
+		btnBaloncesto.addActionListener(this);
 		ImageIcon imageBaloncesto = new ImageIcon(new ImageIcon(InterfazPrincipal.class.getResource("/images/baloncesto.jpg")).getImage().getScaledInstance(213,137,Image.SCALE_DEFAULT));
 		panelDeportes.setLayout(null);
 		btnBaloncesto.setIcon(imageBaloncesto);
 		panelDeportes.add(btnBaloncesto);
 		
-		JButton btnEsgrima = new JButton("");
+		btnEsgrima = new JButton("");
 		btnEsgrima.setBounds(1116, 246, 213, 137);
+		btnEsgrima.addActionListener(this);
 		ImageIcon imageEsgrima = new ImageIcon(new ImageIcon(InterfazPrincipal.class.getResource("/images/esgrima.jpeg")).getImage().getScaledInstance(213,137,Image.SCALE_DEFAULT));
 		btnEsgrima.setIcon(imageEsgrima);
 		panelDeportes.add(btnEsgrima);
 		
-		JButton btnAtletismo = new JButton("");
+		btnAtletismo = new JButton("");
 		btnAtletismo.setBounds(1116, 446, 213, 137);
+		btnAtletismo.addActionListener(this);
 		ImageIcon imageAtletismo = new ImageIcon(new ImageIcon(InterfazPrincipal.class.getResource("/images/atletismo.jpg")).getImage().getScaledInstance(213,137,Image.SCALE_DEFAULT));
 		btnAtletismo.setIcon(imageAtletismo);
 		panelDeportes.add(btnAtletismo);
 		
-		JButton btnPiscina = new JButton("");
-		btnPiscina.setBounds(794, 46, 213, 137);
+		btnNatacion = new JButton("");
+		btnNatacion.setBounds(794, 46, 213, 137);
+		btnNatacion.addActionListener(this);
 		ImageIcon imagePiscina = new ImageIcon(new ImageIcon(InterfazPrincipal.class.getResource("/images/natacion.jpg")).getImage().getScaledInstance(213,137,Image.SCALE_DEFAULT));
-		btnPiscina.setIcon(imagePiscina);
-		panelDeportes.add(btnPiscina);
+		btnNatacion.setIcon(imagePiscina);
+		panelDeportes.add(btnNatacion);
 		
-		JButton btnTiro = new JButton("");
+		btnTiro = new JButton("");
 		btnTiro.setBounds(794, 246, 213, 137);
+		btnTiro.addActionListener(this);
 		ImageIcon imageTiro = new ImageIcon(new ImageIcon(InterfazPrincipal.class.getResource("/images/tiro.jpeg")).getImage().getScaledInstance(213,137,Image.SCALE_DEFAULT));
 		btnTiro.setIcon(imageTiro);
 		panelDeportes.add(btnTiro);
 		
-		JButton btnTenis = new JButton("");
+		btnTenis = new JButton("");
 		btnTenis.setBounds(472, 46, 213, 137);
+		btnTenis.addActionListener(this);
 		ImageIcon imageTenis = new ImageIcon(new ImageIcon(InterfazPrincipal.class.getResource("/images/tenis.jpg")).getImage().getScaledInstance(213,137,Image.SCALE_DEFAULT));
 		btnTenis.setIcon(imageTenis);
 		panelDeportes.add(btnTenis);
 		
-		JButton btnPadel = new JButton("");
+		btnPadel = new JButton("");
 		btnPadel.setBounds(153, 46, 213, 137);
-		btnPadel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				change.newWindowApp("padel",frame);
-			}
-		});
+		btnPadel.addActionListener(this);
 		ImageIcon imagePadel = new ImageIcon(new ImageIcon(InterfazPrincipal.class.getResource("/images/padel.jpg")).getImage().getScaledInstance(213,137,Image.SCALE_DEFAULT));
 		btnPadel.setIcon(imagePadel);
 		panelDeportes.add(btnPadel);
 		
-		JButton btnF7 = new JButton("");
+		btnF7 = new JButton("");
 		btnF7.setBounds(794, 446, 213, 137);
+		btnF7.addActionListener(this);
 		ImageIcon imageFutbol7 = new ImageIcon(new ImageIcon(InterfazPrincipal.class.getResource("/images/futbol7.jpeg")).getImage().getScaledInstance(213,137,Image.SCALE_DEFAULT));
 		btnF7.setIcon(imageFutbol7);
 		panelDeportes.add(btnF7);
 		
-		JButton btnCrossfit = new JButton("");
+		btnCrossfit = new JButton("");
 		btnCrossfit.setBounds(472, 246, 213, 137);
+		btnCrossfit.addActionListener(this);
 		ImageIcon imageCrossfit = new ImageIcon(new ImageIcon(InterfazPrincipal.class.getResource("/images/crossfit.jpeg")).getImage().getScaledInstance(213,137,Image.SCALE_DEFAULT));
 		btnCrossfit.setIcon(imageCrossfit);
 		panelDeportes.add(btnCrossfit);
 		
-		JButton btnFSala = new JButton("");
+		btnFSala = new JButton("");
 		btnFSala.setBounds(472, 446, 213, 137);
+		btnFSala.addActionListener(this);
 		ImageIcon imageSala = new ImageIcon(new ImageIcon(InterfazPrincipal.class.getResource("/images/futbol_sala.jpeg")).getImage().getScaledInstance(213,137,Image.SCALE_DEFAULT));
 		btnFSala.setIcon(imageSala);
 		panelDeportes.add(btnFSala);
 		
-		JButton btnGimnasio = new JButton("");
+		btnGimnasio = new JButton("");
 		btnGimnasio.setBounds(153, 246, 213, 137);
+		btnGimnasio.addActionListener(this);
 		ImageIcon imageGimnasio = new ImageIcon(new ImageIcon(InterfazPrincipal.class.getResource("/images/gimnasio.jpeg")).getImage().getScaledInstance(213,137,Image.SCALE_DEFAULT));
 		btnGimnasio.setIcon(imageGimnasio);
 		panelDeportes.add(btnGimnasio);
 		
-		JButton btnVoley = new JButton("");
+		btnVoley = new JButton("");
 		btnVoley.setBounds(153, 446, 213, 137);
+		btnVoley.addActionListener(this);
 		ImageIcon imageVoley = new ImageIcon(new ImageIcon(InterfazPrincipal.class.getResource("/images/voley.jpg")).getImage().getScaledInstance(213,137,Image.SCALE_DEFAULT));
 		btnVoley.setIcon(imageVoley);
 		panelDeportes.add(btnVoley);
@@ -374,12 +394,127 @@ public class InterfazPrincipal {
 		mainPanel.add(lblSistemaDeGestin);
 	}
 
+	private void askPassword() {
+		JPanel panelAdmin = new JPanel();
+		JLabel label = new JLabel("Contraseña:");
+		JPasswordField pass = new JPasswordField(20);
+		panelAdmin.add(label);
+		panelAdmin.add(pass);
+		String[] options = new String[]{"OK", "Cancel"};
+		int option = JOptionPane.showOptionDialog(null, panelAdmin, "Administrador",
+		                         JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE,
+		                         null, options, options[0]);
+		System.out.println(option);
+		if(option == 0) // pressing OK button
+		{
+		    char[] password = pass.getPassword();
+		    String pswd = new String(password);
+		    if (pswd.equals("ejercito1")) {
+		    	JOptionPane.showMessageDialog(null, "Contraseña correcta", "Administrador", JOptionPane.INFORMATION_MESSAGE);
+		    	change.newWindowApp("miPerfilAdministrador",frame);
+		    } else {
+				JOptionPane.showMessageDialog(null, "Contraseña incorrecta", "Administrador", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+		
+	}
+	
 	public JFrame getFrame() {
 		return frame;
 	}
 
 	public void setFrame(JFrame frame) {
 		this.frame = frame;
+	}
+
+	
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		String buttonText = ((AbstractButton) e.getSource()).getText();
+		JButton btn = (JButton) e.getSource();
+		
+		int sport = 0;
+		String nameBtn = "padel";
+		
+		
+		System.out.println(buttonText);
+		if (buttonText.equals("Mi perfil")) {
+			change.newWindowApp("miPerfil", frame);
+		}
+		else if (buttonText.equals("Administrador")) {
+			askPassword();
+		}
+		else { // La de algún deporte
+			int disponible;
+			
+			if (btn == btnPadel) {
+				sport = 0;
+				nameBtn = "padel";
+			}
+			else if (btn == btnTenis) {
+				sport = 1;
+				nameBtn = "tenis";
+			}
+			else if (btn == btnNatacion) {
+				sport = 2;
+				nameBtn = "natacion";
+			}
+			else if (btn == btnBaloncesto) {
+				sport = 3;
+				nameBtn = "baloncesto";
+			}
+			else if (btn == btnGimnasio) {
+				sport = 4;
+				nameBtn = "gimnasio";
+			}
+			else if (btn == btnCrossfit) {
+				sport = 5;
+				nameBtn = "crossfit";
+			}
+			else if (btn == btnTiro) {
+				sport = 6;
+				nameBtn = "tiro";
+			}
+			else if (btn == btnEsgrima) {
+				sport = 7;
+				nameBtn = "esgrima";
+			}
+			else if (btn == btnVoley) {
+				sport = 8;
+				nameBtn = "voley";
+			}
+			else if (btn == btnFSala) {
+				sport = 9;
+				nameBtn = "fSala";
+			}
+			else if (btn == btnF7) {
+				sport = 10;
+				nameBtn = "f7";
+			}
+			else if (btn == btnAtletismo) {
+				sport = 11;		
+				nameBtn = "atletismo";
+			}
+			
+			SportIsBlock lock = new SportIsBlock();
+			disponible = lock.getDisponibility(sport);
+			System.out.println(disponible);
+			lockSport(btn,disponible,nameBtn);
+			}		
+	}
+	
+	public void lockSport(JButton btn, int disponible, String nameBtn) {
+		if (disponible == 0) {
+			btn.setEnabled(false);
+			JOptionPane.showMessageDialog(null, "Deporte inhabilitado, por favor, inténtelo más tarde\n o póngase en contacto con el Administrador", "¡ATENCIÓN!", JOptionPane.WARNING_MESSAGE);
+		}
+		else {
+			btn.setEnabled(true);		
+			change.newWindowApp(nameBtn, frame);
+		}
+		
+			
 	}
 }
 

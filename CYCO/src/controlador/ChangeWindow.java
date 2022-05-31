@@ -6,14 +6,18 @@ import java.sql.Statement;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
+import modelo.BANCOPRUEBAS_GRAFICAS;
 import vista.InterfazPrincipal;
 import vista.MiPerfil;
+import vista.MiPerfilAdministrador;
 import vista.ReservaPadel;
 
 public class ChangeWindow {
 	public static InterfazPrincipal principal = new InterfazPrincipal();
 	public static ReservaPadel padel = new ReservaPadel();
 	public static MiPerfil miPerfil = new MiPerfil();
+	public static MiPerfilAdministrador miPerfilAdministrador = new MiPerfilAdministrador();
+	public static BANCOPRUEBAS_GRAFICAS gg = new BANCOPRUEBAS_GRAFICAS();
 	
 	public ChangeWindow(String sport) {
 		
@@ -28,6 +32,10 @@ public class ChangeWindow {
 		}
 		case "miPerfil" : {
 			miPerfil.newMiPerfil();
+			break;
+		}
+		case "miPerfilAdministrador" : {
+			miPerfilAdministrador.newMiPerfil();
 			break;
 		}
 		case "principal": {
@@ -69,6 +77,7 @@ public class ChangeWindow {
 			break;
 		}
 		default : {
+			gg.main(null);
 			break;
 		}
 		

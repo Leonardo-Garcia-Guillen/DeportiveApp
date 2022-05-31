@@ -17,6 +17,8 @@ import java.util.Calendar;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -25,10 +27,12 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.AbstractButton;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -51,16 +55,21 @@ public class MiPerfil implements ActionListener {
 	Statement stmt;
 	private JFrame frame;
 	private JPanel panelReservas;
-	private String acronym = System.getProperty("user.name");
+	private String acronym = "lgargui"; // System.getProperty("user.name");
 	private JButton[] btnBookingArray = new JButton[100];
+	private JButton btnCancel;
+	private JButton btnConfig;
 	private String[] array = {};
 	private String bookingToCancel;
+	private String name, surname1, surname2, job;
+	private JLabel lblNewUser;
+
 	DefaultListModel<String> listModel;
 
 	public static ChangeWindow change = new ChangeWindow("");
 
 	// BBDD
-	private static String conectionBBDD = "jdbc:mysql://192.168.43.228:3306/cy&co";
+	private static String conectionBBDD = "jdbc:mysql://192.168.50.27:3306/cy&co";
 	private static String userBBDD = "Leo";
 	private static String pswdBBDD = "CYCO";
 
@@ -223,30 +232,30 @@ public class MiPerfil implements ActionListener {
 		panelReservas.setLayout(new FlowLayout());
 
 		// Creo una lista de reservas
-				JList<String> list = new JList<String>(array);
-				list.setVisibleRowCount(20); // Muestra hasta 15 reservas
-				list.setFont(new Font("Calibri", Font.BOLD, 22));
+		JList<String> list = new JList<String>(array);
+		list.setVisibleRowCount(20); // Muestra hasta 15 reservas
+		list.setFont(new Font("Calibri", Font.BOLD, 22));
 
-				listModel = new DefaultListModel<String>();
+		listModel = new DefaultListModel<String>();
 
-				// Busca reservas una a una
-				getBooking();
+		// Busca reservas una a una 
+		getBooking();
 
-				// Modificamos el modelo de la lista para poder ir añadiendo más y más elementos
-				list.setModel(listModel);
-				list.addListSelectionListener(new ListSelectionListener() {
+		// Modificamos el modelo de la lista para poder ir añadiendo más y más elementos
+		list.setModel(listModel);
+		list.addListSelectionListener(new ListSelectionListener() {
 
-					@Override
-					public void valueChanged(ListSelectionEvent arg) {
-						bookingToCancel = list.getSelectedValue();
-					}
+			@Override
+			public void valueChanged(ListSelectionEvent arg) {
+				bookingToCancel = list.getSelectedValue();
+			}
 
-				});
-				panelReservas.add(list);
+		});
+		panelReservas.add(list);
 
-				// Crea un JScroll para buscar aquellas reservas que no caben en el panel
-				JScrollPane scroll = new JScrollPane(list);
-				panelReservas.add(scroll);
+		// Crea un JScroll para buscar aquellas reservas que no caben en el panel
+		JScrollPane scroll = new JScrollPane(list);
+		panelReservas.add(scroll);
 
 		JLabel lblSistemaDeGestin = new JLabel("Mi Perfil - Historial de reservas");
 		lblSistemaDeGestin.setForeground(new Color(153, 0, 204));
@@ -268,21 +277,21 @@ public class MiPerfil implements ActionListener {
 		mainPanel.add(btnCYCO);
 
 		// Botón para cancelar reserva
-		JButton btn = new JButton();
-		btn.setBounds(1254, 357, 117, 71);
-		btn.setFont(new Font("Calibri", Font.BOLD, 18));
-		btn.setBorder(new LineBorder(Color.BLACK, 2));
-		mainPanel.add(btn);
-		btn.setText("<html>Cancelar <br/>reserva");
+		btnCancel = new JButton();
+		btnCancel.setBounds(1254, 357, 117, 71);
+		btnCancel.setFont(new Font("Calibri", Font.BOLD, 18));
+		btnCancel.setBorder(new LineBorder(Color.BLACK, 2));
+		mainPanel.add(btnCancel);
+		btnCancel.setText("<html>Cancelar <br/>reserva");
 
-		JLabel lblFecha = new JLabel("Fecha:   26/05/22");
+		JLabel lblFecha = new JLabel("Fecha: "+ fecha);
 		lblFecha.setForeground(new Color(102, 0, 153));
 		lblFecha.setFont(new Font("Calibri", Font.BOLD, 17));
 		lblFecha.setBackground(Color.WHITE);
 		lblFecha.setBounds(1328, 75, 139, 25);
 		mainPanel.add(lblFecha);
 
-		JLabel lblHora = new JLabel("19:50");
+		JLabel lblHora = new JLabel(hora);
 		lblHora.setForeground(new Color(102, 0, 153));
 		lblHora.setFont(new Font("Calibri", Font.BOLD, 17));
 		lblHora.setBackground(Color.WHITE);
@@ -290,17 +299,31 @@ public class MiPerfil implements ActionListener {
 		mainPanel.add(lblHora);
 
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(230, 230, 250));
-		panel.setBounds(48, 121, 203, 108);
+		panel.setBackground(UIManager.getColor("Button.background"));
+		panel.setBounds(20, 121, 255, 152);
 		mainPanel.add(panel);
 		panel.setLayout(null);
 
-		JLabel lblNewUser = new JLabel("Nombre usuario: leona");
-		lblNewUser.setBounds(8, 42, 174, 23);
+		openConectionBBDD();
+		getUserData();
+		String totalLockSports = "<html>Usuario: " + acronym + "<br/>Empleo: " + job + "<br/>Nombre: " + name
+				+ "<br/>Primer Apellido: " + surname1 + "<br/>Segundo Apellido: " + surname2;
+
+		lblNewUser = new JLabel();
+		lblNewUser.setText(totalLockSports);
+		lblNewUser.setVerticalAlignment(SwingConstants.TOP);
+		lblNewUser.setBounds(10, 10, 235, 138);
 		panel.add(lblNewUser);
 		lblNewUser.setBackground(new Color(128, 0, 128));
 		lblNewUser.setFont(new Font("Calibri", Font.BOLD, 18));
-		btn.addActionListener(this);
+
+		btnConfig = new JButton();
+		btnConfig.setText("<html>Configurar datos usuario");
+		btnConfig.setFont(new Font("Calibri", Font.BOLD, 18));
+		btnConfig.setBorder(new LineBorder(new Color(0, 0, 0)));
+		btnConfig.setBounds(20, 312, 255, 37);
+		mainPanel.add(btnConfig);
+		btnConfig.addActionListener(this);
 	}
 
 	private void getBooking() {
@@ -311,22 +334,13 @@ public class MiPerfil implements ActionListener {
 		int i = 0;
 		int j = 0;
 
-		// Abrir conexion con BD
-		try {
-			conn = (Connection) DriverManager.getConnection(conectionBBDD, userBBDD, pswdBBDD);
-			System.out.println("¡¡ Conectado con la base Cy&Co !!");
-			stmt = conn.createStatement();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		openConectionBBDD();
 		try {
 
 			// Select statement
 			String query = "SELECT * FROM reservas r JOIN deportes d ON d.id_deporte = r.id_deporte JOIN semana s ON s.dia=r.dia WHERE semana <="
 					+ thisWeek + " AND semana >=" + thisWeekMinus30Days + " AND r.acrónimo='" + acronym
-					+ "' ORDER BY r.semana,d.id_deporte,s.int_dia";
+					+ "' ORDER BY r.semana,d.id_deporte,s.int_dia DESC";
 			java.sql.Statement stmt = conn.createStatement();
 
 			// Gets the result
@@ -345,26 +359,26 @@ public class MiPerfil implements ActionListener {
 				booking = "Deporte: " + nDeporte + ". Nº semana: " + weekYear + ". Día: " + dia + ". Hora: " + hora
 						+ ". Pista: " + pista + ". Nº plazas: " + plazas;
 				listModel.addElement(booking);
-				/*
-				 * 
-				 * if (i > 16) { i = 0; j = 1; }
-				 * 
-				 * // Crea el botón con la reserva, con la idea de cancelarla btnBookingArray[i]
-				 * = new JButton(); btnBookingArray[i].setText(booking);
-				 * btnBookingArray[i].addActionListener(this);
-				 * btnBookingArray[i].setBackground(new Color(248, 248, 255));
-				 * btnBookingArray[i].setForeground(new Color(71, 0, 100));
-				 * btnBookingArray[i].setFont(new Font("Calibri", Font.BOLD, 16));
-				 * btnBookingArray[i].setBounds(10 + j*662, 36 + i * 36, 630, 26);
-				 * panelReservas.add(btnBookingArray[i]);
-				 * 
-				 * i++;
-				 */
+
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void openConectionBBDD() {
+		// Abrir conexion con BD
+		try {
+			conn = (Connection) DriverManager.getConnection(conectionBBDD, userBBDD, pswdBBDD);
+			System.out.println("¡¡ Conectado con la base Cy&Co !!");
+			stmt = conn.createStatement();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	public JFrame getFrame() {
@@ -378,58 +392,153 @@ public class MiPerfil implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// String button = ((AbstractButton) e.getSource()).getText();
+		JButton btn = (JButton) e.getSource();
 
-		if (bookingToCancel == null) {
-			JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna reserva", "ERROR_MESSAGE",
-					JOptionPane.ERROR_MESSAGE);
+		if (btn == btnCancel) {
+			if (bookingToCancel == null) {
+				JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna reserva", "ERROR_MESSAGE",
+						JOptionPane.ERROR_MESSAGE);
 
-		} else {
-			int res = JOptionPane.showConfirmDialog(null, "¿Desea cancelar la reserva?", "Eliminar reserva",
-					JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+			} else {
+				int res = JOptionPane.showConfirmDialog(null, "¿Desea cancelar la reserva?", "Eliminar reserva",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
 
-			if (res == 0) {
-				// Abrir conexion con BD
-				try {
-					conn = (Connection) DriverManager.getConnection(conectionBBDD, userBBDD, pswdBBDD);
-					System.out.println("¡¡ Conectado con la base Cy&Co !!");
-					stmt = conn.createStatement();
+				if (res == 0) {
+					// Abrir conexion con BD
+					try {
+						conn = (Connection) DriverManager.getConnection(conectionBBDD, userBBDD, pswdBBDD);
+						System.out.println("¡¡ Conectado con la base Cy&Co !!");
+						stmt = conn.createStatement();
 
-				} catch (SQLException error) {
-					// TODO Auto-generated catch block
-					error.printStackTrace();
-				}
+					} catch (SQLException error) {
+						// TODO Auto-generated catch block
+						error.printStackTrace();
+					}
 
-				DecodifySportCancelation cancel = new DecodifySportCancelation(bookingToCancel);
-				System.out.println(bookingToCancel);
-				System.out.println(cancel.toString());
-				String sport = cancel.getSport();
-				int weekYear = cancel.getWeekYear();
-				String day = cancel.getDay();
-				String hour = cancel.getHour();
-				int schedule = cancel.getSchedule();
-				int users = cancel.getUsers();
+					DecodifySportCancelation cancel = new DecodifySportCancelation(bookingToCancel);
+					System.out.println(bookingToCancel);
+					System.out.println(cancel.toString());
+					String sport = cancel.getSport();
+					int weekYear = cancel.getWeekYear();
+					String day = cancel.getDay();
+					String hour = cancel.getHour();
+					int schedule = cancel.getSchedule();
+					int users = cancel.getUsers();
 
-				// Borrar fila seleccionada
-				try {
-					// Select statement
-					String query = "DELETE r FROM reservas r JOIN deportes d ON d.id_deporte = r.id_deporte WHERE d.nombre_deporte='"
-							+ sport + "' AND r.dia='" + day + "' AND r.pista=" + schedule + " AND r.hora='" + hour + "'"
-							+ " AND r.semana='" + weekYear + "'" + " AND r.plazas='" + users + "' AND r.acrónimo='"
-							+ acronym + "'";
-					java.sql.Statement stmt = conn.createStatement();
-					// Gets the result
-					stmt.executeUpdate(query);
+					// Borrar fila seleccionada
+					try {
+						// Select statement
+						String query = "DELETE r FROM reservas r JOIN deportes d ON d.id_deporte = r.id_deporte WHERE d.nombre_deporte='"
+								+ sport + "' AND r.dia='" + day + "' AND r.pista=" + schedule + " AND r.hora='" + hour
+								+ "'" + " AND r.semana='" + weekYear + "'" + " AND r.plazas='" + users
+								+ "' AND r.acrónimo='" + acronym + "'";
+						java.sql.Statement stmt = conn.createStatement();
+						// Gets the result
+						stmt.executeUpdate(query);
 
-					change.newWindowApp("miPerfil", frame);
-					System.out.println("eliminada la fila");
+						change.newWindowApp("miPerfil", frame);
+						System.out.println("eliminada la fila");
 
-				} catch (Exception error) {
-					error.printStackTrace();
-				}
+					} catch (Exception error) {
+						error.printStackTrace();
+					}
 
-			} else
-				System.out.println("Reserva cancelada");
+				} else
+					System.out.println("Reserva cancelada");
+			}
+
+		} else if (btn == btnConfig) {
+			getConfigPanel();
 		}
 
 	}
+
+	// Muestra al usuario un panel para que introduzca sus datos personales
+	private void getConfigPanel() {
+
+		JPanel panelConfig = new JPanel();
+		panelConfig.setLayout(new BoxLayout(panelConfig, BoxLayout.Y_AXIS));
+
+		JLabel lblJob = new JLabel("Empleo:");
+		JLabel lblName = new JLabel("Nombre:");
+		JLabel lbl1Surname = new JLabel("Primer apellido:");
+		JLabel lbl2Surname = new JLabel("Segundo apellido:");
+
+		JTextField textJob = new JTextField();
+		JTextField textName = new JTextField();
+		JTextField text1Surname = new JTextField();
+		JTextField text2Surname = new JTextField();
+
+		panelConfig.add(lblJob);
+		panelConfig.add(textJob);
+		panelConfig.add(lblName);
+		panelConfig.add(textName);
+		panelConfig.add(lbl1Surname);
+		panelConfig.add(text1Surname);
+		panelConfig.add(lbl2Surname);
+		panelConfig.add(text2Surname);
+
+		String[] options = new String[] { "Guardar", "Cancel" };
+		int option = JOptionPane.showOptionDialog(null, panelConfig, "Configuración de usuario", JOptionPane.NO_OPTION,
+				JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+		System.out.println(option);
+
+		if (option == 0) // pressing OK button
+		{
+			job = textJob.getText();
+			name = textName.getText();
+			surname1 = text1Surname.getText();
+			surname2 = text2Surname.getText();
+
+			openConectionBBDD();
+			updateUserConfig(job, name, surname1, surname2);
+			resetLblNewUser();
+
+		}
+
+	}
+
+	private void resetLblNewUser() {
+		lblNewUser.removeAll();
+		String totalLockSports = "<html>Usuario: " + acronym + "<br/>Empleo: " + job + "<br/>Nombre: " + name
+				+ "<br/>Primer Apellido: " + surname1 + "<br/>Segundo Apellido: " + surname2;
+		lblNewUser.setText(totalLockSports);
+	}
+
+	private void updateUserConfig(String job, String name, String surname1, String surname2) {
+		try {
+			String query = "UPDATE usuarios SET empleo='" + job + "', nombre='" + name + "', apellido_1='" + surname1
+					+ "', apellido_2='" + surname2 + "' WHERE acrónimo='" + acronym + "'";
+
+			stmt.executeUpdate(query);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private void getUserData() {
+		String query;
+		try {
+			// Inserts
+			query = "SELECT * FROM usuarios WHERE acrónimo='" + acronym + "'";
+			java.sql.Statement stmt = conn.createStatement();
+
+			ResultSet rs = stmt.executeQuery(query);
+
+			// iterate through the java resultset
+			while (rs.next()) {
+				name = rs.getString("nombre");
+				surname1 = rs.getString("apellido_1");
+				surname2 = rs.getString("apellido_2");
+				job = rs.getString("empleo");
+			}
+			stmt.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }
