@@ -1,10 +1,12 @@
 // Aqui el Schedule.java
-package modelo;
+package controlador;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
+
+import controlador.Schedule;
 
 public class DayBtn {
 	

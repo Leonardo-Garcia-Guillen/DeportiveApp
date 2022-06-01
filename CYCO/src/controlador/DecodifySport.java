@@ -3,6 +3,8 @@ package controlador;
 import java.sql.Connection;
 import java.sql.Statement;
 
+import modelo.JavaToBBDD;
+
 public class DecodifySport {
 	private int sport;
 	private int weekYear;

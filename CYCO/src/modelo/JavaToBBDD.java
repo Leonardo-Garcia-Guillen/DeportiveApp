@@ -1,4 +1,4 @@
-package controlador;
+package modelo;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
+
+import modelo.ConnectionBBDDJava;
 
 public class JavaToBBDD {
 	private String acronym;
@@ -47,6 +49,7 @@ public class JavaToBBDD {
 		users = usersOK;
 		comment = userComment;
 
+		/*
 		// Abrir conexion con BD
 		try {
 			conn = (Connection) DriverManager.getConnection(conectionBBDD, userBBDD, pswdBBDD);
@@ -56,8 +59,12 @@ public class JavaToBBDD {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-
+		}*/
+		
+		ConnectionBBDDJava connect = new ConnectionBBDDJava();
+		conn = connect.getConn();
+		stmt = connect.getStmt();
+		
 		// Cuenta las reservas a esa hora
 		int counter = countHourBooking();
 

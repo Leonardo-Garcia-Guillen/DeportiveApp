@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import modelo.ConnectionBBDDJava;
+
 public class SportIsBlock {
 	private int disponible;
 	private int staticDisponible = 1;
@@ -24,14 +26,17 @@ public class SportIsBlock {
 
 	// Abre conexión con la Base de Datos
 	private void openConnectionBBDD() {
-		try {
+		/*try {
 			conn = (Connection) DriverManager.getConnection(conectionBBDD, userBBDD, pswdBBDD);
 			stmt = conn.createStatement();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
+		ConnectionBBDDJava connect = new ConnectionBBDDJava();
+		conn = connect.getConn();
+		stmt = connect.getStmt();
 
 	}
 

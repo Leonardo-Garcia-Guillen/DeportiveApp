@@ -47,6 +47,7 @@ import controlador.ChangeWindow;
 import controlador.DecodifySport;
 import controlador.DecodifySportCancelation;
 import controlador.SportIsBlock;
+import modelo.ConnectionBBDDJava;
 
 import javax.swing.SwingConstants;
 
@@ -339,14 +340,15 @@ public class MiPerfilAdministrador implements ActionListener, ItemListener {
 
 		if (button.equals("Ver datos y reservas")) {
 			getBooking(userSelected); // Muestra reservas del usuario seleccionado
-			
-			if (userSelected.equals("TODOS")) 
+
+			if (userSelected.equals("TODOS")) {
 				lblUserData.removeAll();
+				lblUserData.setText("");
+			}
 			else {
 				getUserData(); // Muestra los datos personales del usuario seleccionado
 				resetLblUserData();
 			}
-				
 
 			// createBookingList(userSelected);
 		} else if (button.equals("<html>Cancelar <br/>reserva")) {
@@ -489,14 +491,17 @@ public class MiPerfilAdministrador implements ActionListener, ItemListener {
 	// ---------------- SELECCIONAR DE BBDD -------------------
 	// Abre conexión con la Base de Datos
 	private void openConnectionBBDD() {
-		try {
+		/*try {
 			conn = (Connection) DriverManager.getConnection(conectionBBDD, userBBDD, pswdBBDD);
 			stmt = conn.createStatement();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
+		ConnectionBBDDJava connect = new ConnectionBBDDJava();
+		conn = connect.getConn();
+		stmt = connect.getStmt();
 
 	}
 
@@ -628,7 +633,7 @@ public class MiPerfilAdministrador implements ActionListener, ItemListener {
 
 		// Sentencia que se hace para conocer los nombres de los usuarios
 		try {
-			// Select statement
+			// statement
 			String query = "SELECT nombre_deporte FROM deportes WHERE disponibilidad=0";
 			java.sql.Statement stmt = conn.createStatement();
 
@@ -674,13 +679,10 @@ public class MiPerfilAdministrador implements ActionListener, ItemListener {
 		try {
 			// Select statement
 			if (name.equals("TODOS")) {
-				query = "SELECT * FROM reservas r JOIN deportes d ON d.id_deporte = r.id_deporte JOIN semana s ON s.dia=r.dia WHERE semana <="
-						+ thisWeek + " AND semana >=" + thisWeekMinus30Days
-						+ " ORDER BY r.semana,d.id_deporte,s.int_dia DESC";
+				query = "SELECT * FROM reservas r JOIN deportes d ON d.id_deporte = r.id_deporte JOIN semana s ON s.dia=r.dia ORDER BY r.semana,d.id_deporte,s.int_dia DESC";
 			} else {
-				query = "SELECT * FROM reservas r JOIN deportes d ON d.id_deporte = r.id_deporte JOIN semana s ON s.dia=r.dia WHERE semana <="
-						+ thisWeek + " AND semana >=" + thisWeekMinus30Days + " AND r.acrónimo='" + name
-						+ "' ORDER BY r.semana,d.id_deporte,s.int_dia DESC";
+				query = "SELECT * FROM reservas r JOIN deportes d ON d.id_deporte = r.id_deporte JOIN semana s ON s.dia=r.dia WHERE r.acrónimo='"
+						+ name + "' ORDER BY r.semana,d.id_deporte,s.int_dia DESC";
 			}
 
 			java.sql.Statement stmt = conn.createStatement();

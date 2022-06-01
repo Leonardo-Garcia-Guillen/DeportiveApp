@@ -1,4 +1,4 @@
-package modelo;
+package controlador;
 
 public class HourBtn {
 	private String hourStr;

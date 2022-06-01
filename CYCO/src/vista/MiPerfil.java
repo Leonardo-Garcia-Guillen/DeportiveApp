@@ -48,6 +48,8 @@ import javax.swing.UIManager;
 import controlador.ChangeWindow;
 import controlador.DecodifySport;
 import controlador.DecodifySportCancelation;
+import modelo.ConnectionBBDDJava;
+
 import javax.swing.SwingConstants;
 
 public class MiPerfil implements ActionListener {
@@ -279,6 +281,7 @@ public class MiPerfil implements ActionListener {
 		// Botón para cancelar reserva
 		btnCancel = new JButton();
 		btnCancel.setBounds(1254, 357, 117, 71);
+		btnCancel.addActionListener(this);
 		btnCancel.setFont(new Font("Calibri", Font.BOLD, 18));
 		btnCancel.setBorder(new LineBorder(Color.BLACK, 2));
 		mainPanel.add(btnCancel);
@@ -304,7 +307,7 @@ public class MiPerfil implements ActionListener {
 		mainPanel.add(panel);
 		panel.setLayout(null);
 
-		openConectionBBDD();
+		openConnectionBBDD();
 		getUserData();
 		String totalLockSports = "<html>Usuario: " + acronym + "<br/>Empleo: " + job + "<br/>Nombre: " + name
 				+ "<br/>Primer Apellido: " + surname1 + "<br/>Segundo Apellido: " + surname2;
@@ -334,7 +337,7 @@ public class MiPerfil implements ActionListener {
 		int i = 0;
 		int j = 0;
 
-		openConectionBBDD();
+		openConnectionBBDD();
 		try {
 
 			// Select statement
@@ -367,8 +370,8 @@ public class MiPerfil implements ActionListener {
 		}
 	}
 
-	private void openConectionBBDD() {
-		// Abrir conexion con BD
+	private void openConnectionBBDD() {
+		/*// Abrir conexion con BD
 		try {
 			conn = (Connection) DriverManager.getConnection(conectionBBDD, userBBDD, pswdBBDD);
 			System.out.println("¡¡ Conectado con la base Cy&Co !!");
@@ -377,7 +380,10 @@ public class MiPerfil implements ActionListener {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
+		ConnectionBBDDJava connect = new ConnectionBBDDJava();
+		conn = connect.getConn();
+		stmt = connect.getStmt();
 
 	}
 
@@ -490,7 +496,7 @@ public class MiPerfil implements ActionListener {
 			surname1 = text1Surname.getText();
 			surname2 = text2Surname.getText();
 
-			openConectionBBDD();
+			openConnectionBBDD();
 			updateUserConfig(job, name, surname1, surname2);
 			resetLblNewUser();
 

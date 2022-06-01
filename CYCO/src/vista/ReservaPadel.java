@@ -33,18 +33,18 @@ import javax.swing.JPanel;
 
 import controlador.ChangePanelHours;
 import controlador.ChangeWindow;
-import modelo.DayHourList;
-import modelo.PadelBooking;
-import modelo.WeekBtn;
+import modelo.ConnectionBBDDJava;
+import controlador.DayHourList;
+import controlador.PadelBooking;
+import controlador.WeekBtn;
 import controlador.DecodifySport;
-import controlador.JavaToBBDD;
+import modelo.JavaToBBDD;
 
 import javax.swing.JRadioButton;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 public class ReservaPadel implements ActionListener {
-	// STATIC
 	PadelBooking padel = new PadelBooking();
 
 	public static ChangeWindow change = new ChangeWindow("");
@@ -55,8 +55,22 @@ public class ReservaPadel implements ActionListener {
 	private final int totalHours = padel.getTotalHours();
 	private final int totalUsers = padel.getTotalUsers();
 	private final int totalSchedules = padel.getTotalSchedules();
-
+	
+	private int availableUsers = totalUsers;
+	private int scheduleSelected = 0;
+	
+	private String text = "";
+	private String lastHour = "";
+	private String booking = "";
+	private String lastHourSelected = "";
+	
+	private JFrame frame;
+	
 	private JPanel[] panelDaysArray = new JPanel[totalDays];
+	private JPanel bookingPanel;
+	private JPanel mainPanel;
+	
+	private ButtonGroup bookingGroup;
 	private JButton[] btnDaysArray = new JButton[totalDays];
 	private JButton[][][] btnHoursArray = new JButton[totalDays][totalSchedules][totalHours];
 	private JRadioButton[] bookingRadioButtonArray = new JRadioButton[totalUsers];
@@ -64,18 +78,8 @@ public class ReservaPadel implements ActionListener {
 	private JLabel lblUsersList;
 
 	private DecodifySport decode;
-	private ButtonGroup bookingGroup;
-	private String text = "";
-
-	private JFrame frame;
-	private JPanel bookingPanel;
-	private JPanel mainPanel;
-
-	private int availableUsers = totalUsers;
-	private int scheduleSelected = 0;
-	private String lastHour = "";
-	private String booking = "";
-	private String lastHourSelected = "";
+	
+	
 
 	// BBDD
 	//private static final String conectionBBDD = "jdbc:mysql://192.168.50.27:3306/cy&co";
@@ -352,7 +356,6 @@ public class ReservaPadel implements ActionListener {
 
 	// ------------- CREATE BUTTONS & PANELS -------------
 	private void getHourBtns() {
-		int cont = 0;
 		int x = 0;
 		int y = 0;
 		int weekYear;
@@ -383,7 +386,6 @@ public class ReservaPadel implements ActionListener {
 							32);
 					y++;
 
-					cont++;
 				}
 
 				x = 0;
@@ -535,15 +537,17 @@ public class ReservaPadel implements ActionListener {
 	// ------------- LLAMADAS A LA BASE DE DATOS -------------
 	// Abre conexión con la Base de Datos
 	private void openConnectionBBDD() {
-		try {
+		/*try {
 			conn = (Connection) DriverManager.getConnection(conectionBBDD, userBBDD, pswdBBDD);
 			stmt = conn.createStatement();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-
+		} */
+		ConnectionBBDDJava connect = new ConnectionBBDDJava();
+		conn = connect.getConn();
+		stmt = connect.getStmt();
 	}
 
 	// Muestra los usuarios que han reservado en un deporte, un día a una hora

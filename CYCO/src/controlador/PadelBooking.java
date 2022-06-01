@@ -1,4 +1,4 @@
-package modelo;
+package controlador;
 
 public class PadelBooking {
 	private WeekBtn padelWeek;
