@@ -14,7 +14,7 @@ public class Schedule {
 			HourBtn hour = new HourBtn(actualHour,bookingTime);
 			
 			schedule.add(hour);
-			actualHour = actualHour + 1.5;
+			actualHour = actualHour + bookingTime;
 		}
 	}
 

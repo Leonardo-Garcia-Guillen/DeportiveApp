@@ -11,13 +11,21 @@ import vista.InterfazPrincipal;
 import vista.MiPerfil;
 import vista.MiPerfilAdministrador;
 import vista.ReservaPadel;
+import vista.ReservaPiscina;
+import vista.ReservaTenis;
 
 public class ChangeWindow {
 	public static InterfazPrincipal principal = new InterfazPrincipal();
-	public static ReservaPadel padel = new ReservaPadel();
+	
 	public static MiPerfil miPerfil = new MiPerfil();
 	public static MiPerfilAdministrador miPerfilAdministrador = new MiPerfilAdministrador();
+	
 	public static BANCOPRUEBAS_GRAFICAS gg = new BANCOPRUEBAS_GRAFICAS();
+	
+	public static ReservaPadel padel = new ReservaPadel();
+	public static ReservaTenis tenis = new ReservaTenis();
+	public static ReservaPiscina piscina = new ReservaPiscina();
+	
 	
 	public ChangeWindow(String sport) {
 		
@@ -26,10 +34,6 @@ public class ChangeWindow {
 	public void newWindowApp(String windowName, JFrame frame) {
 		frame.dispose();
 		switch (windowName) {
-		case "padel": {
-			padel.newPadelInterface();
-			break;
-		}
 		case "miPerfil" : {
 			miPerfil.newMiPerfil();
 			break;
@@ -42,11 +46,16 @@ public class ChangeWindow {
 			principal.newPrincipalInterface();
 			break;
 		}
-		case "tenis": {
-			System.out.println("alegría");
+		case "padel": {
+			padel.newPadelInterface();
 			break;
 		}
-		case "piscina": {
+		case "tenis": {
+			tenis.newTenisInterface();
+			break;
+		}
+		case "natacion": {
+			piscina.newPiscinaInterface();
 			break;
 		}
 		case "baloncesto": {

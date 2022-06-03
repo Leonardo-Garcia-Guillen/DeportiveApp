@@ -11,7 +11,7 @@ public class ConnectionBBDDJava {
 	private Statement stmt;
 
 	// BBDD
-	private static String conectionBBDD = "jdbc:mysql://192.168.50.27:3306/cy&co";
+	private static String conectionBBDD = "jdbc:mysql://192.168.43.228:3306/cy&co";
 	private static String userBBDD = "Leo";
 	private static String pswdBBDD = "CYCO";
 
