@@ -31,11 +31,13 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import controlador.BaloncestoBooking;
 import controlador.ChangePanelHours;
 import controlador.ChangeWindow;
 import modelo.ConnectionBBDDJava;
 import controlador.DayHourList;
 import controlador.PadelBooking;
+import controlador.VoleyBooking;
 import controlador.WeekBtn;
 import controlador.DecodifySport;
 import modelo.JavaToBBDD;
@@ -44,17 +46,18 @@ import javax.swing.JRadioButton;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
-public class ReservaPadel implements ActionListener {
-	PadelBooking padel = new PadelBooking();
+public class ReservaVoley implements ActionListener {
+	VoleyBooking voley = new VoleyBooking();
+	
 
 	public static ChangeWindow change = new ChangeWindow("");
 	public static ChangePanelHours panelHours = new ChangePanelHours();
 
-	private final int sportNumber = padel.getSportNumber();
+	private final int sportNumber = voley.getSportNumber();
 	private final int totalDays = 7;
-	private final int totalHours = padel.getTotalHours();
-	private final int totalUsers = padel.getTotalUsers();
-	private final int totalSchedules = padel.getTotalSchedules();
+	private final int totalHours = voley.getTotalHours();
+	private final int totalUsers = voley.getTotalUsers();
+	private final int totalSchedules = voley.getTotalSchedules();
 	
 	private int availableUsers = totalUsers;
 	private int scheduleSelected = 0;
@@ -80,16 +83,10 @@ public class ReservaPadel implements ActionListener {
 	private DecodifySport decode;
 	
 	
-
-	// BBDD
-	//private static final String conectionBBDD = "jdbc:mysql://192.168.50.27:3306/cy&co";
-	private static final String conectionBBDD = "jdbc:mysql://192.168.50.27:3306/cy&co";
-	private static final String userBBDD = "Leo";
-	private static final String pswdBBDD = "CYCO";
 	Connection conn;
 	Statement stmt;
 
-	public ReservaPadel() {
+	public ReservaVoley() {
 		initialize();
 	}
 
@@ -98,12 +95,12 @@ public class ReservaPadel implements ActionListener {
 	 * @param connect
 	 * @wbp.parser.entryPoint
 	 */
-	public void newPadelInterface() {
+	public void newVoleyInterface() {
 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ReservaPadel window = new ReservaPadel();
+					ReservaVoley window = new ReservaVoley();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -135,7 +132,7 @@ public class ReservaPadel implements ActionListener {
 
 		JLabel cycoLabel = new JLabel("");
 		cycoLabel.setBounds(72, 10, 272, 135);
-		ImageIcon imageIcon = new ImageIcon(new ImageIcon(InterfazPrincipal.class.getResource("/images/padel.jpg"))
+		ImageIcon imageIcon = new ImageIcon(new ImageIcon(InterfazPrincipal.class.getResource("/images/voley.jpg"))
 				.getImage().getScaledInstance(186, 101, Image.SCALE_DEFAULT));
 		mainPanel.setLayout(null);
 		cycoLabel.setIcon(imageIcon);
@@ -170,7 +167,7 @@ public class ReservaPadel implements ActionListener {
 		lblUsersList = new JLabel();
 		lblUsersList.setFont(new Font("Calibri", Font.BOLD, 16));
 		lblUsersList.setText("");
-		lblUsersList.setBounds(86, 250, 113, 100);
+		lblUsersList.setBounds(126, 220, 154, 150);
 		bookingPanel.add(lblUsersList);
 
 		// --------- PANELES HORARIOS SEMANALES ---------
@@ -294,20 +291,20 @@ public class ReservaPadel implements ActionListener {
 
 		// ---------- PISTAS DISPONIBLES ---------
 
-		JLabel lblPista = new JLabel("Pista 1");
+		JLabel lblPista = new JLabel("Pista aire libre");
 		lblPista.setForeground(new Color(100, 0, 140));
 		lblPista.setFont(new Font("Calibri", Font.BOLD, 23));
-		lblPista.setBounds(316, 386, 70, 56);
+		lblPista.setBounds(316, 386, 161, 56);
 		mainPanel.add(lblPista);
 
-		JLabel lblPista_2 = new JLabel("Pista 2");
+		JLabel lblPista_2 = new JLabel("Pista pabell\u00F3n");
 		lblPista_2.setForeground(new Color(100, 0, 140));
 		lblPista_2.setFont(new Font("Calibri", Font.BOLD, 23));
-		lblPista_2.setBounds(1122, 386, 70, 56);
+		lblPista_2.setBounds(1122, 386, 209, 56);
 		mainPanel.add(lblPista_2);
 
-		JLabel lblTitulo = new JLabel("PADEL");
-		lblTitulo.setBounds(290, 93, 139, 56);
+		JLabel lblTitulo = new JLabel("VOLEYBOL");
+		lblTitulo.setBounds(290, 93, 334, 56);
 		mainPanel.add(lblTitulo);
 		lblTitulo.setForeground(new Color(71, 0, 100));
 		lblTitulo.setFont(new Font("Calibri", Font.BOLD, 45));
@@ -361,12 +358,12 @@ public class ReservaPadel implements ActionListener {
 		int weekYear;
 
 		for (int day = 0; day < 7; day++) {
-			weekYear = padel.getPadelWeek().getDayBtn(day).getWeekYear();
+			weekYear = voley.getVoleyWeek().getDayBtn(day).getWeekYear();
 			for (int schedule = 0; schedule < totalSchedules; schedule++) {
 				for (int hour = 0; hour < totalHours; hour++) {
-					btnHoursArray[day][schedule][hour] = new JButton(padel.getPadelWeek().getDayBtn(day).getSchedules()
+					btnHoursArray[day][schedule][hour] = new JButton(voley.getVoleyWeek().getDayBtn(day).getSchedules()
 							.get(schedule).getSchedule().get(hour).getHourStr());
-					// Nombre: 0 (padel) + nº de la semana respecto del año + dia + pista + hora
+					// Nombre: 0 (voley) + nº de la semana respecto del año + dia + pista + hora
 					btnHoursArray[day][schedule][hour].setName(sportNumber + "-" + weekYear + "-" + day + "-" + schedule
 							+ "-" + btnHoursArray[day][schedule][hour].getText());
 					btnHoursArray[day][schedule][hour].addActionListener(this);
@@ -401,9 +398,9 @@ public class ReservaPadel implements ActionListener {
 			int j = i + 1;
 			bookingRadioButtonArray[i] = new JRadioButton();
 			bookingRadioButtonArray[i].setText("" + j);
-			bookingRadioButtonArray[i].setBounds(45, 75 + i * 50, 50, 21);
+			bookingRadioButtonArray[i].setBounds(45, 62 + i * 20, 50, 15);
 			// bookingRadioButtonArray[i].setColor(new Color(255,255,255));
-			bookingRadioButtonArray[i].setFont(new Font("Calibri", Font.BOLD, 16));
+			bookingRadioButtonArray[i].setFont(new Font("Calibri", Font.BOLD, 12));
 			bookingPanel.add(bookingRadioButtonArray[i]);
 			bookingGroup.add(bookingRadioButtonArray[i]);
 			bookingRadioButtonArray[i].setLayout(null);
@@ -427,7 +424,7 @@ public class ReservaPadel implements ActionListener {
 		for (int i = 0; i < totalDays; i++) {
 
 			btnDaysArray[i] = new JButton();
-			btnDaysArray[i].setText(padel.getPadelWeek().getDayBtn(i).getDayName().toUpperCase());
+			btnDaysArray[i].setText(voley.getVoleyWeek().getDayBtn(i).getDayName().toUpperCase());
 			btnDaysArray[i].addActionListener(this);
 			btnDaysArray[i].setBackground(new Color(248, 248, 255));
 			btnDaysArray[i].setForeground(new Color(71, 0, 100));
@@ -461,7 +458,7 @@ public class ReservaPadel implements ActionListener {
 		int weekYear;
 
 		for (int day = 0; day < 7; day++) {
-			weekYear = padel.getPadelWeek().getDayBtn(day).getWeekYear();
+			weekYear = voley.getVoleyWeek().getDayBtn(day).getWeekYear();
 			// System.out.println(weekYear);
 			for (int schedule = 0; schedule < totalSchedules; schedule++) {
 				for (int hour = 0; hour < totalHours; hour++) {
@@ -608,7 +605,7 @@ public class ReservaPadel implements ActionListener {
 			}
 			hoursCounter = aux;
 
-			 stmt.close();
+			// stmt.close();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -666,7 +663,7 @@ public class ReservaPadel implements ActionListener {
 
 			}
 
-			 stmt.close();
+			// stmt.close();
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -29,10 +29,7 @@ public class JavaToBBDD {
 	private static String staticHour = "";
 	private static int staticUsers = 0;
 
-	// BBDD
-	private static String conectionBBDD = "jdbc:mysql://192.168.50.27:3306/cy&co";
-	private static String userBBDD = "Leo";
-	private static String pswdBBDD = "CYCO";
+	
 	private Connection conn;
 	private Statement stmt;
 
@@ -40,7 +37,7 @@ public class JavaToBBDD {
 			int totalUsers, String userComment) {
 
 		// Nombre + nº de la semana respecto del año + dia + schedule + hora
-		acronym = "lgargui";// System.getProperty("user.name");
+		acronym = System.getProperty("user.name");
 		sport = sportOK;
 		weekYear = weekYearOK;
 		day = dayOK;
@@ -131,7 +128,7 @@ public class JavaToBBDD {
 		Integer id = 0;
 		try {
 			// Select statement
-			String query = "SELECT id_reserva FROM reservas";
+			String query = "SELECT id_reserva FROM reservas ORDER BY id_reserva ASC";
 			java.sql.Statement stmt = conn.createStatement();
 
 			// Gets the result
@@ -140,11 +137,12 @@ public class JavaToBBDD {
 			// Take the value
 			while (rs.next()) {
 				id = rs.getInt(1);
+				System.out.println(id);
 			}
 			if (id == null)
 				id = 0;
 
-			System.out.println(id);
+			
 			// stmt.close();
 
 		} catch (Exception e) {

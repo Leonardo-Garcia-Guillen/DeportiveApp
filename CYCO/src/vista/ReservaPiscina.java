@@ -74,16 +74,10 @@ public class ReservaPiscina implements ActionListener {
 	private ButtonGroup bookingGroup;
 	private JButton[] btnDaysArray = new JButton[totalDays];
 	private JButton[][][] btnHoursArray = new JButton[totalDays][totalSchedules][totalHours];
-	private JRadioButton[] bookingRadioButtonArray = new JRadioButton[totalUsers];
 
 	private DecodifySport decode;
 
-	// BBDD
-	// private static final String conectionBBDD =
-	// "jdbc:mysql://192.168.50.27:3306/cy&co";
-	private static final String conectionBBDD = "jdbc:mysql://192.168.50.27:3306/cy&co";
-	private static final String userBBDD = "Leo";
-	private static final String pswdBBDD = "CYCO";
+	
 	Connection conn;
 	Statement stmt;
 
@@ -141,7 +135,6 @@ public class ReservaPiscina implements ActionListener {
 		mainPanel.add(cycoLabel);
 
 		// RESERVAS HORARIAS
-		bookingGroup = new ButtonGroup(); // Donde guardaremos los bookingRadio
 		bookingPanel = new JPanel();
 		bookingPanel.setBackground(Color.WHITE);
 		// bookingPanel.setBackground(new Color(255, 255, 255));
@@ -377,23 +370,6 @@ public class ReservaPiscina implements ActionListener {
 		}
 	}
 
-	// Crea los JRadioButton: botones circulares para selección del número de plazas
-	private void getBookingRadioBtn() {
-
-		for (int i = 0; i < totalUsers; i++) {
-			int j = i + 1;
-			bookingRadioButtonArray[i] = new JRadioButton();
-			bookingRadioButtonArray[i].setText("" + j);
-			bookingRadioButtonArray[i].setBounds(45, 75 + i * 50, 50, 21);
-			// bookingRadioButtonArray[i].setColor(new Color(255,255,255));
-			bookingRadioButtonArray[i].setFont(new Font("Calibri", Font.BOLD, 16));
-			bookingPanel.add(bookingRadioButtonArray[i]);
-			bookingGroup.add(bookingRadioButtonArray[i]);
-			bookingRadioButtonArray[i].setLayout(null);
-			bookingRadioButtonArray[i].setVisible(true);
-
-		}
-	}
 
 	private void getWeekPanels(JPanel panel) {
 		for (int i = 0; i < totalDays; i++) {
@@ -586,7 +562,7 @@ public class ReservaPiscina implements ActionListener {
 			}
 			hoursCounter = aux;
 
-			// stmt.close();
+			stmt.close();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -643,7 +619,7 @@ public class ReservaPiscina implements ActionListener {
 
 			}
 
-			// stmt.close();
+			 stmt.close();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -722,12 +698,7 @@ public class ReservaPiscina implements ActionListener {
 
 			// Mostramos tantas opciones de reservas como plazas queden disponibles
 			bookingGroup.clearSelection();
-			for (int i = 0; i < totalUsers; i++) {
-				if (i >= availableUsers)
-					bookingRadioButtonArray[i].setEnabled(false);
-				else
-					bookingRadioButtonArray[i].setEnabled(true);
-			}
+			
 		}
 
 	}

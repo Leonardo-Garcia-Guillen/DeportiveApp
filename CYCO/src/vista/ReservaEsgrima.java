@@ -35,26 +35,26 @@ import controlador.ChangePanelHours;
 import controlador.ChangeWindow;
 import modelo.ConnectionBBDDJava;
 import controlador.DayHourList;
-import controlador.PadelBooking;
 import controlador.WeekBtn;
 import controlador.DecodifySport;
+import controlador.EsgrimaBooking;
 import modelo.JavaToBBDD;
 
 import javax.swing.JRadioButton;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
-public class ReservaPadel implements ActionListener {
-	PadelBooking padel = new PadelBooking();
+public class ReservaEsgrima implements ActionListener {
+	EsgrimaBooking esgrima = new EsgrimaBooking();
 
 	public static ChangeWindow change = new ChangeWindow("");
 	public static ChangePanelHours panelHours = new ChangePanelHours();
 
-	private final int sportNumber = padel.getSportNumber();
+	private final int sportNumber = esgrima.getSportNumber();
 	private final int totalDays = 7;
-	private final int totalHours = padel.getTotalHours();
-	private final int totalUsers = padel.getTotalUsers();
-	private final int totalSchedules = padel.getTotalSchedules();
+	private final int totalHours = esgrima.getTotalHours();
+	private final int totalUsers = esgrima.getTotalUsers();
+	private final int totalSchedules = esgrima.getTotalSchedules();
 	
 	private int availableUsers = totalUsers;
 	private int scheduleSelected = 0;
@@ -89,7 +89,7 @@ public class ReservaPadel implements ActionListener {
 	Connection conn;
 	Statement stmt;
 
-	public ReservaPadel() {
+	public ReservaEsgrima() {
 		initialize();
 	}
 
@@ -98,12 +98,12 @@ public class ReservaPadel implements ActionListener {
 	 * @param connect
 	 * @wbp.parser.entryPoint
 	 */
-	public void newPadelInterface() {
+	public void newEsgrimaInterface() {
 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ReservaPadel window = new ReservaPadel();
+					ReservaEsgrima window = new ReservaEsgrima();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -135,7 +135,7 @@ public class ReservaPadel implements ActionListener {
 
 		JLabel cycoLabel = new JLabel("");
 		cycoLabel.setBounds(72, 10, 272, 135);
-		ImageIcon imageIcon = new ImageIcon(new ImageIcon(InterfazPrincipal.class.getResource("/images/padel.jpg"))
+		ImageIcon imageIcon = new ImageIcon(new ImageIcon(InterfazPrincipal.class.getResource("/images/esgrima.jpeg"))
 				.getImage().getScaledInstance(186, 101, Image.SCALE_DEFAULT));
 		mainPanel.setLayout(null);
 		cycoLabel.setIcon(imageIcon);
@@ -306,8 +306,8 @@ public class ReservaPadel implements ActionListener {
 		lblPista_2.setBounds(1122, 386, 70, 56);
 		mainPanel.add(lblPista_2);
 
-		JLabel lblTitulo = new JLabel("PADEL");
-		lblTitulo.setBounds(290, 93, 139, 56);
+		JLabel lblTitulo = new JLabel("ESGRIMA");
+		lblTitulo.setBounds(290, 93, 250, 56);
 		mainPanel.add(lblTitulo);
 		lblTitulo.setForeground(new Color(71, 0, 100));
 		lblTitulo.setFont(new Font("Calibri", Font.BOLD, 45));
@@ -361,12 +361,12 @@ public class ReservaPadel implements ActionListener {
 		int weekYear;
 
 		for (int day = 0; day < 7; day++) {
-			weekYear = padel.getPadelWeek().getDayBtn(day).getWeekYear();
+			weekYear = esgrima.getEsgrimaWeek().getDayBtn(day).getWeekYear();
 			for (int schedule = 0; schedule < totalSchedules; schedule++) {
 				for (int hour = 0; hour < totalHours; hour++) {
-					btnHoursArray[day][schedule][hour] = new JButton(padel.getPadelWeek().getDayBtn(day).getSchedules()
+					btnHoursArray[day][schedule][hour] = new JButton(esgrima.getEsgrimaWeek().getDayBtn(day).getSchedules()
 							.get(schedule).getSchedule().get(hour).getHourStr());
-					// Nombre: 0 (padel) + nº de la semana respecto del año + dia + pista + hora
+					// Nombre: 0 (esgrima) + nº de la semana respecto del año + dia + pista + hora
 					btnHoursArray[day][schedule][hour].setName(sportNumber + "-" + weekYear + "-" + day + "-" + schedule
 							+ "-" + btnHoursArray[day][schedule][hour].getText());
 					btnHoursArray[day][schedule][hour].addActionListener(this);
@@ -401,7 +401,7 @@ public class ReservaPadel implements ActionListener {
 			int j = i + 1;
 			bookingRadioButtonArray[i] = new JRadioButton();
 			bookingRadioButtonArray[i].setText("" + j);
-			bookingRadioButtonArray[i].setBounds(45, 75 + i * 50, 50, 21);
+			bookingRadioButtonArray[i].setBounds(45, 70 + i * 30, 50, 20);
 			// bookingRadioButtonArray[i].setColor(new Color(255,255,255));
 			bookingRadioButtonArray[i].setFont(new Font("Calibri", Font.BOLD, 16));
 			bookingPanel.add(bookingRadioButtonArray[i]);
@@ -427,7 +427,7 @@ public class ReservaPadel implements ActionListener {
 		for (int i = 0; i < totalDays; i++) {
 
 			btnDaysArray[i] = new JButton();
-			btnDaysArray[i].setText(padel.getPadelWeek().getDayBtn(i).getDayName().toUpperCase());
+			btnDaysArray[i].setText(esgrima.getEsgrimaWeek().getDayBtn(i).getDayName().toUpperCase());
 			btnDaysArray[i].addActionListener(this);
 			btnDaysArray[i].setBackground(new Color(248, 248, 255));
 			btnDaysArray[i].setForeground(new Color(71, 0, 100));
@@ -461,7 +461,7 @@ public class ReservaPadel implements ActionListener {
 		int weekYear;
 
 		for (int day = 0; day < 7; day++) {
-			weekYear = padel.getPadelWeek().getDayBtn(day).getWeekYear();
+			weekYear = esgrima.getEsgrimaWeek().getDayBtn(day).getWeekYear();
 			// System.out.println(weekYear);
 			for (int schedule = 0; schedule < totalSchedules; schedule++) {
 				for (int hour = 0; hour < totalHours; hour++) {

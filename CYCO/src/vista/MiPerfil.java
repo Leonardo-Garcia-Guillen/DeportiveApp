@@ -57,7 +57,7 @@ public class MiPerfil implements ActionListener {
 	Statement stmt;
 	private JFrame frame;
 	private JPanel panelReservas;
-	private String acronym = "lgargui"; // System.getProperty("user.name");
+	private String acronym = System.getProperty("user.name");
 	private JButton[] btnBookingArray = new JButton[100];
 	private JButton btnCancel;
 	private JButton btnConfig;
@@ -70,10 +70,7 @@ public class MiPerfil implements ActionListener {
 
 	public static ChangeWindow change = new ChangeWindow("");
 
-	// BBDD
-	private static String conectionBBDD = "jdbc:mysql://192.168.50.27:3306/cy&co";
-	private static String userBBDD = "Leo";
-	private static String pswdBBDD = "CYCO";
+	
 
 	/**
 	 * Launch the application.
@@ -343,7 +340,7 @@ public class MiPerfil implements ActionListener {
 			// Select statement
 			String query = "SELECT * FROM reservas r JOIN deportes d ON d.id_deporte = r.id_deporte JOIN semana s ON s.dia=r.dia WHERE semana <="
 					+ thisWeek + " AND semana >=" + thisWeekMinus30Days + " AND r.acrónimo='" + acronym
-					+ "' ORDER BY r.semana,d.id_deporte,s.int_dia DESC";
+					+ "' ORDER BY r.semana, s.int_dia DESC, d.id_deporte";
 			java.sql.Statement stmt = conn.createStatement();
 
 			// Gets the result
@@ -371,16 +368,7 @@ public class MiPerfil implements ActionListener {
 	}
 
 	private void openConnectionBBDD() {
-		/*// Abrir conexion con BD
-		try {
-			conn = (Connection) DriverManager.getConnection(conectionBBDD, userBBDD, pswdBBDD);
-			System.out.println("¡¡ Conectado con la base Cy&Co !!");
-			stmt = conn.createStatement();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+		
 		ConnectionBBDDJava connect = new ConnectionBBDDJava();
 		conn = connect.getConn();
 		stmt = connect.getStmt();
@@ -410,16 +398,7 @@ public class MiPerfil implements ActionListener {
 						JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
 
 				if (res == 0) {
-					// Abrir conexion con BD
-					try {
-						conn = (Connection) DriverManager.getConnection(conectionBBDD, userBBDD, pswdBBDD);
-						System.out.println("¡¡ Conectado con la base Cy&Co !!");
-						stmt = conn.createStatement();
-
-					} catch (SQLException error) {
-						// TODO Auto-generated catch block
-						error.printStackTrace();
-					}
+					openConnectionBBDD();
 
 					DecodifySportCancelation cancel = new DecodifySportCancelation(bookingToCancel);
 					System.out.println(bookingToCancel);

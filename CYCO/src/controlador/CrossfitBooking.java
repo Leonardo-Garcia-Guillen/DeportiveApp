@@ -1,28 +1,28 @@
 package controlador;
 
-public class BaloncestoBooking {
-	private WeekBtn baloncestoWeek;
-	private final int sportNumber = 3;
+public class CrossfitBooking {
+	private WeekBtn crossfitWeek;
+	private final int sportNumber = 5;
 	private final int totalHours = 10;
-	private final double firstHour = 7.5;
+	private final double firstHour = 7.30; 
 	private final double bookingTime = 1.5;
-	private final int totalSchedules = 2;
+	private final int totalSchedules = 1;
 	
 	// Cuantos usuarios pueden llegar a usar una hora en padel
-	private final int totalUsers = 14;
+	private final int totalUsers = 35;
 	
 	// Constructor
-	public BaloncestoBooking() {
-		baloncestoWeek = new WeekBtn(totalSchedules,totalHours,firstHour,bookingTime);
+	public CrossfitBooking() {
+		crossfitWeek = new WeekBtn(totalSchedules,totalHours,firstHour,bookingTime);
 		
 	}
 
-	public WeekBtn getBaloncestoWeek() {
-		return baloncestoWeek;
+	public WeekBtn getCrossfitWeek() {
+		return crossfitWeek;
 	}
 
-	public void setBaloncestoWeek(WeekBtn baloncestoWeek) {
-		this.baloncestoWeek = baloncestoWeek;
+	public void setCrossfitWeek(WeekBtn crossfitWeek) {
+		this.crossfitWeek = crossfitWeek;
 	}
 
 	public int getSportNumber() {
@@ -48,9 +48,6 @@ public class BaloncestoBooking {
 	public int getTotalUsers() {
 		return totalUsers;
 	}
-
-
-	
 
 	
 }

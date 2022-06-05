@@ -1,8 +1,8 @@
 package controlador;
 
-public class BaloncestoBooking {
-	private WeekBtn baloncestoWeek;
-	private final int sportNumber = 3;
+public class FutbolSalaBooking {
+	private WeekBtn futbolSalaWeek;
+	private final int sportNumber = 9;
 	private final int totalHours = 10;
 	private final double firstHour = 7.5;
 	private final double bookingTime = 1.5;
@@ -12,17 +12,17 @@ public class BaloncestoBooking {
 	private final int totalUsers = 14;
 	
 	// Constructor
-	public BaloncestoBooking() {
-		baloncestoWeek = new WeekBtn(totalSchedules,totalHours,firstHour,bookingTime);
+	public FutbolSalaBooking() {
+		futbolSalaWeek = new WeekBtn(totalSchedules,totalHours,firstHour,bookingTime);
 		
 	}
 
-	public WeekBtn getBaloncestoWeek() {
-		return baloncestoWeek;
+	public WeekBtn getFutbolSalaWeek() {
+		return futbolSalaWeek;
 	}
 
-	public void setBaloncestoWeek(WeekBtn baloncestoWeek) {
-		this.baloncestoWeek = baloncestoWeek;
+	public void setFutbolSalaWeek(WeekBtn futbolSalaWeek) {
+		this.futbolSalaWeek = futbolSalaWeek;
 	}
 
 	public int getSportNumber() {

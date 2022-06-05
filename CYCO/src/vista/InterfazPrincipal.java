@@ -486,11 +486,11 @@ public class InterfazPrincipal implements ActionListener{
 			}
 			else if (btn == btnFSala) {
 				sport = 9;
-				nameBtn = "fSala";
+				nameBtn = "futbolSala";
 			}
 			else if (btn == btnF7) {
 				sport = 10;
-				nameBtn = "f7";
+				nameBtn = "futbol7";
 			}
 			else if (btn == btnAtletismo) {
 				sport = 11;		

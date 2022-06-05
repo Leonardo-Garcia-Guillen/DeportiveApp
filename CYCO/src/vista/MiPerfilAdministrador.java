@@ -58,7 +58,7 @@ public class MiPerfilAdministrador implements ActionListener, ItemListener {
 	private JPanel panelReservas;
 	private JPanel mainPanel;
 	private JPanel panelUserData;
-	private String acronym = "lgargui";// System.getProperty("user.name");
+	private String acronym = System.getProperty("user.name");
 	private String userSelected = "TODOS";
 	private String sportSelected = "TODOS";
 	private JButton[] btnBookingArray = new JButton[100];
@@ -74,10 +74,7 @@ public class MiPerfilAdministrador implements ActionListener, ItemListener {
 
 	public static ChangeWindow change = new ChangeWindow("");
 	private JList<String> list;
-	// BBDD
-	private static String conectionBBDD = "jdbc:mysql://192.168.50.27:3306/cy&co";
-	private static String userBBDD = "Leo";
-	private static String pswdBBDD = "CYCO";
+
 
 	/**
 	 * Launch the application.
@@ -231,7 +228,7 @@ public class MiPerfilAdministrador implements ActionListener, ItemListener {
 		panelReservas = new JPanel();
 		// panelReservas.setBorder(null);
 		panelReservas.setBackground(new Color(255, 255, 255));
-		panelReservas.setBounds(335, 121, 855, 1000);
+		panelReservas.setBounds(272, 122, 928, 1499);
 		mainPanel.add(panelReservas);
 		panelReservas.setLayout(new FlowLayout());
 
@@ -482,7 +479,7 @@ public class MiPerfilAdministrador implements ActionListener, ItemListener {
 
 		listSports.addItem("TODOS");
 
-		openConnectionBBDD();
+		//openConnectionBBDD();
 
 		// Hace la lista de deportes (Select from BBDD)
 		getListSports();
@@ -666,16 +663,8 @@ public class MiPerfilAdministrador implements ActionListener, ItemListener {
 		String booking = "";
 		String query = "";
 
-		// Abrir conexion con BD
-		try {
-			conn = (Connection) DriverManager.getConnection(conectionBBDD, userBBDD, pswdBBDD);
-			System.out.println("¡¡ Conectado con la base Cy&Co !!");
-			stmt = conn.createStatement();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		openConnectionBBDD();
 		try {
 			// Select statement
 			if (name.equals("TODOS")) {
@@ -723,16 +712,7 @@ public class MiPerfilAdministrador implements ActionListener, ItemListener {
 					JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
 
 			if (res == 0) {
-				// Abrir conexion con BD
-				try {
-					conn = (Connection) DriverManager.getConnection(conectionBBDD, userBBDD, pswdBBDD);
-					System.out.println("¡¡ Conectado con la base Cy&Co !!");
-					stmt = conn.createStatement();
-
-				} catch (SQLException error) {
-					// TODO Auto-generated catch block
-					error.printStackTrace();
-				}
+				openConnectionBBDD();
 
 				DecodifySportCancelation cancel = new DecodifySportCancelation(bookingToCancel);
 				System.out.println(bookingToCancel);

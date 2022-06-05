@@ -10,9 +10,18 @@ import modelo.BANCOPRUEBAS_GRAFICAS;
 import vista.InterfazPrincipal;
 import vista.MiPerfil;
 import vista.MiPerfilAdministrador;
+import vista.ReservaAtletismo;
+import vista.ReservaBaloncesto;
+import vista.ReservaCrossfit;
+import vista.ReservaEsgrima;
+import vista.ReservaFutbol7;
+import vista.ReservaFutbolSala;
+import vista.ReservaGimnasio;
 import vista.ReservaPadel;
 import vista.ReservaPiscina;
 import vista.ReservaTenis;
+import vista.ReservaTiro;
+import vista.ReservaVoley;
 
 public class ChangeWindow {
 	public static InterfazPrincipal principal = new InterfazPrincipal();
@@ -25,7 +34,15 @@ public class ChangeWindow {
 	public static ReservaPadel padel = new ReservaPadel();
 	public static ReservaTenis tenis = new ReservaTenis();
 	public static ReservaPiscina piscina = new ReservaPiscina();
-	
+	public static ReservaBaloncesto baloncesto = new ReservaBaloncesto();
+	public static ReservaGimnasio gimnasio = new ReservaGimnasio();
+	public static ReservaCrossfit crossfit = new ReservaCrossfit();
+	public static ReservaTiro tiro = new ReservaTiro();
+	public static ReservaEsgrima esgrima= new ReservaEsgrima();
+	public static ReservaVoley voley = new ReservaVoley();
+	public static ReservaFutbolSala futbolSala = new ReservaFutbolSala();
+	public static ReservaFutbol7 futbol7 = new ReservaFutbol7();
+	public static ReservaAtletismo atletismo = new ReservaAtletismo();
 	
 	public ChangeWindow(String sport) {
 		
@@ -59,30 +76,39 @@ public class ChangeWindow {
 			break;
 		}
 		case "baloncesto": {
+			baloncesto.newBaloncestoInterface();
 			break;
 		}
 		case "gimnasio": {
+			gimnasio.newGimnasioInterface();
 			break;
 		}
 		case "crossfit": {
+			crossfit.newCrossfitInterface();
 			break;
 		}
-		case "TO": {
+		case "tiro": {
+			tiro.newTiroInterface();
 			break;
 		}
 		case "esgrima": {
+			esgrima.newEsgrimaInterface();
 			break;
 		}
 		case "voley": {
+			voley.newVoleyInterface();
 			break;
 		}
-		case "Fsala": {
+		case "futbolSala": {
+			futbolSala.newFutbolSalaInterface();
 			break;
 		}
-		case "F7": {
+		case "futbol7": {
+			futbol7.newFutbol7Interface();
 			break;
 		}
 		case "atletismo": {
+			atletismo.newAtletismoInterface();
 			break;
 		}
 		default : {
