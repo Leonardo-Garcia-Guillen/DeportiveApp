@@ -346,7 +346,7 @@ public class ReservaTiro implements ActionListener {
 				for (int hour = 0; hour < totalHours; hour++) {
 					btnHoursArray[day][schedule][hour] = new JButton(tiro.getTiroWeek().getDayBtn(day).getSchedules()
 							.get(schedule).getSchedule().get(hour).getHourStr());
-					// Nombre: 0 (tiro) + nº de la semana respecto del año + dia + pista + hora
+					// Nombre:  (tiro) + nº de la semana respecto del año + dia + pista + hora
 					btnHoursArray[day][schedule][hour].setName(sportNumber + "-" + weekYear + "-" + day + "-" + schedule
 							+ "-" + btnHoursArray[day][schedule][hour].getText());
 					btnHoursArray[day][schedule][hour].addActionListener(this);

@@ -668,10 +668,10 @@ public class MiPerfilAdministrador implements ActionListener, ItemListener {
 		try {
 			// Select statement
 			if (name.equals("TODOS")) {
-				query = "SELECT * FROM reservas r JOIN deportes d ON d.id_deporte = r.id_deporte JOIN semana s ON s.dia=r.dia ORDER BY r.semana,d.id_deporte,s.int_dia DESC";
+				query = "SELECT * FROM reservas r JOIN deportes d ON d.id_deporte = r.id_deporte JOIN semana s ON s.dia=r.dia ORDER BY r.semana DESC,s.int_dia DESC,d.id_deporte";
 			} else {
 				query = "SELECT * FROM reservas r JOIN deportes d ON d.id_deporte = r.id_deporte JOIN semana s ON s.dia=r.dia WHERE r.acrónimo='"
-						+ name + "' ORDER BY r.semana,d.id_deporte,s.int_dia DESC";
+						+ name + "' ORDER BY r.semana DESC,s.int_dia DESC,d.id_deporte";
 			}
 
 			java.sql.Statement stmt = conn.createStatement();
