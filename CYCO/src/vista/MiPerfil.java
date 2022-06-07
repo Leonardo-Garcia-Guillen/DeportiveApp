@@ -340,7 +340,7 @@ public class MiPerfil implements ActionListener {
 			// Select statement
 			String query = "SELECT * FROM reservas r JOIN deportes d ON d.id_deporte = r.id_deporte JOIN semana s ON s.dia=r.dia WHERE semana <="
 					+ thisWeek + " AND semana >=" + thisWeekMinus30Days + " AND r.acrónimo='" + acronym
-					+ "' ORDER BY r.semana, s.int_dia DESC, d.id_deporte";
+					+ "' ORDER BY r.semana DESC, s.int_dia DESC, d.id_deporte";
 			java.sql.Statement stmt = conn.createStatement();
 
 			// Gets the result
